@@ -84,7 +84,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Projects\GAME\json-develop\single_include;D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -108,14 +113,59 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Projects\GAME\json-develop\single_include;D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;openal32.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\DecisionArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\Slider.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\StoryArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
+    <ClCompile Include="src\DidaxEngine\Utility\Logger.cpp" />
+    <ClCompile Include="src\DidaxEngine\Utility\StringConversion.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\Canvas.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\ImageWidget.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\ScrollArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\SwitchableImage.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\TextArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\TextInputArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\Widget.cpp" />
+    <ClCompile Include="src\DidaxEngine\Widgets\WidgetHelp\Scroller.cpp" />
+    <ClCompile Include="src\DidaxEngine\Window\Window.cpp" />
+    <ClCompile Include="src\DidaxEngine\Window\WindowConfig.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\DidaxEngine\Engine.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\DecisionArea.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\GUI.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\Slider.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\StoryArea.h" />
+    <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />
+    <ClInclude Include="src\DidaxEngine\Utility\Logger.h" />
+    <ClInclude Include="src\DidaxEngine\Utility\StringConversion.h" />
+    <ClInclude Include="src\DidaxEngine\Utility\UniqueID.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\Canvas.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\ImageWidget.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\ScrollArea.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\SwitchableImage.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\TextArea.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\TextInputArea.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\Widget.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\WidgetHelp\Scroller.h" />
+    <ClInclude Include="src\DidaxEngine\Widgets\Widgets.h" />
+    <ClInclude Include="src\DidaxEngine\Window\Window.h" />
+    <ClInclude Include="src\DidaxEngine\Window\WindowConfig.h" />
+    <ClInclude Include="src\Game\Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

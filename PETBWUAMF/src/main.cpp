@@ -1,7 +1,9 @@
-#include <iostream>	
+#include "Application.h"
+
 
 int main()
 {
-	std::cout << "Hello game";
-	return 0;
+	Application a;
+	a.init("data/settings.json");
+	return a.run();
 }
