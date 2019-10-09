@@ -35,7 +35,7 @@ public:
 
 	///
 
-	void update(unsigned int deltaTime);
+	void update(float deltaTime);
 
 	void render(sf::RenderTarget & target, sf::RenderStates states = sf::RenderStates::Default);
 
@@ -44,6 +44,8 @@ public:
 private:
 
 	clock_ticks _ticks{ 0u };
+
+	Scroller scr;
 	Canvas * canv;
 	Canvas * canv2;
 };

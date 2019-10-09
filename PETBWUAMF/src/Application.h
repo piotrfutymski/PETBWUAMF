@@ -36,4 +36,8 @@ private:
 
 	sf::Clock _clock;
 
+	float sec = 0;
+
+	int frames = 0;
+
 };

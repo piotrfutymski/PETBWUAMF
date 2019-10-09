@@ -61,7 +61,7 @@ Game::Game()
 	sf::Texture * t4 = new sf::Texture;
 	t4->loadFromImage(i);
 
-	Scroller scr;
+
 	scr.init(t2, t1, t3, { 32, 600 }, t4);
 	scr.setHoverColor({ 200,200,200,255 });
 	scr.setClickedColor({ 150,150,150,255 });
@@ -106,7 +106,7 @@ void Game::saveGame(const std::string & path)
 {
 }
 
-void Game::update(unsigned int deltaTime)
+void Game::update(float deltaTime)
 {
 	_ticks += deltaTime;
 	canv->update(deltaTime);

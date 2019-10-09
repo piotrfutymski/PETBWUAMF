@@ -72,8 +72,16 @@ void Application::update()
 {
 	auto time = _clock.getElapsedTime();
 	_clock.restart();
+	float deltaT = time.asSeconds();
+	frames++;
+	sec += deltaT;
+	if (sec > 1)
+	{
+		sec = 0;
+		std::cout << frames << std::endl;
+		frames = 0;
+	}
 
-	unsigned int deltaT = time.asMicroseconds();
 	_game.update(deltaT);
 }
 
