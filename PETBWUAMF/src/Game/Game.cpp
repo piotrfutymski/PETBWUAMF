@@ -1,9 +1,6 @@
 #include "Game.h"
 
-
-void Game::init (const nlohmann::json & settingFile)
-{
-}
+/*
 
 Game::Game()
 {
@@ -102,25 +99,4 @@ Game::Game()
 }
 
 
-void Game::saveGame(const std::string & path)
-{
-}
-
-void Game::update(float deltaTime)
-{
-	_ticks += deltaTime;
-	canv->update(deltaTime);
-	canv2->update(deltaTime);
-}
-
-void Game::render(sf::RenderTarget & target, sf::RenderStates states)
-{
-	target.draw(*canv, states);
-	target.draw(*canv2, states);
-}
-
-void Game::input(const sf::Event & e)
-{
-	canv->input(e);
-	canv2->input(e);
-}
+*/

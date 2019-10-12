@@ -15,37 +15,6 @@ class Game
 
 public:
 
-	Game();
 
-	Game(const Game&) = delete;
 
-	Game & operator = (const Game &) = delete;
-
-	Game(Game&&) = delete;
-
-	Game & operator = (Game &&) = delete;
-
-	~Game() = default;
-
-	///
-
-	void init(const nlohmann::json & settingFile);
-
-	void saveGame(const std::string & path);
-
-	///
-
-	void update(float deltaTime);
-
-	void render(sf::RenderTarget & target, sf::RenderStates states = sf::RenderStates::Default);
-
-	void input(const sf::Event & e);
-
-private:
-
-	clock_ticks _ticks{ 0u };
-
-	Scroller scr;
-	Canvas * canv;
-	Canvas * canv2;
 };

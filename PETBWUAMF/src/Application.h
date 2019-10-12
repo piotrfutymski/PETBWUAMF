@@ -30,9 +30,7 @@ private:
 
 	nlohmann::json _settings;
 
-	Game _game;
-
-	Didax::Logger _logger;
+	Didax::Engine _engine;
 
 	sf::Clock _clock;
 

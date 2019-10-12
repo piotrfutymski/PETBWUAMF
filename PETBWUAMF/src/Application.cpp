@@ -13,11 +13,11 @@ void Application::init(std::string settingFilePath)
 	if(stream.is_open())
 	{
 		stream >> _settings;
-		_logger.log("Setting loaded succesfully");
+		Logger::log("Setting loaded succesfully");
 	}
 	else
 	{
-		_logger.log("Unable to load settings");
+		Logger::log("Unable to load settings");
 		return;
 	}
 
@@ -29,8 +29,9 @@ void Application::init(std::string settingFilePath)
 
 	Didax::Input::setWindow(&_window.getWindow());
 
-	_game.init(_settings);
+	_engine.init([](Engine * e) {return true; }, _settings);
 
+	_engine.startGame();
 }
 
 int Application::run()
@@ -63,7 +64,7 @@ void Application::input()
 	while (_window.getWindow().pollEvent(event))
 	{
 		_window.processEvent(event);
-		_game.input(event);
+		_engine.input(event);
 	}
 
 }
@@ -82,12 +83,12 @@ void Application::update()
 		frames = 0;
 	}
 
-	_game.update(deltaT);
+	_engine.update(deltaT);
 }
 
 void Application::render()
 {
 	_window.getWindow().clear(sf::Color{ 0,0,0,255 });
-	_game.render(_window.getWindow());
+	_engine.render(_window.getWindow());
 	_window.render();
 }

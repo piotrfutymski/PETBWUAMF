@@ -329,14 +329,15 @@ bool Widget::isMoseIn()const
 	return false;
 }
 
-void Widget::_addChild(Widget * child)
+bool Widget::_addChild(Widget * child)
 {
 	if (child->getParent() == this)
-		return;
+		return false;
 
 	_children.push_back(child);
 	this->recalculatePriority();
 	child->setParent(this);
+	return true;
 }
 
 void Widget::_removeChild(Widget * child)

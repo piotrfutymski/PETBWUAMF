@@ -85,6 +85,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\Dokumenty\Projects\GAME\json-develop\single_include;D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Dokumenty\Projects\GAME\SFML-2.5.1-windows-vc15-64-bit\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -123,8 +125,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DidaxEngine\Assets\AssetMeneger.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\Asset.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\BoardPrototype.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\FontAsset.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\OrderPrototype.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\TextureAsset.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\UnitPrototype.cpp" />
+    <ClCompile Include="src\DidaxEngine\Assets\GUIElementPrototype.cpp" />
+    <ClCompile Include="src\DidaxEngine\GameObjects\Board.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\DidaxEngine\Engine.cpp" />
+    <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\DecisionArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\Hourglass.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\Slider.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\StoryArea.cpp" />
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
@@ -142,12 +157,26 @@
     <ClCompile Include="src\DidaxEngine\Window\WindowConfig.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\DidaxEngine\GameObjects\Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DidaxEngine\Assets\AssetMeneger.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\Asset.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\BoardPrototype.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\FontAsset.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\OrderPrototype.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\TextureAsset.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\UnitPrototype.h" />
+    <ClInclude Include="src\DidaxEngine\Assets\GUIElementPrototype.h" />
+    <ClInclude Include="src\DidaxEngine\GameObjects\Board.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\DidaxEngine\Engine.h" />
+    <ClInclude Include="src\DidaxEngine\GameObjects\GameObject.h" />
+    <ClInclude Include="src\DidaxEngine\GameObjects\GameObjects.h" />
+    <ClInclude Include="src\DidaxEngine\GameObjects\Order.h" />
     <ClInclude Include="src\DidaxEngine\GUI\DecisionArea.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\GUI.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\Hourglass.h" />
     <ClInclude Include="src\DidaxEngine\GUI\Slider.h" />
     <ClInclude Include="src\DidaxEngine\GUI\StoryArea.h" />
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />
@@ -166,6 +195,7 @@
     <ClInclude Include="src\DidaxEngine\Window\Window.h" />
     <ClInclude Include="src\DidaxEngine\Window\WindowConfig.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\DidaxEngine\GameObjects\Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

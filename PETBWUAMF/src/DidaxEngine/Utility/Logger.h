@@ -11,7 +11,15 @@ public:
 	Logger();
 	~Logger();
 
-	void log(const std::string & msg);
+	static void log(const std::string & msg)
+	{
+#ifdef DEBUG
+
+		std::cout << msg << std::endl;
+
+#endif 
+
+	}
 
 
 private:

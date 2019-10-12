@@ -108,7 +108,7 @@ protected:
 
 	
 
-	void _addChild(Widget * child);
+	bool _addChild(Widget * child);
 	void _removeChild(Widget * child);
 	void setParent(Widget * parent);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace rat
+namespace Didax
 {
 
 	namespace detail
