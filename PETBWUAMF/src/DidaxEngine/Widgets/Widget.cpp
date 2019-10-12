@@ -21,8 +21,12 @@ Widget::Widget()
 void Widget::update(float deltaT)
 {
 	if (!_isActive)
+	{
+		if (_onUpdate != nullptr)
+			_onUpdate(this, deltaT);
 		return;
-	
+	}
+
 	this->actualizeInTime(deltaT);
 	this->updateEvents();
 	this->updateCallbacks(deltaT);
@@ -297,9 +301,19 @@ void Widget::setWidgetEvent(CallbackType t, const std::function<void(Widget*, fl
 	_widgetEvent[t] = func;
 }
 
+void Widget::resetWidgetEvent(CallbackType t)
+{
+	_widgetEvent[t] = nullptr;
+}
+
 void Widget::onUpdate(const std::function<void(Widget*, float)>& func)
 {
 	_onUpdate = func;
+}
+
+void Widget::resetOnUpdate()
+{
+	_onUpdate = nullptr;
 }
 
 //help functions

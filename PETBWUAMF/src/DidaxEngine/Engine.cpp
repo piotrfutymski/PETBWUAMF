@@ -30,7 +30,7 @@ void Engine::startGame()
 	if (_events[EngineEvents::OnStart] != nullptr)
 		_events[EngineEvents::OnStart](this, 0);
 
-	_state = EngineState::FirstPlayerMove;
+	_state._turnPhase = EngineState::TurnPhase::FirstPlayerMove;
 }
 	
 void Engine::update(float deltaTime)
@@ -53,16 +53,21 @@ void Engine::setEvent(const EngineEvents & t, const std::function<void(Engine*, 
 	_events[t] = func;
 }
 
-void Engine::changeState(const EngineState & state)
+void Engine::nextPhase()
 {
-	_state = state;
-	Logger::log("State has been changed");
+	if (_state._turnPhase == EngineState::TurnPhase::FirstPlayerMove)
+		this->changePhase(EngineState::TurnPhase::SecondPlayerMove);
+	else if (_state._turnPhase == EngineState::TurnPhase::SecondPlayerMove)
+		this->changePhase(EngineState::TurnPhase::PlayingMoves);
+	else if (_state._turnPhase == EngineState::TurnPhase::PlayingMoves)
+		this->changePhase(EngineState::TurnPhase::FirstPlayerMove);
 }
 
-Engine::EngineState Engine::getState() const
+EngineState::TurnPhase Engine::getPhase() const
 {
-	return _state;
+	return _state._turnPhase;
 }
+
 
 void Engine::initEvents()
 {
@@ -73,7 +78,14 @@ void Engine::createBoard()
 {
 	_gameObjects.push_back(std::make_unique<Board>(this));
 	_bord = static_cast<Board *>((_gameObjects.end() - 1)->get());
-	_root.addChild(_bord->openHourglass(&_assetMeneger));
+	_root.addChild(_bord->openSideGUI(&_assetMeneger));
+}
+
+void Engine::changePhase(const EngineState::TurnPhase & p)
+{
+	Logger::log("State has been changed");
+	_state._turnPhase = p;
+
 }
 
 }

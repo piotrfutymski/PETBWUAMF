@@ -139,7 +139,7 @@
     <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\DecisionArea.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp" />
-    <ClCompile Include="src\DidaxEngine\GUI\Hourglass.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\Slider.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\StoryArea.cpp" />
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
@@ -168,6 +168,7 @@
     <ClInclude Include="src\DidaxEngine\Assets\TextureAsset.h" />
     <ClInclude Include="src\DidaxEngine\Assets\UnitPrototype.h" />
     <ClInclude Include="src\DidaxEngine\Assets\GUIElementPrototype.h" />
+    <ClInclude Include="src\DidaxEngine\EngineState.h" />
     <ClInclude Include="src\DidaxEngine\GameObjects\Board.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\DidaxEngine\Engine.h" />
@@ -176,7 +177,7 @@
     <ClInclude Include="src\DidaxEngine\GameObjects\Order.h" />
     <ClInclude Include="src\DidaxEngine\GUI\DecisionArea.h" />
     <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\Hourglass.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h" />
     <ClInclude Include="src\DidaxEngine\GUI\Slider.h" />
     <ClInclude Include="src\DidaxEngine\GUI\StoryArea.h" />
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />

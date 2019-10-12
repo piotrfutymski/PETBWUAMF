@@ -6,6 +6,7 @@
 #include "Widgets/Widgets.h"
 #include "GameObjects/GameObjects.h"
 #include "Assets/AssetMeneger.h"
+#include "EngineState.h"
 
 #include "nlohmann/json.hpp"
 
@@ -17,10 +18,6 @@ class Engine
 {
 
 public:
-
-	enum class EngineState {
-		BeforeStart = -1, FirstPlayerMove, SecondPlayerMove, PlayingMoves, End
-	};
 
 	using GameObjectsholder_t = std::vector< std::unique_ptr<GameObject>>;
 	using UnitsHolder_t = std::vector<Unit *>;
@@ -54,9 +51,9 @@ public:
 
 	void setEvent(const EngineEvents & t, const std::function<void(Engine*, float)> & func);
 
-	void changeState(const EngineState & state);
+	void nextPhase();
 
-	EngineState getState()const;
+	EngineState::TurnPhase getPhase()const;
 
 	//Asset interface
 
@@ -85,7 +82,7 @@ private:
 
 	// state
 
-	EngineState _state{ EngineState::BeforeStart };
+	EngineState _state;
 
 	// events
 
@@ -96,6 +93,7 @@ private:
 	void initEvents();
 
 	void createBoard();
+	void changePhase(const EngineState::TurnPhase & p);
 
 };
 

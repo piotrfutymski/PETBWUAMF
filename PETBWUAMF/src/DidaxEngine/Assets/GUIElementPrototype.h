@@ -15,7 +15,7 @@ public:
 
 public:
 
-	std::map<std::string, std::string> _fileNames;
+	std::map<std::string, std::string> _strings;
 	std::map<std::string, float> _values;
 
 };

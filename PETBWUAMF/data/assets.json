@@ -1,21 +1,40 @@
 {
   "0": {
     "type": "gui",
-    "name": "Hourglass",
-    "files": {
-      "texture": "data/graphix/testImages/klepsydra.bmp"
+    "name": "SideGUI",
+    "strings": {
+      "background": "data/graphix/testImages/board/sideGuiBackground.bmp",
+      "hourglass": "data/graphix/testImages/board/klepsydra.bmp",
+      "font": "data/fonts/arial.ttf",
+      "dispText0": "Tura gracza 1",
+      "dispText1": "Tura gracza 2",
+      "dispText2": "Faza walki"
     },
     "values": {
-      "width": 100,
-      "height": 100,
-      "xPos": 1000,
-      "yPos": 200
+      "widthR": 490,
+      "heightR": 1080,
+      "xPosR": 1490,
+      "yPosR": 0,
+      "xPosT": 100,
+      "yPosT": 100,
+      "xPosH": 100,
+      "yPosH": 500
     }
   },
 
   "1": {
     "type": "texture",
-    "name": "data/graphix/testImages/klepsydra.bmp"
+    "name": "data/graphix/testImages/board/sideGuiBackground.bmp"
+  },
+
+  "2": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/klepsydra.bmp"
+  },
+
+  "3": {
+    "type": "font",
+    "name": "data/fonts/arial.ttf"
   }
 
 }

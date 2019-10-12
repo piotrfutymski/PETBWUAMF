@@ -83,7 +83,9 @@ public:
 	void resetLimitArea();
 
 	void setWidgetEvent(CallbackType t, const std::function<void(Widget*, float)> & func);
+	void resetWidgetEvent(CallbackType t);
 	void onUpdate(const std::function<void(Widget*, float)> & func);
+	void resetOnUpdate();
 
 	sf::Vector2f getAbsolutePosition()const;
 	

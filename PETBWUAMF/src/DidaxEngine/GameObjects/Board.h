@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "../GUI/Hourglass.h"
 #include "../Engine.h"
+#include "../GUI/SideGUI.h"
 
 namespace Didax
 {
@@ -13,7 +13,8 @@ public:
 	Board(Engine * eng);
 	~Board();
 
-	Canvas * openHourglass(AssetMeneger * assets);
+	Canvas * openMainGUI(AssetMeneger * assets);
+	Canvas * openSideGUI(AssetMeneger * assets);
 
 };
 

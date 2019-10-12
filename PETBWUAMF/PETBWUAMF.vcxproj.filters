@@ -111,7 +111,7 @@
     <ClCompile Include="src\DidaxEngine\Assets\GUIElementPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\Hourglass.cpp">
+    <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,7 +221,10 @@
     <ClInclude Include="src\DidaxEngine\Assets\GUIElementPrototype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\Hourglass.h">
+    <ClInclude Include="src\DidaxEngine\EngineState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
