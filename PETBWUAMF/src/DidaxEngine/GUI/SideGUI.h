@@ -15,7 +15,7 @@ public:
 	void setOnHourglassClicked(const std::function<int()> & func);
 	int onHourglassClicked();
 
-	virtual void init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+
 
 	void addTime(float t);
 
@@ -37,7 +37,9 @@ private:
 
 private:
 
-	void initLogic();
+	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+
+	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;
 
 	void hourglassClicked();
 

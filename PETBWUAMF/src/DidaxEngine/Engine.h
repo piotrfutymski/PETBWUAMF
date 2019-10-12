@@ -55,6 +55,8 @@ public:
 
 	EngineState::TurnPhase getPhase()const;
 
+	void addUnit(const std::string & name, int pos);
+
 	//Asset interface
 
 	template <typename T>

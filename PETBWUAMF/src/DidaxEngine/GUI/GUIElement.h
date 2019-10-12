@@ -3,6 +3,8 @@
 #include "../Assets/GUIElementPrototype.h"
 #include "../Assets/AssetMeneger.h"
 
+#include <string>
+
 
 namespace Didax
 {
@@ -23,7 +25,7 @@ public:
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	virtual void init(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
+	void init(GUIElementPrototype * prototype, AssetMeneger * assets);
 
 protected:
 
@@ -39,7 +41,9 @@ protected:
 
 protected:
 
+	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
 
+	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
 
 };
 

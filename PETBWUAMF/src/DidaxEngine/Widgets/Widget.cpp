@@ -21,12 +21,8 @@ Widget::Widget()
 void Widget::update(float deltaT)
 {
 	if (!_isActive)
-	{
-		if (_onUpdate != nullptr)
-			_onUpdate(this, deltaT);
 		return;
-	}
-
+	
 	this->actualizeInTime(deltaT);
 	this->updateEvents();
 	this->updateCallbacks(deltaT);

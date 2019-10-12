@@ -29,7 +29,7 @@ public:
 
 protected:
 
-	std::map<std::string, std::unique_ptr<GUIElement>> _representation;
+	std::map<std::string, std::unique_ptr<GUIElement>> _representations;
 
 	size_t _id;
 
@@ -40,6 +40,9 @@ protected:
 
 	template <typename T>
 	Canvas * addGUI(const std::string & name, AssetMeneger * assets);
+
+	template <typename T>
+	T* getGUI(const std::string & name);
 };
 
 template <typename T>
@@ -47,15 +50,30 @@ Canvas * GameObject::addGUI(const std::string & name, AssetMeneger * assets)
 {
 	try
 	{
-		_representation[name] = std::make_unique<T>();
-		_representation[name].get()->init(assets->getAsset<GUIElementPrototype>(name), assets);
-		return _representation[name].get()->getRoot();
+		_representations[name] = std::make_unique<T>();
+		_representations[name].get()->init(assets->getAsset<GUIElementPrototype>(name), assets);
+		return _representations[name].get()->getRoot();
 	}
 	catch(std::exception & e)
 	{
 		Logger::log(e.what());
 		return nullptr;
 	}
+}
+
+template<typename T>
+inline T * GameObject::getGUI(const std::string & name)
+{
+	T* res = nullptr;
+	try
+	{
+		res = static_cast<T*>(_representations[name].get());
+	}
+	catch (std::exception & e)
+	{
+		Logger::log(e.what());
+	}
+	return res;
 }
 
 }

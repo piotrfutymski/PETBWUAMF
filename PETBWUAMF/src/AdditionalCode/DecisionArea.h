@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Widgets/ImageWidget.h"
+
 #include "../Widgets/Canvas.h"
 #include "../Widgets/TextArea.h"
 #include "../Widgets/ScrollArea.h"

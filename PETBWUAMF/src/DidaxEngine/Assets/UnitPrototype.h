@@ -13,7 +13,18 @@ public:
 	// Inherited via Asset
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
 
+public:
 
+	int _attack;
+	int _defence;
+	int _health;
+
+	bool _distanceUnit;
+
+	std::string _fraction;
+	std::string _unitType;
+
+	std::string _texture;
 
 };
 

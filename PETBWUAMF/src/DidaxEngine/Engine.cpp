@@ -31,6 +31,10 @@ void Engine::startGame()
 		_events[EngineEvents::OnStart](this, 0);
 
 	_state._turnPhase = EngineState::TurnPhase::FirstPlayerMove;
+
+	//test only
+	this->addUnit("testWarrior", 3);
+	this->addUnit("testWarrior", 8);
 }
 	
 void Engine::update(float deltaTime)
@@ -66,6 +70,17 @@ void Engine::nextPhase()
 EngineState::TurnPhase Engine::getPhase() const
 {
 	return _state._turnPhase;
+}
+
+void Engine::addUnit(const std::string & name, int pos)
+{
+	_gameObjects.push_back(std::make_unique<Unit>(this, _assetMeneger.getAsset<UnitPrototype>(name)));
+	int site = 0;
+	if (pos >= 8)
+		site = 1;
+	_playerUnits[site].push_back(static_cast<Unit *>((_gameObjects.end() - 1)->get()));
+	auto u = *(_playerUnits[site].end() - 1);
+	_root.addChild(u->setOnTable(&_assetMeneger, pos));
 }
 
 

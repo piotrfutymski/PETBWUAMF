@@ -21,12 +21,10 @@ int Didax::SideGUI::onHourglassClicked()
 	return -1;
 }
 
-void Didax::SideGUI::init(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::SideGUI::_init(GUIElementPrototype * prototype, AssetMeneger * assets)
 {
-	_widgets.push_back(std::make_unique<Canvas>());
 	_widgets.push_back(std::make_unique<TextArea>());
 	_widgets.push_back(std::make_unique<ImageWidget>());
-	_root = static_cast<Canvas *>(_widgets[0].get());
 	_text = static_cast<TextArea *>(_widgets[1].get());
 	_hourglass = static_cast<ImageWidget *>(_widgets[2].get());
 
@@ -61,13 +59,9 @@ void Didax::SideGUI::init(GUIElementPrototype * prototype, AssetMeneger * assets
 	textback = assets->getAsset<TextureAsset>(prototype->_strings["hourglass"]);
 	_hourglass->setTexture(&(textback->_texture));
 
-	//logic
-
-	this->initLogic();
-
 }
 
-void Didax::SideGUI::initLogic()
+void Didax::SideGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
 {
 	_hourglass->setWidgetEvent(Widget::CallbackType::onHoverIn, [](Widget * w, float dt) {
 		w->setColor({ 255,255,255,200 }); });
@@ -113,7 +107,7 @@ void Didax::SideGUI::hourglassClicked()
 		_dT = 0;
 		_hourglass->setActive(false);
 		_hourglass->setColor({ 255,255,255,50 });
-		_hourglass->onUpdate([this](Widget * w, float dt) {
+		_root->onUpdate([this](Widget * w, float dt) {
 			this->addTime(dt);
 			if (this->getTime() >= 3)
 				this->hourglassClicked();
@@ -121,7 +115,7 @@ void Didax::SideGUI::hourglassClicked()
 	}
 	if (state == 0)
 	{
-		_hourglass->resetOnUpdate();
+		_root->resetOnUpdate();
 		_hourglass->setActive(true);
 		_hourglass->setColor({ 255,255,255,255 });
 	}

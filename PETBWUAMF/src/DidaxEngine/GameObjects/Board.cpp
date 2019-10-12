@@ -20,7 +20,7 @@ Canvas * Board::openMainGUI(AssetMeneger * assets)
 Canvas * Board::openSideGUI(AssetMeneger * assets)
 {
 	auto res = this->addGUI<SideGUI>("SideGUI", assets);
-	auto hgl = static_cast<SideGUI *>(_representation["SideGUI"].get());
+	auto hgl = this->getGUI<SideGUI>("SideGUI");
 	hgl->setOnHourglassClicked([this]()->int {
 		auto e = this->getParent();
 		e->nextPhase();

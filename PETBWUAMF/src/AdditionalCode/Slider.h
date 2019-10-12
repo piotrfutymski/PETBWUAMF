@@ -1,5 +1,5 @@
 #pragma once
-#include "../Widgets/SwitchableImage.h"
+
 #include "../Widgets/ImageWidget.h"
 #include "../Widgets/Canvas.h"
 

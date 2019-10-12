@@ -41,8 +41,9 @@ void Canvas::setTexture(const sf::Texture * t)
 		_backgroundRect = nullptr;
 	_backgroundSprite = std::make_unique<sf::Sprite>();
 	_backgroundSprite->setTexture(*t);
-	this->updateSize();
 	_bType = BackgroundType::Image;
+	this->updateSize();
+
 }
 
 void Canvas::setRect()
@@ -50,8 +51,9 @@ void Canvas::setRect()
 	if (_bType == BackgroundType::Image)
 		_backgroundSprite = nullptr;
 	_backgroundRect = std::make_unique<sf::RectangleShape>();
-	this->updateSize();
 	_bType = BackgroundType::Rect;
+	this->updateSize();
+
 }
 
 void Canvas::unsetBackground()

@@ -35,6 +35,48 @@
   "3": {
     "type": "font",
     "name": "data/fonts/arial.ttf"
+  },
+
+  "4": {
+    "type": "unit",
+    "name": "testWarrior",
+    "attack": 33,
+    "defence": 5,
+    "health": 6,
+    "distance": false,
+    "fraction": "Humans",
+    "unitType": "Solder",
+    "texture": "data/graphix/testImages/units/testowywojownik.bmp"
+  },
+  "5": {
+    "type": "gui",
+    "name": "UnitRepresentation",
+    "strings": {
+      "border": "data/graphix/testImages/units/granica.bmp",
+      "font": "data/fonts/arial.ttf"
+    },
+    "values": {
+      "widthR": 100,
+      "heightR": 170,
+      "xPosA": 0,
+      "yPosA": 130,
+      "xPosH": 35,
+      "yPosH": 130,
+      "xPosD": 70,
+      "yPosD": 130,
+      "xPosB": 0,
+      "yPosB": 0
+    }
+  },
+
+  "6": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/granica.bmp"
+  },
+
+  "7": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/testowywojownik.bmp"
   }
 
 }

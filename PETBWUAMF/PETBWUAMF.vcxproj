@@ -137,11 +137,9 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\DidaxEngine\Engine.cpp" />
     <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp" />
-    <ClCompile Include="src\DidaxEngine\GUI\DecisionArea.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp" />
-    <ClCompile Include="src\DidaxEngine\GUI\Slider.cpp" />
-    <ClCompile Include="src\DidaxEngine\GUI\StoryArea.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp" />
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
     <ClCompile Include="src\DidaxEngine\Utility\Logger.cpp" />
     <ClCompile Include="src\DidaxEngine\Utility\StringConversion.cpp" />
@@ -175,11 +173,9 @@
     <ClInclude Include="src\DidaxEngine\GameObjects\GameObject.h" />
     <ClInclude Include="src\DidaxEngine\GameObjects\GameObjects.h" />
     <ClInclude Include="src\DidaxEngine\GameObjects\Order.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\DecisionArea.h" />
     <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h" />
     <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\Slider.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\StoryArea.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h" />
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />
     <ClInclude Include="src\DidaxEngine\Utility\Logger.h" />
     <ClInclude Include="src\DidaxEngine\Utility\StringConversion.h" />

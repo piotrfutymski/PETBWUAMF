@@ -60,15 +60,6 @@
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\DecisionArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\Slider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\StoryArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,15 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\DecisionArea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\Slider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\StoryArea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\Game.h">
@@ -225,6 +210,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

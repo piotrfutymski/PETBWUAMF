@@ -40,35 +40,6 @@ private:
 };
 
 
-
-/*	enum class Quality {
-		Brown, Gold
-	};
-	enum class Fraction {
-		Humans
-	};
-	enum class UType {
-		Warrior, Corsair, Scout
-	};
-
-
-	unsigned int _attack;
-	unsigned int _deffence;
-	unsigned int _health;
-
-	bool _distanceUnit;
-
-	Quality _quality;
-	Fraction _fraction;
-	UType _unitType;
-	std::string _name;
-
-	std::string texture;
-
-*/
-
-
-
 template<typename T>
 inline T * AssetMeneger::createAsset(const std::string name)
 {
