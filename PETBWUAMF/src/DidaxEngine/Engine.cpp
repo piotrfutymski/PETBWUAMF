@@ -94,6 +94,7 @@ void Engine::createBoard()
 	_gameObjects.push_back(std::make_unique<Board>(this));
 	_bord = static_cast<Board *>((_gameObjects.end() - 1)->get());
 	_root.addChild(_bord->openSideGUI(&_assetMeneger));
+	_root.addChild(_bord->openMainGUI(&_assetMeneger));
 }
 
 void Engine::changePhase(const EngineState::TurnPhase & p)

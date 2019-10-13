@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "../Engine.h"
 #include "../GUI/SideGUI.h"
+#include "../GUI/MainGUI.h"
 
 namespace Didax
 {

@@ -27,6 +27,10 @@ public:
 
 	void init(GUIElementPrototype * prototype, AssetMeneger * assets);
 
+	static sf::Vector2f POSITIONTAB[16];
+	static sf::Color BORDERCOLORS[3];
+	static sf::Color INTERACTIONCOLORS[3];
+
 protected:
 
 	GUIElementPrototype * _prototype;
@@ -38,6 +42,8 @@ protected:
 	Canvas * _root{ nullptr };
 
 	WidgetHolder_t _widgets;
+
+
 
 protected:
 

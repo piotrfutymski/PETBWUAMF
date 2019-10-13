@@ -41,3 +41,22 @@ void Didax::GUIElement::init(GUIElementPrototype * prototype, AssetMeneger * ass
 	this->_initLogic(prototype, assets);
 
 }
+
+sf::Vector2f Didax::GUIElement::POSITIONTAB[] = {
+	{200,40},{200,220},{200,400},{200,580},
+	{350,40},{350,220},{350,400},{350,580},
+	{600,40},{600,220},{600,400},{600,580},
+	{750,40},{750,220},{750,400},{750,580}
+};
+
+sf::Color Didax::GUIElement::INTERACTIONCOLORS[] = {
+	{255, 255, 255, 255},
+	{200, 200, 200, 255},
+	{150, 150, 150, 255},
+};
+
+sf::Color Didax::GUIElement::BORDERCOLORS[] = {
+	{255, 255, 255, 255},
+	{255, 255, 0, 255},
+	{255, 0, 0, 255},
+};

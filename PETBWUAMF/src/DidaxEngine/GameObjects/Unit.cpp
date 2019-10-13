@@ -29,7 +29,6 @@ Canvas * Unit::setOnTable(AssetMeneger * assets, int pos)
 	URep->setDefence(UnitRepresentation::ParameterColor::white, _defence);
 	URep->setHealth(UnitRepresentation::ParameterColor::white, _health);
 	URep->setPosition(pos);
-	URep->setReadyToChoose(UnitRepresentation::BorderColor::yellow);
 	return res;
 }
 

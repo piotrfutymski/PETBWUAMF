@@ -13,8 +13,10 @@ Board::~Board()
 
 Canvas * Board::openMainGUI(AssetMeneger * assets)
 {
-	//auto res = this->addGUI<MainGUI>("MainGUI", assets);
-	return nullptr;
+	auto res = this->addGUI<MainGUI>("MainGUI", assets);
+	bool tab[16] = { true,false,true,true,false,false,false,false,true,true,false,true,false,true,true,true };
+	this->getGUI<MainGUI>("MainGUI")->setReadyToChoose(tab, MainGUI::YellowSide::left);
+	return res;
 }
 
 Canvas * Board::openSideGUI(AssetMeneger * assets)

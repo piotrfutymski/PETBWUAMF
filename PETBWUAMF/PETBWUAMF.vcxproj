@@ -138,6 +138,7 @@
     <ClCompile Include="src\DidaxEngine\Engine.cpp" />
     <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\MainGUI.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp" />
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\DidaxEngine\GameObjects\GameObjects.h" />
     <ClInclude Include="src\DidaxEngine\GameObjects\Order.h" />
     <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\MainGUI.h" />
     <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h" />
     <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h" />
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />

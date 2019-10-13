@@ -52,7 +52,6 @@
     "type": "gui",
     "name": "UnitRepresentation",
     "strings": {
-      "border": "data/graphix/testImages/units/granica.bmp",
       "font": "data/fonts/arial.ttf"
     },
     "values": {
@@ -63,20 +62,35 @@
       "xPosH": 35,
       "yPosH": 130,
       "xPosD": 70,
-      "yPosD": 130,
-      "xPosB": 0,
-      "yPosB": 0
+      "yPosD": 130
     }
   },
 
   "6": {
     "type": "texture",
-    "name": "data/graphix/testImages/units/granica.bmp"
+    "name": "data/graphix/testImages/board/granica.bmp"
   },
 
   "7": {
     "type": "texture",
     "name": "data/graphix/testImages/units/testowywojownik.bmp"
+  },
+
+  "8": {
+    "type": "gui",
+    "name": "MainGUI",
+    "strings": {
+      "border": "data/graphix/testImages/board/granica.bmp",
+      "background": "data/graphix/testImages/board/mainGuiBackground.bmp"
+    },
+    "values": {
+      "widthR": 1490,
+      "heightR": 1080
+    }
+  },
+  "9": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/mainGuiBackground.bmp"
   }
 
 }
