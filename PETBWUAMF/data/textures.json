@@ -1,0 +1,28 @@
+{
+
+  "0": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/sideGuiBackground.bmp"
+  },
+
+  "1": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/klepsydra.bmp"
+  },
+
+  "2": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/granica.bmp"
+  },
+
+  "3": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/testowywojownik.bmp"
+  },
+
+  "4": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/mainGuiBackground.bmp"
+  }
+
+}

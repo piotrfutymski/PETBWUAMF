@@ -1,0 +1,53 @@
+{
+  "0": {
+    "type": "gui",
+    "name": "SideGUI",
+    "strings": {
+      "background": "data/graphix/testImages/board/sideGuiBackground.bmp",
+      "hourglass": "data/graphix/testImages/board/klepsydra.bmp",
+      "font": "data/fonts/arial.ttf",
+      "dispText0": "Tura gracza 1",
+      "dispText1": "Tura gracza 2",
+      "dispText2": "Faza walki"
+    },
+    "values": {
+      "widthR": 490,
+      "heightR": 1080,
+      "xPosR": 1490,
+      "yPosR": 0,
+      "xPosT": 100,
+      "yPosT": 100,
+      "xPosH": 100,
+      "yPosH": 500
+    }
+  },
+  "1": {
+    "type": "gui",
+    "name": "UnitRepresentation",
+    "strings": {
+      "font": "data/fonts/arial.ttf"
+    },
+    "values": {
+      "widthR": 100,
+      "heightR": 170,
+      "xPosA": 0,
+      "yPosA": 130,
+      "xPosH": 35,
+      "yPosH": 130,
+      "xPosD": 70,
+      "yPosD": 130
+    }
+  },
+  "2": {
+    "type": "gui",
+    "name": "MainGUI",
+    "strings": {
+      "border": "data/graphix/testImages/board/granica.bmp",
+      "background": "data/graphix/testImages/board/mainGuiBackground.bmp"
+    },
+    "values": {
+      "widthR": 1490,
+      "heightR": 1080
+    }
+  }
+}

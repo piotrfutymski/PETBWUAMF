@@ -17,11 +17,17 @@ public:
 private:
 
 	UnitPrototype * _prototype;
-	int _attack;
-	int _defence;
-	int _health;
-	bool _distanceUnit;
 
+	int _attack;
+	int _health;
+	int _armor;
+	int _defense;
+
+	int _rangedAttack;
+	int _chargeAttack;
+	int _chargeDefense;
+
+	std::string _description;
 	int _position;
 
 

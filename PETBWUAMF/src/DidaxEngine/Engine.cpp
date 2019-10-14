@@ -18,7 +18,7 @@ bool Engine::init(const std::function<bool(Engine*e)> _initLogicFunc, const nloh
 		return false;
 	if (!_initLogicFunc(this))
 		return false;
-	if (!_assetMeneger.loadAssetsFromFile(settings["assetsFilename"]))
+	if (!_assetMeneger.loadAllAssets(settings))
 		return false;
 
 	this->createBoard();

@@ -222,4 +222,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="data\settings.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\assets.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\fonts.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\board.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\gui.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\orders.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\textures.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data\units.json">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

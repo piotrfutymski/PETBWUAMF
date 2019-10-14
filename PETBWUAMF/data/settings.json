@@ -5,7 +5,12 @@
     "windowStyle": 8,
     "framerateLimit": 1000
   },
-
-  "assetsFilename":  "data/assets.json"
-
+  "assetsFileNames": {
+	  "assetsFonts":  "data/fonts.json",
+	  "assetsTextures":  "data/textures.json",
+	  "assetsGui":  "data/gui.json",
+	  "assetsBoard":  "data/board.json",
+	  "assetsUnits":  "data/units.json",
+	  "assetsOrders":  "data/orders.json"
+  }
 }

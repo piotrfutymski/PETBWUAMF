@@ -8,11 +8,22 @@ Didax::AssetMeneger::~AssetMeneger()
 {
 }
 
+bool Didax::AssetMeneger::loadAllAssets(const nlohmann::json &settings)
+{
+	auto assets = settings["assetsFileNames"];
+
+	for (auto& assetCategory: assets)
+		if (!loadAssetsFromFile(assetCategory)) return false;
+		
+
+	return true;
+}
+
 bool Didax::AssetMeneger::loadAssetsFromFile(const std::string & filename)
 {
 	std::ifstream stream(filename);
 	nlohmann::json assetFile;
-
+	Logger::log("Loading " + filename + "...");
 	if (stream.is_open())
 	{
 		stream >> assetFile;
@@ -20,7 +31,7 @@ bool Didax::AssetMeneger::loadAssetsFromFile(const std::string & filename)
 	}
 	else
 	{
-		Logger::log("Unable to load assets succesfully");
+		Logger::log("Unable to load asset file succesfully");
 		return false;
 	}
 
