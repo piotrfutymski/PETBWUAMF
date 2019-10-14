@@ -47,11 +47,15 @@ public:
 
 	void input(const sf::Event & e);
 
+	bool end();
+
 	//Game interface
 
 	void setEvent(const EngineEvents & t, const std::function<void(Engine*, float)> & func);
 
 	void nextPhase();
+
+	void endGame();
 
 	EngineState::TurnPhase getPhase()const;
 

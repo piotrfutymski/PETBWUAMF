@@ -50,7 +50,7 @@ void Didax::MainGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * 
 		_borders[i]->setWidgetEvent(Widget::CallbackType::onPress, [this, i](Widget * w, float dt) {
 			if (this->getIfCanBeChoosen(i))
 			{
-				this->onChoose(i);
+				this->onPressElement(w);
 				w->setColor(this->getColorFromSide(i, _side)*INTERACTIONCOLORS[2]);
 			}			
 		});
@@ -107,14 +107,20 @@ void Didax::MainGUI::unsetReadyToChoose()
 	}
 }
 
-void Didax::MainGUI::setOnChoosed(const std::function<void(int choosedPos)>& func)
+void Didax::MainGUI::setOnChoosed(const std::function<void()>& func)
 {
-	_onChoose = func;
+	for (size_t i = 0; i < 16; i++)
+	{
+		this->_setPress(_borders[i], func);
+	}
 }
 
 void Didax::MainGUI::resetOnChoosed()
 {
-	_onChoose = false;
+	for (size_t i = 0; i < 16; i++)
+	{
+		this->_resetPress(_borders[i]);
+	}
 }
 
 const bool * Didax::MainGUI::getChoosablePositions() const
@@ -127,9 +133,9 @@ bool Didax::MainGUI::getIfCanBeChoosen(int pos) const
 	return _choosablePositions[pos];
 }
 
-void Didax::MainGUI::onChoose(int pos)
+int Didax::MainGUI::getLastChoosed() const
 {
-	if (_onChoose != nullptr)
-		_onChoose(pos);
+	return 0;
 }
+
 

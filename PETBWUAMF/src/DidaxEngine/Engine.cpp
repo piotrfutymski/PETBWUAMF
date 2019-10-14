@@ -57,6 +57,11 @@ void Engine::setEvent(const EngineEvents & t, const std::function<void(Engine*, 
 	_events[t] = func;
 }
 
+bool Engine::end()
+{
+	return _state._endGame;
+}
+
 void Engine::nextPhase()
 {
 	if (_state._turnPhase == EngineState::TurnPhase::FirstPlayerMove)
@@ -83,6 +88,10 @@ void Engine::addUnit(const std::string & name, int pos)
 	_root.addChild(u->setOnTable(&_assetMeneger, pos));
 }
 
+void Engine::endGame()
+{
+	_state._endGame = true;
+}
 
 void Engine::initEvents()
 {

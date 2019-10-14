@@ -43,21 +43,7 @@ void Didax::UnitRepresentation::_init(GUIElementPrototype * prototype, AssetMene
 
 void Didax::UnitRepresentation::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
 {
-	_root->setWidgetEvent(Widget::CallbackType::onHoverIn, [this](Widget * w, float dt) {
-			static_cast<Canvas *>(w)->setBackgroundColor(INTERACTIONCOLORS[1]);
-	});
-	_root->setWidgetEvent(Widget::CallbackType::onHoverOut, [this](Widget * w, float dt) {
-			static_cast<Canvas *>(w)->setBackgroundColor(INTERACTIONCOLORS[0]);
-	});
-	_root->setWidgetEvent(Widget::CallbackType::onPress, [this](Widget * w, float dt) {
-			static_cast<Canvas *>(w)->setBackgroundColor(INTERACTIONCOLORS[2]);
-	});
-	_root->setWidgetEvent(Widget::CallbackType::onRelease, [this](Widget * w, float dt) {
-		if (w->isHovered())
-			static_cast<Canvas *>(w)->setBackgroundColor(INTERACTIONCOLORS[1]);
-		else
-			static_cast<Canvas *>(w)->setBackgroundColor(INTERACTIONCOLORS[0]);
-	});
+	this->_initElement(_root);
 }
 
 sf::Color Didax::UnitRepresentation::getColorFromPC(const ParameterColor & p)
@@ -107,6 +93,12 @@ void Didax::UnitRepresentation::setHealth(const ParameterColor & p, int v)
 void Didax::UnitRepresentation::setPosition(int pos)
 {
 	_root->setPosition(POSITIONTAB[pos]);
+}
+
+void Didax::UnitRepresentation::setActive(bool a)
+{
+	_active = a;
+	_root->setActive(a);
 }
 
 
