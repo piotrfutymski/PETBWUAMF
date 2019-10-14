@@ -5,20 +5,23 @@
     "strings": {
       "background": "data/graphix/testImages/board/sideGuiBackground.bmp",
       "hourglass": "data/graphix/testImages/board/klepsydra.bmp",
+      "exit": "data/graphix/testImages/board/exit.bmp",
       "font": "data/fonts/arial.ttf",
       "dispText0": "Tura gracza 1",
       "dispText1": "Tura gracza 2",
       "dispText2": "Faza walki"
     },
     "values": {
-      "widthR": 490,
+      "widthR": 430,
       "heightR": 1080,
       "xPosR": 1490,
       "yPosR": 0,
       "xPosT": 100,
       "yPosT": 100,
       "xPosH": 100,
-      "yPosH": 500
+      "yPosH": 500,
+      "xPosE": 410,
+      "yPosE": 0
     }
   },
 
@@ -91,6 +94,10 @@
   "9": {
     "type": "texture",
     "name": "data/graphix/testImages/board/mainGuiBackground.bmp"
+  },
+  "10": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/exit.bmp"
   }
 
 }

@@ -22,12 +22,16 @@ public:
 
 	void setPosition(int pos);
 
+	void setActive(bool a);
+
 
 private:
 
 	TextArea * _attack;
 	TextArea * _health;
 	TextArea * _defence;
+
+	bool _active;
 
 private:
 	// Inherited via GUIElement

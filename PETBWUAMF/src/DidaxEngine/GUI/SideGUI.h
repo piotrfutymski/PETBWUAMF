@@ -12,18 +12,18 @@ public:
 	SideGUI();
 	~SideGUI();
 
-	void setOnHourglassClicked(const std::function<int()> & func);
-	int onHourglassClicked();
+	void setOnHourglassClicked(const std::function<void()> & func);
+	void setOnExitButtonClicked(const std::function<void()> & func);
 
-
+	void startHourglassOnState(int state);
 
 	void addTime(float t);
 
 	float getTime()const;
 
-private:
+	Widget * getHourglass()const;
 
-	std::function<int()> _onHourglassClicked;
+private:
 
 	float _dT{ 0 };
 
@@ -33,6 +33,8 @@ private:
 
 	ImageWidget * _hourglass;
 
+	ImageWidget * _exitButton;
+
 	std::string _displayedTexts[3];
 
 private:
@@ -40,8 +42,6 @@ private:
 	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
 
 	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;
-
-	void hourglassClicked();
 
 };
 

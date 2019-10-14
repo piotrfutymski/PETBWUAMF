@@ -12,7 +12,7 @@ public:
 	};
 
 	TurnPhase _turnPhase{TurnPhase::BeforeStart};
-
+	bool _endGame{ false };
 };
 
 }

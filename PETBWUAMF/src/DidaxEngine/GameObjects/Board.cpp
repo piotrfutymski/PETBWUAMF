@@ -23,10 +23,13 @@ Canvas * Board::openSideGUI(AssetMeneger * assets)
 {
 	auto res = this->addGUI<SideGUI>("SideGUI", assets);
 	auto hgl = this->getGUI<SideGUI>("SideGUI");
-	hgl->setOnHourglassClicked([this]()->int {
+	hgl->setOnHourglassClicked([this, hgl]() {
 		auto e = this->getParent();
 		e->nextPhase();
-		return (int)e->getPhase();
+		hgl->startHourglassOnState((int)e->getPhase());
+	});
+	hgl->setOnExitButtonClicked([this, hgl]() {
+		this->getParent()->endGame();
 	});
 	return res;
 }
