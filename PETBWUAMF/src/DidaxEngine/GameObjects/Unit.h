@@ -31,8 +31,14 @@ private:
 
 	bool _isInFight;
 	int _position;
+	int front;
 
+	void UnitFight(Unit *enemy);
+	void UnitRound(Unit *enemy);
+	void UnitRefill();
 
+	static int roundSize;
+	static int frontSize;
 };
 
 }
