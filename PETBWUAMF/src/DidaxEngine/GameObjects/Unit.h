@@ -28,6 +28,8 @@ private:
 	int _chargeDefense;
 
 	std::string _description;
+
+	bool _isInFight;
 	int _position;
 
 

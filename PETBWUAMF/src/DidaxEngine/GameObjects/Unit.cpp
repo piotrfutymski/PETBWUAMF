@@ -16,6 +16,8 @@ Unit::Unit(Engine * eng, UnitPrototype * prototype):GameObject(eng)
 	_chargeDefense = _prototype->_chargeDefense;
 
 	_description = _prototype->_description;
+
+	_isInFight = false;
 }
 
 
