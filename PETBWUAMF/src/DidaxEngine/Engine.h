@@ -54,12 +54,20 @@ public:
 	void setEvent(const EngineEvents & t, const std::function<void(Engine*, float)> & func);
 
 	void nextPhase();
+	EngineState::TurnPhase getPhase()const;
 
 	void endGame();
 
-	EngineState::TurnPhase getPhase()const;
-
 	void addUnit(const std::string & name, int pos);
+
+	// Engine cycle
+
+	void turnStart();
+	void orderChoosed();
+	void unitChoosed();
+	void nextSpotChoosed();
+	void setOrderToUnit();
+	void turnEnd();
 
 	//Asset interface
 
