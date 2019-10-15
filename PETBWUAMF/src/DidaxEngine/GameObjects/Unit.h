@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "../GUI/UnitRepresentation.h"
+#include <time.h>
 
 namespace Didax
 {
@@ -21,11 +22,11 @@ private:
 	int _attack;
 	int _health;
 	int _armor;
-	int _defense;
+	int _defence;
 
 	int _rangedAttack;
 	int _chargeAttack;
-	int _chargeDefense;
+	int _chargeDefence;
 
 	std::string _description;
 

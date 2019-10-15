@@ -10,13 +10,13 @@ Unit::Unit(Engine * eng, UnitPrototype * prototype):GameObject(eng)
 {
 	_prototype = prototype;
 	_attack = _prototype->_attack;
-	_defense = _prototype->_defense;
+	_defence = _prototype->_defence;
 	_armor = _prototype->_armor;
 	_health = _prototype->_health;
 
 	_rangedAttack = _prototype->_rangedAttack;
 	_chargeAttack = _prototype->_chargeAttack;
-	_chargeDefense = _prototype->_chargeDefense;
+	_chargeDefence = _prototype->_chargeDefence;
 
 	_description = _prototype->_description;
 
@@ -40,8 +40,18 @@ void Unit::UnitFight(Unit *enemy)
 }
 void Unit::UnitRound(Unit *enemy)
 {
-	int pairing = enemy->_attack + enemy->_defense / 2;
-	int sumPairing = this->_attack + pairing;
+	int pairing = (enemy->_attack + enemy->_defence) / 2;
+	if (!enemy->_isInFight) pairing = +enemy->_chargeDefence;
+
+	int fullDefence = enemy->_defence + enemy->_armor;
+	if (!enemy->_isInFight) fullDefence = +enemy->_chargeDefence;
+
+	int sumAttack = this->_attack;
+	if (!this->_isInFight) sumAttack += sumAttack + this->_chargeAttack;
+
+	int sumPairing = sumAttack + pairing;
+	int sumDefence = sumAttack + fullDefence;
+
 	for (int unit = 1; unit <= this->front; unit++)
 	{
 		
@@ -68,7 +78,7 @@ Canvas * Unit::setOnTable(AssetMeneger * assets, int pos)
 	auto URep = this->getGUI<UnitRepresentation>("UnitRepresentation");
 	URep->setUnit(_prototype->_texture, assets);
 	URep->setAttack(UnitRepresentation::ParameterColor::white, _attack);
-	URep->setDefence(UnitRepresentation::ParameterColor::white, (_defense+_armor));
+	URep->setDefence(UnitRepresentation::ParameterColor::white, (_defence+_armor));
 	URep->setHealth(UnitRepresentation::ParameterColor::white, _health);
 	URep->setPosition(pos);
 	return res;
