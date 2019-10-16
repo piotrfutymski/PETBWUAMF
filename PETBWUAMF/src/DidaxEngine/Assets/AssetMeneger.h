@@ -6,7 +6,6 @@
 #include <iostream>
 #include "Asset.h"
 #include "../Utility/Logger.h"
-#include "BoardPrototype.h"
 #include "TextureAsset.h"
 #include "GUIElementPrototype.h"
 #include "FontAsset.h"

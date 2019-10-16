@@ -7,6 +7,8 @@
 #include "GameObjects/GameObjects.h"
 #include "Assets/AssetMeneger.h"
 #include "EngineState.h"
+#include "Player.h"
+#include "GUI/MainGUI.h"
 
 #include "nlohmann/json.hpp"
 
@@ -20,8 +22,6 @@ class Engine
 public:
 
 	using GameObjectsholder_t = std::vector< std::unique_ptr<GameObject>>;
-	using UnitsHolder_t = std::vector<Unit *>;
-	using OrdersHolder_t = std::vector<Order *>;
 
 	enum class EngineEvents {
 		OnStart
@@ -53,21 +53,22 @@ public:
 
 	void setEvent(const EngineEvents & t, const std::function<void(Engine*, float)> & func);
 
-	void nextPhase();
-	EngineState::TurnPhase getPhase()const;
+	void addUnit(const std::string & name, int player, int pos);
+	void addOrder(const std::string & name, int player);
 
 	void endGame();
 
-	void addUnit(const std::string & name, int pos);
 
 	// Engine cycle
 
-	void turnStart();
-	void orderChoosed();
+	void startNextTurn();
+	void waitForOrderChoose();
+
+	/*void orderChoosed();
 	void unitChoosed();
 	void nextSpotChoosed();
 	void setOrderToUnit();
-	void turnEnd();
+	void turnEnd();*/
 
 	//Asset interface
 
@@ -86,17 +87,21 @@ private:
 
 	Board * _bord = nullptr;
 
-	UnitsHolder_t _playerUnits[2];
-
-	OrdersHolder_t _playerOrders[2];
-
 	// GUI root
 
 	Canvas _root;
 
+	// Main GUI
+
+	MainGUI _mainGui;
+
 	// state
 
 	EngineState _state;
+
+	//players
+
+	Player _players[2];
 
 	// events
 
@@ -104,10 +109,17 @@ private:
 
 private:
 
-	void initEvents();
+	//openning Engine
 
+	void initEvents();
 	void createBoard();
-	void changePhase(const EngineState::TurnPhase & p);
+
+	//trun beginning
+
+	int getPlayerOnTurnStart();
+	void setUnitsAndOrdersOnTurnStart(int p);
+
+	//
 
 };
 

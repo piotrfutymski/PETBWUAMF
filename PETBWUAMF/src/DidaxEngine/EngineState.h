@@ -2,13 +2,15 @@
 
 namespace Didax
 {
+	class Order;
+	class Unit;
 
 struct EngineState
 {
 public:
 
 	enum class TurnPhase {
-		BeforeStart = -1, FirstPlayerMove, SecondPlayerMove, PlayingMoves, End
+		BeforeStart = -1, FirstPlayerMove, PlayingFirstPlayerMoves, SecondPlayerMove, PlayingSecondPlayerMoves, End
 	};
 
 	TurnPhase _turnPhase{TurnPhase::BeforeStart};

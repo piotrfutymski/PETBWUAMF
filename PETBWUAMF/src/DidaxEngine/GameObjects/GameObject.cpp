@@ -9,21 +9,11 @@ Didax::GameObject::GameObject(Engine * engine)
 {
 }
 
-void GameObject::init()
-{
-
-}
-
-
 size_t GameObject::getID() const
 {
 	return _id;
 }
 
-Engine * GameObject::getParent()
-{
-	return _engine;
-}
 
 
 

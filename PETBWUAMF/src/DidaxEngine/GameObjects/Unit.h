@@ -12,33 +12,28 @@ public:
 	Unit(Engine * eng, UnitPrototype * prototype);
 	~Unit();
 
-	Canvas * setOnTable(AssetMeneger * assets, int pos);
+	void setPosition(int pos);
+	void setOwner(int o);
+
+	int getPositionOnBord(int side)const;
+
+	Canvas * setOnTable(AssetMeneger * assets, int side);
 
 private:
 
 	UnitPrototype * _prototype;
 
 	int _attack;
-	int _health;
-	int _armor;
 	int _defense;
+	int _health;
 
-	int _rangedAttack;
-	int _chargeAttack;
-	int _chargeDefense;
+	int _position{ 0 };
+	int _owner{ 0 };
 
-	std::string _description;
+	UnitRepresentation::ParameterColor getParameterColorA();
+	UnitRepresentation::ParameterColor getParameterColorD();
+	UnitRepresentation::ParameterColor getParameterColorH();
 
-	bool _isInFight;
-	int _position;
-	int front;
-
-	void UnitFight(Unit *enemy);
-	void UnitRound(Unit *enemy);
-	void UnitRefill();
-
-	static int roundSize;
-	static int frontSize;
 };
 
 }

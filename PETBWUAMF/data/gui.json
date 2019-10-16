@@ -1,7 +1,7 @@
 {
   "0": {
     "type": "gui",
-    "name": "SideGUI",
+    "name": "MainGUI",
     "strings": {
       "background": "data/graphix/testImages/board/sideGuiBackground.bmp",
       "hourglass": "data/graphix/testImages/board/klepsydra.bmp",
@@ -42,14 +42,27 @@
   },
   "2": {
     "type": "gui",
-    "name": "MainGUI",
+    "name": "BoardGUI",
     "strings": {
-      "border": "data/graphix/testImages/board/granica.bmp",
+      "border0": "data/graphix/testImages/board/granica.bmp",
+      "border1": "data/graphix/testImages/board/granica1.bmp",
+      "border2": "data/graphix/testImages/board/granica2.bmp",
       "background": "data/graphix/testImages/board/mainGuiBackground.bmp"
     },
     "values": {
       "widthR": 1490,
       "heightR": 1080
+    }
+  },
+  "3": {
+    "type": "gui",
+    "name": "OrderRepresentation",
+    "strings": {
+
+    },
+    "values": {
+      "widthR": 140,
+      "heightR": 220
     }
   }
 }

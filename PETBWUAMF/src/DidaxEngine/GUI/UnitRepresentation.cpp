@@ -43,7 +43,7 @@ void Didax::UnitRepresentation::_init(GUIElementPrototype * prototype, AssetMene
 
 void Didax::UnitRepresentation::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
 {
-	this->_initElement(_root);
+	this->createEmptyButton(_root);
 }
 
 sf::Color Didax::UnitRepresentation::getColorFromPC(const ParameterColor & p)
@@ -92,7 +92,7 @@ void Didax::UnitRepresentation::setHealth(const ParameterColor & p, int v)
 
 void Didax::UnitRepresentation::setPosition(int pos)
 {
-	_root->setPosition(POSITIONTAB[pos]);
+	_root->setPosition(UNITPOSITIONTAB[pos]);
 }
 
 void Didax::UnitRepresentation::setActive(bool a)

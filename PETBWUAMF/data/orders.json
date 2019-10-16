@@ -1,2 +1,14 @@
 {
+  "0": {
+    "type": "order",
+    "name": "attack",
+    "description": "Attack.",
+    "texture": "data/graphix/testImages/orders/atak.bmp"
+  },
+  "1": {
+    "type": "order",
+    "name": "move",
+    "description": "Move.",
+    "texture": "data/graphix/testImages/orders/ruch.bmp"
+  }
 }

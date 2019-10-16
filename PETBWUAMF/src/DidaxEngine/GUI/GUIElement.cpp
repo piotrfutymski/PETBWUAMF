@@ -9,19 +9,6 @@ Didax::GUIElement::~GUIElement()
 {
 }
 
-bool Didax::GUIElement::setParent(Canvas * parent)
-{
-	if (!parent->addChild(_root))
-		return false;
-	_parent = parent;
-	return true;
-}
-
-Didax::Canvas * Didax::GUIElement::getParent()
-{
-	return _parent;
-}
-
 const Didax::Canvas * Didax::GUIElement::getRoot() const
 {
 	return _root;
@@ -32,8 +19,9 @@ Didax::Canvas * Didax::GUIElement::getRoot()
 	return _root;
 }
 
-void Didax::GUIElement::init(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::GUIElement::open(GUIElementPrototype * prototype, AssetMeneger * assets, Engine * e)
 {
+	engine = e;
 	_prototype = prototype;
 	_widgets.push_back(std::make_unique<Canvas>());
 	_root = static_cast<Canvas *>(_widgets[0].get());
@@ -42,29 +30,17 @@ void Didax::GUIElement::init(GUIElementPrototype * prototype, AssetMeneger * ass
 
 }
 
-void Didax::GUIElement::onHoverInElement(Widget * w)
-{
-	if (_onHoverIn[w] != nullptr)
-		_onHoverIn[w]();
-}
-
-void Didax::GUIElement::onHoverOutElement(Widget * w)
-{
-	if (_onHoverOut[w] != nullptr)
-		_onHoverOut[w]();
-}
-
-void Didax::GUIElement::onPressElement(Widget * w)
-{
-	if (_onPress[w] != nullptr)
-		_onPress[w]();
-}
-
-sf::Vector2f Didax::GUIElement::POSITIONTAB[] = {
+sf::Vector2f Didax::GUIElement::UNITPOSITIONTAB[] = {
 	{200,40},{200,220},{200,400},{200,580},
 	{350,40},{350,220},{350,400},{350,580},
 	{600,40},{600,220},{600,400},{600,580},
 	{750,40},{750,220},{750,400},{750,580}
+};
+
+sf::Vector2f Didax::GUIElement::ORDERPOSITIONTAB[] = {
+	{0,840},{140,840},{280,840},{420,840},
+	{560,840},{700,840},{940,840},{1080,840},
+	{1220,840},{1360,840},
 };
 
 sf::Color Didax::GUIElement::INTERACTIONCOLORS[] = {
@@ -73,25 +49,26 @@ sf::Color Didax::GUIElement::INTERACTIONCOLORS[] = {
 	{150, 150, 150, 255},
 };
 
-sf::Color Didax::GUIElement::BORDERCOLORS[] = {
-	{255, 255, 255, 255},
-	{255, 255, 0, 255},
-	{255, 0, 0, 255},
-};
 
-void Didax::GUIElement::_initElement(Widget * w)
+void Didax::GUIElement::createEmptyButton(Widget * w)
 {
-	w->setWidgetEvent(Widget::CallbackType::onHoverIn, [this](Widget * w, float dt) {
+	this->createButton(w, []() {}, []() {}, []() {});
+}
+
+void Didax::GUIElement::createButton(Widget * w, const  std::function<void()> & onHoverIn, const  std::function<void()> & onPress, const  std::function<void()> & onHoverOut)
+{
+	w->setWidgetEvent(Widget::CallbackType::onHoverIn, [this, onHoverIn](Widget * w, float dt) {
 		w->setColor(INTERACTIONCOLORS[1]);
-		this->onHoverInElement(w);
+		onHoverIn();
 	});
-	w->setWidgetEvent(Widget::CallbackType::onHoverOut, [this](Widget * w, float dt) {
-		w->setColor(INTERACTIONCOLORS[0]);
-		this->onHoverOutElement(w);
+	w->setWidgetEvent(Widget::CallbackType::onHoverOut, [this, onHoverOut](Widget * w, float dt) {
+		if(!w->isPressed())
+			w->setColor(INTERACTIONCOLORS[0]);
+		onHoverOut();
 	});
-	w->setWidgetEvent(Widget::CallbackType::onPress, [this](Widget * w, float dt) {
+	w->setWidgetEvent(Widget::CallbackType::onPress, [this,onPress](Widget * w, float dt) {
 		w->setColor(INTERACTIONCOLORS[2]);
-		this->onPressElement(w);
+		onPress();
 	});
 	w->setWidgetEvent(Widget::CallbackType::onRelease, [this](Widget * w, float dt) {
 		if (w->isHovered())
@@ -102,32 +79,3 @@ void Didax::GUIElement::_initElement(Widget * w)
 	});
 }
 
-void Didax::GUIElement::_setOnHoverIn(Widget * w, const std::function<void()>& f)
-{
-	_onHoverIn[w] = f;
-}
-
-void Didax::GUIElement::_setOnHoverOut(Widget * w, const std::function<void()>& f)
-{
-	_onHoverOut[w] = f;
-}
-
-void Didax::GUIElement::_setPress(Widget * w, const std::function<void()>& f)
-{
-	_onPress[w] = f;
-}
-
-void Didax::GUIElement::_resetOnHoverIn(Widget * w)
-{
-	_onHoverIn[w] = nullptr;
-}
-
-void Didax::GUIElement::_resetOnHoverOut(Widget * w)
-{
-	_onHoverOut[w] = nullptr;
-}
-
-void Didax::GUIElement::_resetPress(Widget * w)
-{
-	_onPress[w] = nullptr;
-}

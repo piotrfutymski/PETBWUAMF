@@ -21,7 +21,12 @@ bool Engine::init(const std::function<bool(Engine*e)> _initLogicFunc, const nloh
 	if (!_assetMeneger.loadAllAssets(settings))
 		return false;
 
+	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger, this);
+	_root.addChild(_mainGui.getRoot());
+
 	this->createBoard();
+	_players[0].init(_bord, &_assetMeneger);
+	_players[1].init(_bord, &_assetMeneger);
 	return true;
 }
 
@@ -30,11 +35,17 @@ void Engine::startGame()
 	if (_events[EngineEvents::OnStart] != nullptr)
 		_events[EngineEvents::OnStart](this, 0);
 
-	_state._turnPhase = EngineState::TurnPhase::FirstPlayerMove;
-
 	//test only
-	this->addUnit("testWarrior", 3);
-	this->addUnit("testWarrior", 8);
+	this->addUnit("testWarrior", 0, 3);
+	this->addUnit("testWarrior", 1, 7);
+	this->addUnit("testWarrior", 0, 1);
+
+	this->addOrder("attack", 0);
+	this->addOrder("move", 0);
+	//
+
+	this->startNextTurn();
+
 }
 	
 void Engine::update(float deltaTime)
@@ -62,30 +73,47 @@ bool Engine::end()
 	return _state._endGame;
 }
 
-void Engine::nextPhase()
+
+void Engine::addUnit(const std::string & name, int player, int pos)
+{
+	if ((player != 0 && player != 1)|| pos < 0 || pos > 7)
+	{
+		Logger::log("Can't add unit: " + name);
+		return;
+	}
+
+	_gameObjects.push_back(std::make_unique<Unit>(this, _assetMeneger.getAsset<UnitPrototype>(name)));
+	auto u = static_cast<Unit *>((_gameObjects.end() - 1)->get());
+	u->setPosition(pos);
+	u->setOwner(player);
+	_players[player].addUnit(u);
+}
+
+void Engine::addOrder(const std::string & name, int player)
+{
+	if (player != 0 && player != 1)
+	{
+		Logger::log("Can't add order: " + name);
+	}
+	_gameObjects.push_back(std::make_unique<Order>(this, _assetMeneger.getAsset<OrderPrototype>(name)));
+	auto o = static_cast<Order *>((_gameObjects.end() - 1)->get());
+	_players[player].addOrder(o);
+
+}
+
+void Engine::startNextTurn()
+{
+	int playerNr = this->getPlayerOnTurnStart();
+	this->setUnitsAndOrdersOnTurnStart(playerNr);
+	this->waitForOrderChoose();
+}
+
+void Engine::waitForOrderChoose()
 {
 	if (_state._turnPhase == EngineState::TurnPhase::FirstPlayerMove)
-		this->changePhase(EngineState::TurnPhase::SecondPlayerMove);
-	else if (_state._turnPhase == EngineState::TurnPhase::SecondPlayerMove)
-		this->changePhase(EngineState::TurnPhase::PlayingMoves);
-	else if (_state._turnPhase == EngineState::TurnPhase::PlayingMoves)
-		this->changePhase(EngineState::TurnPhase::FirstPlayerMove);
-}
-
-EngineState::TurnPhase Engine::getPhase() const
-{
-	return _state._turnPhase;
-}
-
-void Engine::addUnit(const std::string & name, int pos)
-{
-	_gameObjects.push_back(std::make_unique<Unit>(this, _assetMeneger.getAsset<UnitPrototype>(name)));
-	int side = 0;
-	if (pos >= 8)
-		side = 1;
-	_playerUnits[side].push_back(static_cast<Unit *>((_gameObjects.end() - 1)->get()));
-	auto u = *(_playerUnits[side].end() - 1);
-	_root.addChild(u->setOnTable(&_assetMeneger, pos));
+		_players[0].setOrdersAsChoosable();
+	else
+		_players[1].setOrdersAsChoosable();
 }
 
 void Engine::endGame()
@@ -102,14 +130,29 @@ void Engine::createBoard()
 {
 	_gameObjects.push_back(std::make_unique<Board>(this));
 	_bord = static_cast<Board *>((_gameObjects.end() - 1)->get());
-	_root.addChild(_bord->openSideGUI(&_assetMeneger));
-	_root.addChild(_bord->openMainGUI(&_assetMeneger));
+	_root.addChild(_bord->openBoardGUI(&_assetMeneger));
 }
 
-void Engine::changePhase(const EngineState::TurnPhase & p)
+int Engine::getPlayerOnTurnStart()
 {
-	Logger::log("State has been changed");
-	_state._turnPhase = p;
+	auto res = 0;
+	if (_state._turnPhase == EngineState::TurnPhase::BeforeStart || _state._turnPhase == EngineState::TurnPhase::PlayingSecondPlayerMoves)
+		_state._turnPhase = EngineState::TurnPhase::FirstPlayerMove;
+	else
+	{
+		_state._turnPhase = EngineState::TurnPhase::SecondPlayerMove;
+		res = 1;
+	}
+	return res;
+}
+
+void Engine::setUnitsAndOrdersOnTurnStart(int p)
+{
+	int e = 0;
+	if (p == 0)
+		e = 1;
+	_players[p].setUnitsAndOrdersAsAllay(&_root);
+	_players[e].setUnitsAsEnemy(&_root);
 
 }
 

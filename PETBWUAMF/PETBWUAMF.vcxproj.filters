@@ -84,9 +84,6 @@
     <ClCompile Include="src\DidaxEngine\Assets\TextureAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\BoardPrototype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DidaxEngine\Assets\FontAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,13 +99,22 @@
     <ClCompile Include="src\DidaxEngine\Assets\GUIElementPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DidaxEngine\GameObjects\Order.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DidaxEngine\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DidaxEngine\GUI\BoardGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\DidaxEngine\GUI\MainGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DidaxEngine\GUI\OrderRepresentation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,9 +197,6 @@
     <ClInclude Include="src\DidaxEngine\Assets\TextureAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\BoardPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DidaxEngine\Assets\FontAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -212,10 +215,16 @@
     <ClInclude Include="src\DidaxEngine\EngineState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h">
+    <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h">
+    <ClInclude Include="src\DidaxEngine\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DidaxEngine\GUI\OrderRepresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DidaxEngine\GUI\BoardGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DidaxEngine\GUI\MainGUI.h">

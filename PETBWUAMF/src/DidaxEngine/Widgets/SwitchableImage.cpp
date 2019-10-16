@@ -69,9 +69,13 @@ void SwitchableImage::updatePosition()
 
 void SwitchableImage::updateSize()
 {
-	auto s = _textures[_choosenOption]->getSize();
-	_sprite.scale({ _size.x / s.x,  _size.y / s.y });
+	if (_textures.size() != 0)
+	{
+		auto s = _textures[_choosenOption]->getSize();
+		_sprite.scale({ _size.x / s.x,  _size.y / s.y });
+	}
 }
+	
 
 void SwitchableImage::updateColor()
 {

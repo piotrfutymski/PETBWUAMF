@@ -11,27 +11,19 @@ Board::~Board()
 {
 }
 
-Canvas * Board::openMainGUI(AssetMeneger * assets)
+Canvas * Board::openBoardGUI(AssetMeneger * assets)
 {
-	auto res = this->addGUI<MainGUI>("MainGUI", assets);
+	auto res = this->openGUI<BoardGUI>("BoardGUI", assets);
 	bool tab[16] = { true,false,true,true,false,false,false,false,true,true,false,true,false,true,true,true };
-	this->getGUI<MainGUI>("MainGUI")->setReadyToChoose(tab, MainGUI::YellowSide::left);
+	this->getGUI<BoardGUI>("BoardGUI")->setReadyToChoose(tab);
 	return res;
 }
 
-Canvas * Board::openSideGUI(AssetMeneger * assets)
+void Board::addUnitOnPos(int p)
 {
-	auto res = this->addGUI<SideGUI>("SideGUI", assets);
-	auto hgl = this->getGUI<SideGUI>("SideGUI");
-	hgl->setOnHourglassClicked([this, hgl]() {
-		auto e = this->getParent();
-		e->nextPhase();
-		hgl->startHourglassOnState((int)e->getPhase());
-	});
-	hgl->setOnExitButtonClicked([this, hgl]() {
-		this->getParent()->endGame();
-	});
-	return res;
+	if (_units[p] == nullptr)
+		_units[p];
 }
+
 
 }

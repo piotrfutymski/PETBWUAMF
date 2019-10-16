@@ -17,12 +17,7 @@ public:
 
 	int _attack;
 	int _health;
-	int _armor;
 	int _defense;
-
-	int _rangedAttack;
-	int _chargeAttack;
-	int _chargeDefense;
 
 	std::string _description;
 	std::string _faction;

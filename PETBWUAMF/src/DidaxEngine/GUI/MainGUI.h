@@ -3,44 +3,43 @@
 
 namespace Didax
 {
+
+
 class MainGUI : public GUIElement
 {
 public:
 
-	enum class YellowSide {
-		left, right
-	};
-
 	MainGUI();
 	~MainGUI();
 
-	void setReadyToChoose(const bool posTab[16], YellowSide side);
-	void unsetReadyToChoose();
+	void startHourglassOnState();
 
-	void setOnChoosed(const std::function<void()> & func);
-	void resetOnChoosed();
+	void nextState();
 
-	const bool * getChoosablePositions()const;
-	bool getIfCanBeChoosen(int pos)const;
+	void addTime(float t);
 
-	int getLastChoosed()const;
+	float getTime()const;
 
-	sf::Color getColorFromSide(int p, YellowSide s)const;
+	Widget * getHourglass()const;
 
 private:
 
-	ImageWidget * _borders[16];
+	float _dT{ 0 };
 
-	bool _choosablePositions[16];
+	int _state;
 
-	YellowSide _side;
+// widgets
 
-	int _lastChoosed{ -1 };
+	TextArea * _text;
 
+	ImageWidget * _hourglass;
+
+	ImageWidget * _exitButton;
+
+	std::string _displayedTexts[3];
 
 private:
 
-	// Inherited via GUIElement
 	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
 
 	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;

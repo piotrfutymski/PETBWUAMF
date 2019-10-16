@@ -28,5 +28,26 @@
   "5": {
     "type": "texture",
     "name": "data/graphix/testImages/board/exit.bmp"
+  },
+
+  "6": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/granica1.bmp"
+  },
+
+  "7": {
+    "type": "texture",
+    "name": "data/graphix/testImages/board/granica2.bmp"
+  },
+
+  "8": {
+    "type": "texture",
+    "name": "data/graphix/testImages/orders/atak.bmp"
+  },
+
+  "9": {
+    "type": "texture",
+    "name": "data/graphix/testImages/orders/ruch.bmp"
   }
+
 }

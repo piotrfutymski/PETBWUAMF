@@ -14,8 +14,6 @@ public:
 
 	GameObject(Engine * engine);
 
-	void init();
-
 	GameObject(GameObject&&) = delete;
 
 	GameObject& operator = (GameObject&&) = delete;
@@ -23,8 +21,6 @@ public:
 	virtual ~GameObject() = default;
 
 	size_t getID()const;
-
-	Engine * getParent();
 
 
 protected:
@@ -39,19 +35,19 @@ protected:
 protected:
 
 	template <typename T>
-	Canvas * addGUI(const std::string & name, AssetMeneger * assets);
+	Canvas * openGUI(const std::string & name, AssetMeneger * assets);
 
 	template <typename T>
 	T* getGUI(const std::string & name);
 };
 
 template <typename T>
-Canvas * GameObject::addGUI(const std::string & name, AssetMeneger * assets)
+Canvas * GameObject::openGUI(const std::string & name, AssetMeneger * assets)
 {
 	try
 	{
-		_representations[name] = std::make_unique<T>();
-		_representations[name].get()->init(assets->getAsset<GUIElementPrototype>(name), assets);
+		_representations.insert(std::pair(name, std::make_unique<T>()));
+		_representations[name].get()->open(assets->getAsset<GUIElementPrototype>(name), assets, _engine);
 		return _representations[name].get()->getRoot();
 	}
 	catch(std::exception & e)

@@ -84,12 +84,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\macie\Desktop\Programowanie\PET\nlohmann_json_release-master;C:\Users\macie\Desktop\Programowanie\PET\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dokumenty\Projects\GAME\SFML-2.5.1\SFML-2.5.1\include;D:\Dokumenty\Projects\GAME\nlohmann_json_release-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\macie\Desktop\Programowanie\PET\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Dokumenty\Projects\GAME\SFML-2.5.1\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;opengl32.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -127,7 +127,6 @@
   <ItemGroup>
     <ClCompile Include="src\DidaxEngine\Assets\AssetMeneger.cpp" />
     <ClCompile Include="src\DidaxEngine\Assets\Asset.cpp" />
-    <ClCompile Include="src\DidaxEngine\Assets\BoardPrototype.cpp" />
     <ClCompile Include="src\DidaxEngine\Assets\FontAsset.cpp" />
     <ClCompile Include="src\DidaxEngine\Assets\OrderPrototype.cpp" />
     <ClCompile Include="src\DidaxEngine\Assets\TextureAsset.cpp" />
@@ -137,11 +136,14 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\DidaxEngine\Engine.cpp" />
     <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp" />
+    <ClCompile Include="src\DidaxEngine\GameObjects\Order.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\BoardGUI.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\MainGUI.cpp" />
-    <ClCompile Include="src\DidaxEngine\GUI\SideGUI.cpp" />
+    <ClCompile Include="src\DidaxEngine\GUI\OrderRepresentation.cpp" />
     <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp" />
     <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp" />
+    <ClCompile Include="src\DidaxEngine\Player.cpp" />
     <ClCompile Include="src\DidaxEngine\Utility\Logger.cpp" />
     <ClCompile Include="src\DidaxEngine\Utility\StringConversion.cpp" />
     <ClCompile Include="src\DidaxEngine\Widgets\Canvas.cpp" />
@@ -161,7 +163,6 @@
   <ItemGroup>
     <ClInclude Include="src\DidaxEngine\Assets\AssetMeneger.h" />
     <ClInclude Include="src\DidaxEngine\Assets\Asset.h" />
-    <ClInclude Include="src\DidaxEngine\Assets\BoardPrototype.h" />
     <ClInclude Include="src\DidaxEngine\Assets\FontAsset.h" />
     <ClInclude Include="src\DidaxEngine\Assets\OrderPrototype.h" />
     <ClInclude Include="src\DidaxEngine\Assets\TextureAsset.h" />
@@ -175,10 +176,12 @@
     <ClInclude Include="src\DidaxEngine\GameObjects\GameObjects.h" />
     <ClInclude Include="src\DidaxEngine\GameObjects\Order.h" />
     <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\BoardGUI.h" />
+    <ClInclude Include="src\DidaxEngine\GUI\OrderRepresentation.h" />
     <ClInclude Include="src\DidaxEngine\GUI\MainGUI.h" />
-    <ClInclude Include="src\DidaxEngine\GUI\SideGUI.h" />
     <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h" />
     <ClInclude Include="src\DidaxEngine\Inupt\Input.h" />
+    <ClInclude Include="src\DidaxEngine\Player.h" />
     <ClInclude Include="src\DidaxEngine\Utility\Logger.h" />
     <ClInclude Include="src\DidaxEngine\Utility\StringConversion.h" />
     <ClInclude Include="src\DidaxEngine\Utility\UniqueID.h" />

@@ -1,141 +1,127 @@
 #include "MainGUI.h"
-
-void Didax::MainGUI::_init(GUIElementPrototype * prototype, AssetMeneger * assets)
-{
-	for (size_t i = 0; i < 16; i++)
-	{
-		_widgets.push_back(std::make_unique<ImageWidget>());
-		_borders[i] = static_cast<ImageWidget *>((_widgets.end() - 1)->get());
-	}
-
-	//root
-
-	_root->setSize({ prototype->_values["widthR"], (prototype->_values["heightR"]) });
-	auto text = assets->getAsset<TextureAsset>(prototype->_strings["background"]);
-	_root->setTexture(&(text->_texture));
-	for (size_t i = 0; i < 16; i++)
-	{
-		_root->addChild(_borders[i]);
-	}
-
-	//borders
-
-	text = assets->getAsset<TextureAsset>(prototype->_strings["border"]);
-
-	for (size_t i = 0; i < 16; i++)
-	{
-		_borders[i]->setPosition(POSITIONTAB[i].x-5, POSITIONTAB[i].y - 5);
-		_borders[i]->setTexture(&(text->_texture));
-		_borders[i]->setPrority(5);
-	}
-
-	// to have proper colors
-
-	this->unsetReadyToChoose();
-
-}
-
-void Didax::MainGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
-{
-	for (size_t i = 0; i < 16; i++)
-	{
-		_borders[i]->setWidgetEvent(Widget::CallbackType::onHoverIn, [this, i](Widget * w, float dt) {
-			if (this->getIfCanBeChoosen(i))
-				w->setColor(this->getColorFromSide(i,_side)*INTERACTIONCOLORS[1]);
-		});
-		_borders[i]->setWidgetEvent(Widget::CallbackType::onHoverOut, [this, i](Widget * w, float dt) {
-			if (this->getIfCanBeChoosen(i))
-				w->setColor(this->getColorFromSide(i, _side)*INTERACTIONCOLORS[0]);
-		});
-		_borders[i]->setWidgetEvent(Widget::CallbackType::onPress, [this, i](Widget * w, float dt) {
-			if (this->getIfCanBeChoosen(i))
-			{
-				this->onPressElement(w);
-				w->setColor(this->getColorFromSide(i, _side)*INTERACTIONCOLORS[2]);
-			}			
-		});
-		_borders[i]->setWidgetEvent(Widget::CallbackType::onRelease, [this, i](Widget * w, float dt) {
-			if (this->getIfCanBeChoosen(i))
-			{
-				if (this->getIfCanBeChoosen(i) && w->isHovered())
-					w->setColor(this->getColorFromSide(i, _side)*INTERACTIONCOLORS[1]);
-				else
-					w->setColor(this->getColorFromSide(i, _side)*INTERACTIONCOLORS[0]);
-			}		
-		});
-	}
-
-}
+#include "../Engine.h"
 
 Didax::MainGUI::MainGUI()
 {
 }
 
+
 Didax::MainGUI::~MainGUI()
 {
 }
 
-void Didax::MainGUI::setReadyToChoose(const bool posTab[16], YellowSide side)
+void Didax::MainGUI::startHourglassOnState()
 {
-	for (size_t i = 0; i < 16; i++)
+	try
 	{
-		_choosablePositions[i] = posTab[i];
-		_side = side;
-		if (!posTab[i])
-			continue;	
-		_borders[i]->setColor(this->getColorFromSide(i, side));
+		_text->setText(_displayedTexts[_state]);
+	}
+	catch (std::exception e)
+	{
+		Logger::log(e.what());
+		_text->setText(_displayedTexts[0]);
+	}
+
+	if (_state == 2)
+	{
+		_dT = 0;
+		_hourglass->setActive(false);
+		_hourglass->setColor({ 255,255,255,50 });
+		_root->onUpdate([this](Widget * w, float dt) {
+			this->addTime(dt);
+			if (this->getTime() >= 3)
+				this->nextState();
+		});
+	}
+	if (_state == 0)
+	{
+		_root->resetOnUpdate();
+		_hourglass->setActive(true);
+		_hourglass->setColor({ 255,255,255,255 });
 	}
 }
 
-sf::Color Didax::MainGUI::getColorFromSide(int p, YellowSide s)const
+void Didax::MainGUI::nextState()
 {
-	sf::Color l = BORDERCOLORS[1];
-	sf::Color r = BORDERCOLORS[2];
-	if (s == YellowSide::right)
-		std::swap(l, r);
-	if (p < 8)
-		return l;
-	return r;
-}
-
-void Didax::MainGUI::unsetReadyToChoose()
-{
-	for (size_t i = 0; i < 16; i++)
-	{
-		_choosablePositions[i] = false;
-		_borders[i]->setColor(BORDERCOLORS[0]);
-	}
-}
-
-void Didax::MainGUI::setOnChoosed(const std::function<void()>& func)
-{
-	for (size_t i = 0; i < 16; i++)
-	{
-		this->_setPress(_borders[i], func);
-	}
-}
-
-void Didax::MainGUI::resetOnChoosed()
-{
-	for (size_t i = 0; i < 16; i++)
-	{
-		this->_resetPress(_borders[i]);
-	}
-}
-
-const bool * Didax::MainGUI::getChoosablePositions() const
-{
-	return _choosablePositions;
-}
-
-bool Didax::MainGUI::getIfCanBeChoosen(int pos) const
-{
-	return _choosablePositions[pos];
-}
-
-int Didax::MainGUI::getLastChoosed() const
-{
-	return 0;
+	if (_state == 2)
+		_state = 0;
+	else
+		_state++;
+	this->startHourglassOnState();
 }
 
 
+void Didax::MainGUI::_init(GUIElementPrototype * prototype, AssetMeneger * assets)
+{
+	_widgets.push_back(std::make_unique<TextArea>());
+	_widgets.push_back(std::make_unique<ImageWidget>());
+	_widgets.push_back(std::make_unique<ImageWidget>());
+	_text = static_cast<TextArea *>(_widgets[1].get());
+	_hourglass = static_cast<ImageWidget *>(_widgets[2].get());
+	_exitButton = static_cast<ImageWidget *>(_widgets[3].get());
+
+	//	root
+
+	_root->setSize({ prototype->_values["widthR"], (prototype->_values["heightR"]) });
+	_root->setPosition({ prototype->_values["xPosR"], (prototype->_values["yPosR"]) });
+
+	auto textback = assets->getAsset<TextureAsset>(prototype->_strings["background"]);
+	_root->setTexture(&(textback->_texture));
+
+	_root->addChild(_text);
+	_root->addChild(_hourglass);
+	_root->addChild(_exitButton);
+
+	//	text
+
+	_displayedTexts[0] = prototype->_strings["dispText0"];
+	_displayedTexts[1] = prototype->_strings["dispText1"];
+	_displayedTexts[2] = prototype->_strings["dispText2"];
+
+	_text->setPosition({ prototype->_values["xPosT"], (prototype->_values["yPosT"]) });
+	_text->setText(_displayedTexts[0]);
+	
+	auto f = assets->getAsset<FontAsset>(prototype->_strings["font"]);
+
+	_text->setFont(&(f->_font));
+	_text->setFontColor(sf::Color::White);
+
+	// hourglass
+
+	_hourglass->setPosition({ prototype->_values["xPosH"], (prototype->_values["yPosH"]) });
+	textback = assets->getAsset<TextureAsset>(prototype->_strings["hourglass"]);
+	_hourglass->setTexture(&(textback->_texture));
+
+	// exit
+
+	_exitButton->setPosition({ prototype->_values["xPosE"], (prototype->_values["yPosE"]) });
+	textback = assets->getAsset<TextureAsset>(prototype->_strings["exit"]);
+	_exitButton->setTexture(&(textback->_texture));
+
+}
+
+void Didax::MainGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
+{
+	this->createButton(_hourglass, []() {}, [this]() {
+		this->nextState();
+	}, []() {});
+	this->createButton(_exitButton, []() {}, [this]() {
+		this->engine->endGame();
+	}, []() {});
+
+}
+
+void Didax::MainGUI::addTime(float t)
+{
+	_dT += t;
+}
+
+float Didax::MainGUI::getTime()const
+{
+	return _dT;
+}
+
+Didax::Widget * Didax::MainGUI::getHourglass() const
+{
+	return _hourglass;
+}

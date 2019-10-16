@@ -44,8 +44,6 @@ bool Didax::AssetMeneger::loadAssetsFromFile(const std::string & filename)
 			a = this->createAsset<TextureAsset>(element["name"]);
 		else if (element["type"] == "gui")
 			a = this->createAsset<GUIElementPrototype>(element["name"]);
-		else if (element["type"] == "board")
-			a = this->createAsset<BoardPrototype>(element["name"]);
 		else if (element["type"] == "unit")
 			a = this->createAsset<UnitPrototype>(element["name"]);
 		else if (element["type"] == "order")
