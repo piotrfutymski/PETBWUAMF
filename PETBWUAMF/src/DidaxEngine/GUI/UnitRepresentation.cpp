@@ -73,19 +73,19 @@ void Didax::UnitRepresentation::setUnit(const std::string & name, AssetMeneger *
 
 void Didax::UnitRepresentation::setAttack(const ParameterColor & p, int v)
 {
-	_attack->setColor(getColorFromPC(p));
+	_attack->setFontColor(getColorFromPC(p));
 	_attack->setText(std::to_string(v));
 }
 
 void Didax::UnitRepresentation::setDefence(const ParameterColor & p, int v)
 {
-	_defence->setColor(getColorFromPC(p));
+	_defence->setFontColor(getColorFromPC(p));
 	_defence->setText(std::to_string(v));
 }
 
 void Didax::UnitRepresentation::setHealth(const ParameterColor & p, int v)
 {
-	_health->setColor(getColorFromPC(p));
+	_health->setFontColor(getColorFromPC(p));
 	_health->setText(std::to_string(v));
 }
 
