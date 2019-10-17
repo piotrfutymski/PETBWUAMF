@@ -1,6 +1,6 @@
 #include "BoardGUI.h"
 
-void Didax::BoardGUI::_init(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::BoardGUI::_init(AssetMeneger * assets)
 {
 	for (size_t i = 0; i < 16; i++)
 	{
@@ -10,8 +10,8 @@ void Didax::BoardGUI::_init(GUIElementPrototype * prototype, AssetMeneger * asse
 
 	//root
 
-	_root->setSize({ prototype->_values["widthR"], (prototype->_values["heightR"]) });
-	auto text = assets->getAsset<TextureAsset>(prototype->_strings["background"]);
+	_root->setSize({ _prototype->_values["widthR"], (_prototype->_values["heightR"]) });
+	auto text = assets->getAsset<TextureAsset>(_prototype->_strings["background"]);
 	_root->setTexture(&(text->_texture));
 	for (size_t i = 0; i < 16; i++)
 	{
@@ -20,24 +20,22 @@ void Didax::BoardGUI::_init(GUIElementPrototype * prototype, AssetMeneger * asse
 
 	//borders
 
-	auto text0 = &(assets->getAsset<TextureAsset>(prototype->_strings["border0"])->_texture);
-	auto text1 = &(assets->getAsset<TextureAsset>(prototype->_strings["border1"])->_texture);
-	auto text2 = &(assets->getAsset<TextureAsset>(prototype->_strings["border2"])->_texture);
+	auto text0 = &(assets->getAsset<TextureAsset>(_prototype->_strings["border0"])->_texture);
+	auto text1 = &(assets->getAsset<TextureAsset>(_prototype->_strings["border1"])->_texture);
+	auto text2 = &(assets->getAsset<TextureAsset>(_prototype->_strings["border2"])->_texture);
 
 	for (size_t i = 0; i < 16; i++)
 	{
 		_borders[i]->setPosition(UNITPOSITIONTAB[i].x-5, UNITPOSITIONTAB[i].y - 5);
 		_borders[i]->init({ text0,text1,text2 });
-		_borders[i]->setPrority(5);
 	}
 
 	// to have proper colors
-
 	this->unsetReadyToChoose();
 
 }
 
-void Didax::BoardGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::BoardGUI::_initLogic(AssetMeneger * assets, const std::vector<std::function<void()>>& func)
 {
 	for (size_t i = 0; i < 16; i++)
 	{
@@ -46,7 +44,7 @@ void Didax::BoardGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger *
 
 }
 
-Didax::BoardGUI::BoardGUI()
+Didax::BoardGUI::BoardGUI(GUIElementPrototype * prototype):GUIElement(prototype)
 {
 }
 
@@ -77,7 +75,6 @@ void Didax::BoardGUI::unsetReadyToChoose()
 		_borders[i]->setOption(0);
 	}
 }
-
 
 
 const bool * Didax::BoardGUI::getChoosablePositions() const

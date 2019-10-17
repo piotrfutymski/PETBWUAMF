@@ -46,7 +46,7 @@ public:
 
 	void input(const sf::Event & e);
 
-	bool end();
+	bool isWaitingForEnd();
 
 	//Game interface
 
@@ -57,17 +57,6 @@ public:
 
 	void endGame();
 
-
-	// Engine cycle
-
-	void startNextTurn();
-	void waitForOrderChoose();
-
-	/*void orderChoosed();
-	void unitChoosed();
-	void nextSpotChoosed();
-	void setOrderToUnit();
-	void turnEnd();*/
 
 	//Asset interface
 
@@ -92,7 +81,7 @@ private:
 
 	// Main GUI
 
-	MainGUI _mainGui;
+	std::unique_ptr<MainGUI> _mainGui;
 
 	// state
 
@@ -106,7 +95,24 @@ private:
 
 	EventsHolder_t _events;
 
+	// esc func
+
+	std::function<void()> _onEsc = nullptr;
+
 private:
+
+	// Engine cycle
+
+	void startNextTurn();
+	void waitForOrderChoose();
+	void orderChoosed();
+	void orderUnchoosed();
+
+	/*
+	void unitChoosed();
+	void nextSpotChoosed();
+	void setOrderToUnit();
+	void turnEnd();*/
 
 	//openning Engine
 
@@ -119,7 +125,18 @@ private:
 	int getPlayerOnTurnStart();
 	void setUnitsAndOrdersOnTurnStart(int p);
 
-	//
+
+	//esc functions
+
+	void resetOrderChoose();
+
+	// posted functions
+
+	void showUnitDescription(Unit * u);
+	void hideUnitDescription(Unit * u);
+	void showOrderDescription(Order * o);
+	void hideOrderDescription(Order * o);
+	void orderChoosed(Order * o);
 
 };
 

@@ -9,15 +9,19 @@ class Unit :
 	public GameObject
 {
 public:
-	Unit(Engine * eng, UnitPrototype * prototype);
+	Unit(UnitPrototype * prototype, AssetMeneger * assets);
 	~Unit();
 
 	void setPosition(int pos);
 	void setOwner(int o);
 
+	const UnitPrototype * getPrototype()const;
+
 	int getPositionOnBord(int side)const;
 
-	Canvas * setOnTable(AssetMeneger * assets, int side);
+	void setOnTable(AssetMeneger * assets, int side, Canvas * parent, const std::function<void(Unit * u)> & hi, const std::function<void(Unit *)> & ho);
+
+	void setHoverInHoverOutEffects(const std::function<void(Unit * u)> & hi, const std::function<void(Unit *)> & ho);
 
 private:
 

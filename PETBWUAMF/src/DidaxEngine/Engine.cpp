@@ -42,9 +42,7 @@ void Engine::startGame()
 	this->addOrder("attack", 0);
 	this->addOrder("move", 0);
 	//
-
 	this->startNextTurn();
-
 }
 	
 void Engine::update(float deltaTime)
@@ -59,6 +57,11 @@ void Engine::render(sf::RenderTarget & target, sf::RenderStates states)
 	
 void Engine::input(const sf::Event & e)
 {
+	if (e.type == sf::Event::EventType::KeyPressed && _onEsc != nullptr)
+	{
+		if (e.KeyPressed == sf::Keyboard::Escape)
+			this->_onEsc();
+	}
 	_root.input(e);
 }
 
@@ -67,7 +70,7 @@ void Engine::setEvent(const EngineEvents & t, const std::function<void(Engine*, 
 	_events[t] = func;
 }
 
-bool Engine::end()
+bool Engine::isWaitingForEnd()
 {
 	return _state._endGame;
 }
@@ -77,11 +80,18 @@ void Engine::addUnit(const std::string & name, int player, int pos)
 {
 	if ((player != 0 && player != 1)|| pos < 0 || pos > 7)
 	{
-		Logger::log("Can't add unit: " + name);
+		Logger::log("Can't add unit: " + name + " - Bad player nr or position nr");
+		return;
+	}
+	auto prot = _assetMeneger.getAsset<UnitPrototype>(name);
+
+	if (prot == nullptr)
+	{
+		Logger::log(name +" -This unit does not exist");
 		return;
 	}
 
-	_gameObjects.push_back(std::make_unique<Unit>(this, _assetMeneger.getAsset<UnitPrototype>(name)));
+	_gameObjects.push_back(std::make_unique<Unit>(prot, &_assetMeneger));
 	auto u = static_cast<Unit *>((_gameObjects.end() - 1)->get());
 	u->setPosition(pos);
 	u->setOwner(player);
@@ -92,9 +102,17 @@ void Engine::addOrder(const std::string & name, int player)
 {
 	if (player != 0 && player != 1)
 	{
-		Logger::log("Can't add order: " + name);
+		Logger::log("Can't add order: " + name + " - Bad player nr (can be 0 or 1)");
 	}
-	_gameObjects.push_back(std::make_unique<Order>(this, _assetMeneger.getAsset<OrderPrototype>(name)));
+
+	auto prot = _assetMeneger.getAsset<OrderPrototype>(name);
+	if (prot == nullptr)
+	{
+		Logger::log(name + " -This order does not exist");
+		return;
+	}
+
+	_gameObjects.push_back(std::make_unique<Order>(prot,& _assetMeneger));
 	auto o = static_cast<Order *>((_gameObjects.end() - 1)->get());
 	_players[player].addOrder(o);
 
@@ -110,9 +128,24 @@ void Engine::startNextTurn()
 void Engine::waitForOrderChoose()
 {
 	if (_state._turnPhase == EngineState::TurnPhase::FirstPlayerMove)
-		_players[0].setOrdersAsChoosable();
+		_players[0].setOrdersWaitingForChoose([this](Order * o) {orderChoosed(o); });
 	else
-		_players[1].setOrdersAsChoosable();
+		_players[1].setOrdersWaitingForChoose([this](Order * o) {orderChoosed(o); });
+}
+
+void Engine::orderChoosed()
+{
+	if (_state._turnPhase == EngineState::TurnPhase::FirstPlayerMove)
+		_players[0].setForWaitingOnOrderTarget(_state._choosedOrder);
+	else
+		_players[1].setForWaitingOnOrderTarget(_state._choosedOrder);
+
+	_onEsc = [this]() {this->resetOrderChoose(); };
+}
+
+void Engine::orderUnchoosed()
+{
+	this->waitForOrderChoose();
 }
 
 void Engine::endGame()
@@ -127,15 +160,15 @@ void Engine::initEvents()
 
 void Engine::createBoard()
 {
-	_gameObjects.push_back(std::make_unique<Board>(this));
-	_bord = static_cast<Board *>((_gameObjects.end() - 1)->get());
-	_root.addChild(_bord->openBoardGUI(&_assetMeneger));
+	_gameObjects.push_back(std::make_unique<Board>(&_assetMeneger));
+	_bord = static_cast<Board*>((_gameObjects.end() - 1)->get());
+	_bord->openGUI(&_root, & _assetMeneger, {});
 }
 
 void Engine::openMainGUI()
 {
-	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger,{this->endGame});
-	_root.addChild(_mainGui.getRoot());
+	_mainGui = std::make_unique<MainGUI>(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"));
+	_mainGui.get()->open(&_root, &_assetMeneger, { [this]() {this->endGame(); } });
 }
 
 int Engine::getPlayerOnTurnStart()
@@ -156,9 +189,43 @@ void Engine::setUnitsAndOrdersOnTurnStart(int p)
 	int e = 0;
 	if (p == 0)
 		e = 1;
-	_players[p].setUnitsAndOrdersAsAllay(&_root);
-	_players[e].setUnitsAsEnemy(&_root);
+	_players[p].setUnitsAndOrdersAsAllay(&_root, { [this](Order * o) {this->showOrderDescription(o); } , [this](Order * o) {this->hideOrderDescription(o); } }, 
+		{ [this](Unit * u) {this->showUnitDescription(u); } , [this](Unit * u) {this->hideUnitDescription(u); } });
+	_players[e].setUnitsAsEnemy(&_root, { [this](Unit * u) {this->showUnitDescription(u); } , [this](Unit * u) {this->hideUnitDescription(u); } });
 
+}
+
+void Engine::resetOrderChoose()
+{
+	_state._choosedOrder = nullptr;
+}
+
+void Engine::showUnitDescription(Unit * u)
+{
+	auto s = u->getPrototype()->_description;
+	_mainGui->setDescription(s);
+}
+
+void Engine::hideUnitDescription(Unit * u)
+{
+	_mainGui->setDescription("");
+}
+
+void Engine::showOrderDescription(Order * o)
+{
+	auto s = o->getPrototype()->_description;
+	_mainGui->setDescription(s);
+}
+
+void Engine::hideOrderDescription(Order * o)
+{
+	_mainGui->setDescription("");
+}
+
+void Engine::orderChoosed(Order * o)
+{
+	_state._choosedOrder = o;
+	this->orderChoosed();
 }
 
 }

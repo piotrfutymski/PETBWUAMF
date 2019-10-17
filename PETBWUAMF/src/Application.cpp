@@ -84,7 +84,7 @@ void Application::update()
 	}
 
 	_engine.update(deltaT);
-	if (_engine.end())
+	if (_engine.isWaitingForEnd())
 		_window.getWindow().close();
 }
 

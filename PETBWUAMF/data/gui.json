@@ -21,7 +21,9 @@
       "xPosH": 100,
       "yPosH": 500,
       "xPosE": 410,
-      "yPosE": 0
+      "yPosE": 0,
+      "xPosD": 20,
+      "yPosD": 770
     }
   },
   "1": {

@@ -15,14 +15,16 @@ public:
 		InDeck, InHand, Used
 	};
 
-	Order(Engine * eng, OrderPrototype * prototype);
+	Order(OrderPrototype * prototype, AssetMeneger * assets);
 	~Order();
 
 	bool isInHand()const;
 
-	Canvas * show(AssetMeneger * assets, int pos);
+	void showInHand(AssetMeneger * assets, int pos, Canvas * parent, const std::function<void(Order *)> & hi, const std::function<void(Order *)> & ho);
 	
-	void setAsChoosable();
+	void setAsChoosable(const std::function<void(Order *)> & f);
+
+	const OrderPrototype * getPrototype()const;
 
 private:
 	OrderPrototype * _prototype;

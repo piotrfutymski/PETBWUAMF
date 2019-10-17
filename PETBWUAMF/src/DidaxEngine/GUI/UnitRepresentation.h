@@ -11,7 +11,7 @@ public:
 		green, white, red
 	};
 
-	UnitRepresentation();
+	UnitRepresentation(GUIElementPrototype * prototype);
 	~UnitRepresentation();
 
 	void setUnit(const std::string & name, AssetMeneger * assets);
@@ -22,8 +22,6 @@ public:
 
 	void setPosition(int pos);
 
-	void setActive(bool a);
-
 
 private:
 
@@ -33,10 +31,10 @@ private:
 
 private:
 	// Inherited via GUIElement
-	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+	virtual void _init(AssetMeneger * assets) override;
 
 	// Inherited via GUIElement
-	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+	virtual void _initLogic( AssetMeneger * assets, const std::vector<std::function<void()>> & func) override;
 
 	sf::Color getColorFromPC(const ParameterColor & p);
 

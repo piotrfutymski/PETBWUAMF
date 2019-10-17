@@ -8,16 +8,13 @@ class OrderRepresentation:public GUIElement
 {
 public:
 
-	OrderRepresentation();
+	OrderRepresentation(GUIElementPrototype * prototype);
 	~OrderRepresentation();
 
-	void setChoosable();
+	void setChoosable(const std::function<void()> & f);
 	void setOrder(const std::string & name, AssetMeneger * assets);
 
 	void setPosition(int pos);
-
-
-	
 
 private:
 
@@ -26,8 +23,9 @@ private:
 private:
 
 	// Inherited via GUIElement
-	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
-	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+	virtual void _init(AssetMeneger * assets) override;
+
+	virtual void _initLogic(AssetMeneger * assets, const std::vector<std::function<void()>>& func) override;
 
 };
 

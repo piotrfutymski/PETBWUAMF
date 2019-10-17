@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "../Engine.h"
 #include "../GUI/BoardGUI.h"
+#include <array>
 
 namespace Didax
 {
@@ -11,16 +11,17 @@ class Board :
 	public GameObject
 {
 public:
-	Board(Engine * eng);
+	Board(AssetMeneger * assets);
 	~Board();
 
-	Canvas * openBoardGUI(AssetMeneger * assets);
+	void addUnitOnPos(Unit * u, int pos);
+	void moveUnit(Unit *u, int targetPos);
+	void removeUnits(Unit * u);
 
-	void addUnitOnPos(int p);
 
 private:
 
-	Unit * _units[16];
+	std::array<Unit *, 16> _units;
 
 };
 

@@ -11,7 +11,7 @@ public:
 		left, right
 	};
 
-	BoardGUI();
+	BoardGUI(GUIElementPrototype * prototype);
 	~BoardGUI();
 
 	void setReadyToChoose(const bool posTab[16]);
@@ -36,9 +36,9 @@ private:
 private:
 
 	// Inherited via GUIElement
-	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+	virtual void _init(AssetMeneger * assets) override;
 
-	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) override;
+	virtual void _initLogic(AssetMeneger * assets, const std::vector<std::function<void()>>& func) override;
 
 };
 

@@ -3,26 +3,28 @@
 namespace Didax
 {
 
-Board::Board(Engine * eng):GameObject(eng)
+Board::Board(AssetMeneger *assets)
 {
+	this->createGUI<BoardGUI>("BoardGUI", assets);
 }
 
 Board::~Board()
 {
 }
 
-Canvas * Board::openBoardGUI(AssetMeneger * assets)
-{
-	auto res = this->openGUI<BoardGUI>("BoardGUI", assets);
-	bool tab[16] = { true,false,true,true,false,false,false,false,true,true,false,true,false,true,true,true };
-	this->getGUI<BoardGUI>("BoardGUI")->setReadyToChoose(tab);
-	return res;
-}
-
-void Board::addUnitOnPos(int p)
+void Board::addUnitOnPos(Unit * u, int p)
 {
 	if (_units[p] == nullptr)
-		_units[p];
+		_units[p] = u;
+}
+
+void Board::moveUnit(Unit * u, int targetPos)
+{
+
+}
+
+void Board::removeUnits(Unit * u)
+{
 }
 
 

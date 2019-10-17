@@ -1,8 +1,8 @@
 #include "GUIElement.h"
 
-Didax::GUIElement::GUIElement()
+Didax::GUIElement::GUIElement(GUIElementPrototype * prototype)
 {
-
+	_prototype = prototype;
 }
 
 Didax::GUIElement::~GUIElement()
@@ -19,14 +19,19 @@ Didax::Canvas * Didax::GUIElement::getRoot()
 	return _root;
 }
 
-void Didax::GUIElement::open(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::GUIElement::open(Canvas * parent, AssetMeneger * assets, const std::vector<std::function<void()>> & func = {})
 {
-	_prototype = prototype;
 	_widgets.push_back(std::make_unique<Canvas>());
 	_root = static_cast<Canvas *>(_widgets[0].get());
-	this->_init(prototype, assets);
-	this->_initLogic(prototype, assets);
+	this->_init(assets);
+	this->_initLogic(assets, func);
+	parent->addChild(_root);
+}
 
+void Didax::GUIElement::close(Canvas * parent)
+{
+	parent->removeChild(_root);
+	_widgets.clear();
 }
 
 void Didax::GUIElement::unactiveButton(const std::string & name)
@@ -46,7 +51,7 @@ void Didax::GUIElement::activeButton(const std::string & name)
 	w->setActive(true);
 }
 
-void Didax::GUIElemnt::onlyHoverButton(const std::string & name)
+void Didax::GUIElement::onlyHoverButton(const std::string & name)
 {
 	auto w = this->findButton(name);
 	if(w == nullptr)
@@ -55,7 +60,7 @@ void Didax::GUIElemnt::onlyHoverButton(const std::string & name)
 	w->resetWidgetEvent(Widget::CallbackType::onPress);
 }
 
-void Didax::GUIElement::setOnHoverInToButton(const std::string & name, const std::function<void() &> f)
+void Didax::GUIElement::setOnHoverInToButton(const std::string & name, const std::function<void()> & f)
 {
 	auto w = this->findButton(name);
 	if(w == nullptr)
@@ -95,7 +100,7 @@ void Didax::GUIElement::resetOnHoverInButton(const std::string & name)
 	auto w = this->findButton(name);
 	if(w == nullptr)
 		return;
-	w->setWidgetEvent(Widget::CallbackType::onHoverIn, [this, f](Widget * w, float dt) {
+	w->setWidgetEvent(Widget::CallbackType::onHoverIn, [this](Widget * w, float dt) {
 		w->setColor(INTERACTIONCOLORS[1]);
 	});	
 }
@@ -105,7 +110,7 @@ void Didax::GUIElement::resetOnHoverOutButton(const std::string & name)
 	auto w = this->findButton(name);
 	if(w == nullptr)
 		return;
-	w->setWidgetEvent(Widget::CallbackType::onHoverOut, [this, f](Widget * w, float dt) {
+	w->setWidgetEvent(Widget::CallbackType::onHoverOut, [this](Widget * w, float dt) {
 		if(!w->isPressed())
 			w->setColor(INTERACTIONCOLORS[0]);
 	});	
@@ -117,7 +122,7 @@ void Didax::GUIElement::resetOnPressButton(const std::string & name)
 	if(w == nullptr)
 		return;
 
-	w->setWidgetEvent(Widget::CallbackType::onPress, [this, f](Widget * w, float dt) {
+	w->setWidgetEvent(Widget::CallbackType::onPress, [this](Widget * w, float dt) {
 		w->setColor(INTERACTIONCOLORS[2]);
 	});	
 }

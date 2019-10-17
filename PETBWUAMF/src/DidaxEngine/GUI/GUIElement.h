@@ -15,13 +15,14 @@ public:
 
 	using WidgetHolder_t = std::vector<std::unique_ptr<Widget>>;
 
-	GUIElement();
+	GUIElement(GUIElementPrototype * prototype);
 	~GUIElement(); 
 
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func);
+	void open(Canvas * parent , AssetMeneger * assets, const std::vector<std::function<void()>> & func);
+	void close(Canvas * parent);
 
 	void unactiveButton(const std::string & name);
 	void activeButton(const std::string & name);
@@ -58,8 +59,8 @@ protected:
 
 	Widget * findButton(const std::string & name);
 
-	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
-	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func = {}) = 0;
+	virtual void _init(AssetMeneger * assets) = 0;
+	virtual void _initLogic(AssetMeneger * assets, const std::vector<std::function<void()>> & func) = 0;
 
 };
 

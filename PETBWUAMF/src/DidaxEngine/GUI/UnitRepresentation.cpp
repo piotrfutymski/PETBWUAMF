@@ -1,6 +1,6 @@
 #include "UnitRepresentation.h"
 
-void Didax::UnitRepresentation::_init(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::UnitRepresentation::_init(AssetMeneger * assets)
 {
 	_widgets.push_back(std::make_unique<TextArea>());
 	_widgets.push_back(std::make_unique<TextArea>());
@@ -11,39 +11,41 @@ void Didax::UnitRepresentation::_init(GUIElementPrototype * prototype, AssetMene
 
 	//root
 
-	_root->setSize({ prototype->_values["widthR"], (prototype->_values["heightR"]) });
+	_root->setSize({ _prototype->_values["widthR"], (_prototype->_values["heightR"]) });
 	_root->addChild(_attack);
 	_root->addChild(_health);
 	_root->addChild(_defence);
 
 
-	auto f = assets->getAsset<FontAsset>(prototype->_strings["font"]);
+	auto f = assets->getAsset<FontAsset>(_prototype->_strings["font"]);
 
 	//attack
 
-	_attack->setPosition({ prototype->_values["xPosA"], (prototype->_values["yPosA"]) });
+	_attack->setPosition({ _prototype->_values["xPosA"], (_prototype->_values["yPosA"]) });
 	_attack->setFont(&(f->_font));
 
 	// health
 
-	_health->setPosition({ prototype->_values["xPosH"], (prototype->_values["yPosH"]) });
+	_health->setPosition({ _prototype->_values["xPosH"], (_prototype->_values["yPosH"]) });
 	_health->setFont(&(f->_font));
 
 	// defence
 
-	_defence->setPosition({ prototype->_values["xPosD"], (prototype->_values["yPosD"]) });
+	_defence->setPosition({ _prototype->_values["xPosD"], (_prototype->_values["yPosD"]) });
 	_defence->setFont(&(f->_font));
 
 	for (auto & x: _widgets)
 	{
-		x->setPrority(1);
+		x->setPrority(2);
 	}
 
 }
 
-void Didax::UnitRepresentation::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func)
+void Didax::UnitRepresentation::_initLogic(AssetMeneger * assets, const std::vector<std::function<void()>> & func)
 {
 	this->createEmptyButton("unit",_root);
+	this->setOnHoverInToButton("unit", func[0]);
+	this->setOnHoverOutToButton("unit", func[1]);
 }
 
 sf::Color Didax::UnitRepresentation::getColorFromPC(const ParameterColor & p)
@@ -57,7 +59,7 @@ sf::Color Didax::UnitRepresentation::getColorFromPC(const ParameterColor & p)
 }
 
 
-Didax::UnitRepresentation::UnitRepresentation()
+Didax::UnitRepresentation::UnitRepresentation(GUIElementPrototype * prototype) :GUIElement(prototype)
 {
 }
 

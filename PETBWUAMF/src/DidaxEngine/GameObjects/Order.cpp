@@ -1,8 +1,9 @@
 #include "Order.h"
 
-Didax::Order::Order(Engine * eng, OrderPrototype * prototype):GameObject(eng)
+Didax::Order::Order(OrderPrototype * prototype, AssetMeneger * assets)
 {
 	_prototype = prototype;
+	this->createGUI<OrderRepresentation>("OrderRepresentation", assets);
 }
 
 Didax::Order::~Order()
@@ -16,16 +17,20 @@ bool Didax::Order::isInHand() const
 	return false;
 }
 
-Didax::Canvas * Didax::Order::show(AssetMeneger * assets, int pos)
+void Didax::Order::showInHand(AssetMeneger * assets, int pos, Canvas * parent,const std::function<void(Order *)> & hi, const std::function<void(Order *)> & ho)
 {
-	auto res = this->openGUI<OrderRepresentation>("OrderRepresentation", assets);
-	auto URep = this->getGUI<OrderRepresentation>("OrderRepresentation");
+	this->openGUI(parent,assets, { [hi,this]() {hi(this); } , [ho, this]() {ho(this); } });
+	auto URep = this->getGUI<OrderRepresentation>();
 	URep->setOrder(_prototype->_texture, assets);
 	URep->setPosition(pos);
-	return res; 
 }
 
-void Didax::Order::setAsChoosable()
+void Didax::Order::setAsChoosable(const std::function<void(Order *)> & f)
 {
-	this->getGUI<OrderRepresentation>("OrderRepresentation")->setChoosable();
+	this->getGUI<OrderRepresentation>()->setChoosable([f, this]() {f(this); });
+}
+
+const Didax::OrderPrototype * Didax::Order::getPrototype() const
+{
+	return _prototype;
 }

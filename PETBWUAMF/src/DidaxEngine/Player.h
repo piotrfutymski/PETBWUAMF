@@ -8,8 +8,6 @@ namespace Didax
 
 	class Board;
 	class AssetMeneger;
-	class Unit;
-	class Order;
 
 class Player
 {
@@ -25,9 +23,11 @@ public:
 
 	void init(Board * b, AssetMeneger * a);
 
-	void setUnitsAndOrdersAsAllay(Canvas * root);
-	void setUnitsAsEnemy(Canvas * root);
-	void setOrdersAsChoosable();
+	void setUnitsAndOrdersAsAllay(Canvas * root, const std::vector<std::function<void(Order *)>> & funcO, const std::vector<std::function<void(Unit *)>> & funcU);
+	void setUnitsAsEnemy(Canvas * root, const std::vector<std::function<void(Unit *)>> & funcU);
+
+	void setOrdersWaitingForChoose(const std::function<void(Order *)> & f);						// Waiting for order
+	void setForWaitingOnOrderTarget(Order * o);				// Order is choosed now waiting for target
 
 	void addUnit(Unit * u);
 	void addOrder(Order * o);
@@ -42,7 +42,7 @@ private:
 
 private:
 
-	void setUnitsOnSide(int s, Canvas * root);
+	void setUnitsOnSide(int s, Canvas * root, const std::vector<std::function<void(Unit *)>> & funcU);
 
 
 };
