@@ -8,7 +8,6 @@
 
 namespace Didax
 {
-class Engine;
 
 class GUIElement
 {
@@ -22,13 +21,23 @@ public:
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(GUIElementPrototype * prototype, AssetMeneger * assets, Engine * e);
+	void open(GUIElementPrototype * prototype, AssetMeneger * assets);
+
+	void unactiveButton(const std::string & name);
+	void activeButton(const std::string & name);
+
+	void onlyHoverButton(const std::string & name);
+
+	void setOnHoverInToButton(const std::string & name, std::function<void()>);
+	void setOnPressToButton(const std::string & name, std::function<void()>);
+	void setOnHoverOutToButton(const std::string & name, std::function<void()>);
+	void resetOnHoverInButton(const std::string & name);
+	void resetOnPressButton(const std::string & name);
+	void resetOnHoverOutButton(const std::string & name);
 
 	static sf::Vector2f UNITPOSITIONTAB[16];
 	static sf::Vector2f ORDERPOSITIONTAB[10];
 	static sf::Color INTERACTIONCOLORS[3];
-
-	Engine * engine;
 
 protected:
 
@@ -40,13 +49,14 @@ protected:
 
 	WidgetHolder_t _widgets;
 
+	std::map<std::string, Widget *> _buttons;
 
 
 protected:
 	
-	void createEmptyButton(Widget * w);
-	void createButton(Widget * w, const  std::function<void()> & onHoverIn, const  std::function<void()> & onPress, const  std::function<void()> & onHoverOut);
+	void createEmptyButton(const std::string & name, Widget * w);
 
+	Widget * findButton(const std::string & name);
 
 	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
 	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;

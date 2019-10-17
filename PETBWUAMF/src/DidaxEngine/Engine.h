@@ -14,7 +14,6 @@
 
 namespace Didax
 {
-	class Board;
 
 class Engine
 {
@@ -113,6 +112,7 @@ private:
 
 	void initEvents();
 	void createBoard();
+	void openMainGUI();
 
 	//trun beginning
 

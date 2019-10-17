@@ -21,9 +21,8 @@ bool Engine::init(const std::function<bool(Engine*e)> _initLogicFunc, const nloh
 	if (!_assetMeneger.loadAllAssets(settings))
 		return false;
 
-	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger, this);
-	_root.addChild(_mainGui.getRoot());
 
+	this->openMainGUI();
 	this->createBoard();
 	_players[0].init(_bord, &_assetMeneger);
 	_players[1].init(_bord, &_assetMeneger);
@@ -131,6 +130,12 @@ void Engine::createBoard()
 	_gameObjects.push_back(std::make_unique<Board>(this));
 	_bord = static_cast<Board *>((_gameObjects.end() - 1)->get());
 	_root.addChild(_bord->openBoardGUI(&_assetMeneger));
+}
+
+void Engine::openMainGUI()
+{
+	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger, this);
+	_root.addChild(_mainGui.getRoot());
 }
 
 int Engine::getPlayerOnTurnStart()
