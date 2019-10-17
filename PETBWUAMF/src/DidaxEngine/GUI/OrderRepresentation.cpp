@@ -33,5 +33,5 @@ void Didax::OrderRepresentation::_init(GUIElementPrototype * prototype, AssetMen
 
 void Didax::OrderRepresentation::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
 {
-	this->createEmptyButton(_root);
+	this->createEmptyButton("order", _root);
 }

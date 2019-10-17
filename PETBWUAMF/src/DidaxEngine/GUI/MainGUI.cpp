@@ -100,14 +100,14 @@ void Didax::MainGUI::_init(GUIElementPrototype * prototype, AssetMeneger * asset
 
 }
 
-void Didax::MainGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets)
+void Didax::MainGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func)
 {
-	this->createButton(_hourglass, []() {}, [this]() {
+	this->createEmptyButton("hourglass", _hourglass);
+	this->setOnPressToButton("hourglass", [this]() {
 		this->nextState();
-	}, []() {});
-	this->createButton(_exitButton, []() {}, [this]() {
-		this->engine->endGame();
-	}, []() {});
+	});
+	this->createEmptyButton("exit",_exitButton);
+	this->setOnPressToButton("exit", func[0]);
 
 }
 

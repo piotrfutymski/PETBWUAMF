@@ -21,16 +21,16 @@ public:
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(GUIElementPrototype * prototype, AssetMeneger * assets);
+	void open(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func);
 
 	void unactiveButton(const std::string & name);
 	void activeButton(const std::string & name);
 
 	void onlyHoverButton(const std::string & name);
 
-	void setOnHoverInToButton(const std::string & name, std::function<void()>);
-	void setOnPressToButton(const std::string & name, std::function<void()>);
-	void setOnHoverOutToButton(const std::string & name, std::function<void()>);
+	void setOnHoverInToButton(const std::string & name, const std::function<void()> &);
+	void setOnPressToButton(const std::string & name, const std::function<void()> &);
+	void setOnHoverOutToButton(const std::string & name, const std::function<void()> &);
 	void resetOnHoverInButton(const std::string & name);
 	void resetOnPressButton(const std::string & name);
 	void resetOnHoverOutButton(const std::string & name);
@@ -59,7 +59,7 @@ protected:
 	Widget * findButton(const std::string & name);
 
 	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
-	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets) = 0;
+	virtual void _initLogic(GUIElementPrototype * prototype, AssetMeneger * assets, const std::vector<std::function<void()>> & func = {}) = 0;
 
 };
 

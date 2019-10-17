@@ -41,7 +41,7 @@ void Didax::BoardGUI::_initLogic(GUIElementPrototype * prototype, AssetMeneger *
 {
 	for (size_t i = 0; i < 16; i++)
 	{
-		this->createButton(_borders[i], []() {}, []() {}, []() {});
+		this->createEmptyButton("Pos" + std::to_string(i), _borders[i]);
 	}
 
 }

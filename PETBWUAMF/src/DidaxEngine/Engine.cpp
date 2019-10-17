@@ -134,7 +134,7 @@ void Engine::createBoard()
 
 void Engine::openMainGUI()
 {
-	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger, this);
+	_mainGui.open(_assetMeneger.getAsset<GUIElementPrototype>("MainGUI"), &_assetMeneger,{this->endGame});
 	_root.addChild(_mainGui.getRoot());
 }
 

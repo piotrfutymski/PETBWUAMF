@@ -55,7 +55,7 @@ void Didax::GUIElemnt::onlyHoverButton(const std::string & name)
 	w->resetWidgetEvent(Widget::CallbackType::onPress);
 }
 
-void Didax::GUIElement::setOnHoverInToButton(const std::string & name, std::function<void()> f)
+void Didax::GUIElement::setOnHoverInToButton(const std::string & name, const std::function<void() &> f)
 {
 	auto w = this->findButton(name);
 	if(w == nullptr)
@@ -66,7 +66,7 @@ void Didax::GUIElement::setOnHoverInToButton(const std::string & name, std::func
 	});	
 }
 
-void Didax::GUIElement::setOnHoverOutToButton(const std::string & name, std::function<void()> f)
+void Didax::GUIElement::setOnHoverOutToButton(const std::string & name, const std::function<void()> & f)
 {
 	auto w = this->findButton(name);
 	if(w == nullptr)
@@ -78,7 +78,7 @@ void Didax::GUIElement::setOnHoverOutToButton(const std::string & name, std::fun
 	});	
 }
 
-void Didax::GUIElement::setOnPressToButton(const std::string & name, std::function<void()> f)
+void Didax::GUIElement::setOnPressToButton(const std::string & name, const std::function<void()> & f)
 {
 	auto w = this->findButton(name);
 	if(w == nullptr)

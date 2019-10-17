@@ -31,8 +31,6 @@ private:
 	TextArea * _health;
 	TextArea * _defence;
 
-	bool _active;
-
 private:
 	// Inherited via GUIElement
 	virtual void _init(GUIElementPrototype * prototype, AssetMeneger * assets) override;
