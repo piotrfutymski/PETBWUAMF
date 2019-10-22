@@ -21,100 +21,100 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Window\WindowConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\WidgetHelp\Scroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\Canvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\ImageWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\ScrollArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\SwitchableImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\TextArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\TextInputArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Widgets\Widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Utility\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Utility\StringConversion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Inupt\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GameObjects\GameObject.cpp">
+    <ClCompile Include="src\Assets\Asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Engine.cpp">
+    <ClCompile Include="src\Assets\AssetMeneger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GameObjects\Unit.cpp">
+    <ClCompile Include="src\Assets\FontAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GameObjects\Board.cpp">
+    <ClCompile Include="src\Assets\GUIElementPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\AssetMeneger.cpp">
+    <ClCompile Include="src\Assets\OrderPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\Asset.cpp">
+    <ClCompile Include="src\Assets\TextureAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\TextureAsset.cpp">
+    <ClCompile Include="src\Assets\UnitPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\FontAsset.cpp">
+    <ClCompile Include="src\GUI\GameObjects\Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\UnitPrototype.cpp">
+    <ClCompile Include="src\GUI\GameObjects\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\OrderPrototype.cpp">
+    <ClCompile Include="src\GUI\GameObjects\Order.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\GUIElement.cpp">
+    <ClCompile Include="src\GUI\GUI\BoardGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Assets\GUIElementPrototype.cpp">
+    <ClCompile Include="src\GUI\GUI\GUIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\UnitRepresentation.cpp">
+    <ClCompile Include="src\GUI\GUI\MainGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GameObjects\Order.cpp">
+    <ClCompile Include="src\GUI\GUI\OrderRepresentation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\Player.cpp">
+    <ClCompile Include="src\GUI\GUI\UnitRepresentation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\BoardGUI.cpp">
+    <ClCompile Include="src\GUI\Inupt\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\MainGUI.cpp">
+    <ClCompile Include="src\GUI\Widgets\WidgetHelp\Scroller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DidaxEngine\GUI\OrderRepresentation.cpp">
+    <ClCompile Include="src\GUI\Widgets\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\ImageWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\ScrollArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\SwitchableImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\TextArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\TextInputArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Widgets\Widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Window\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Window\WindowConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\StringConversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,112 +122,127 @@
     <ClInclude Include="src\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Window\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Window\WindowConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\WidgetHelp\Scroller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\Canvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\ImageWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\ScrollArea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\SwitchableImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\TextArea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\TextInputArea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\Widget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Utility\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Utility\StringConversion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Utility\UniqueID.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Inupt\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Widgets\Widgets.h">
+    <ClInclude Include="src\Assets\Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GameObjects\GameObject.h">
+    <ClInclude Include="src\Assets\AssetMeneger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GameObjects\Unit.h">
+    <ClInclude Include="src\Assets\FontAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GameObjects\Board.h">
+    <ClInclude Include="src\Assets\GUIElementPrototype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GameObjects\Order.h">
+    <ClInclude Include="src\Assets\OrderPrototype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GameObjects\GameObjects.h">
+    <ClInclude Include="src\Assets\TextureAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\AssetMeneger.h">
+    <ClInclude Include="src\Assets\UnitPrototype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\Asset.h">
+    <ClInclude Include="src\GUI\GameObjects\Board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\TextureAsset.h">
+    <ClInclude Include="src\GUI\GameObjects\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\FontAsset.h">
+    <ClInclude Include="src\GUI\GameObjects\GameObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\UnitPrototype.h">
+    <ClInclude Include="src\GUI\GameObjects\Order.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\OrderPrototype.h">
+    <ClInclude Include="src\GUI\GUI\BoardGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\GUIElement.h">
+    <ClInclude Include="src\GUI\GUI\GUIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Assets\GUIElementPrototype.h">
+    <ClInclude Include="src\GUI\GUI\MainGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\EngineState.h">
+    <ClInclude Include="src\GUI\GUI\OrderRepresentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\UnitRepresentation.h">
+    <ClInclude Include="src\GUI\GUI\UnitRepresentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\Player.h">
+    <ClInclude Include="src\GUI\Inupt\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\OrderRepresentation.h">
+    <ClInclude Include="src\GUI\Widgets\WidgetHelp\Scroller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\BoardGUI.h">
+    <ClInclude Include="src\GUI\Widgets\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DidaxEngine\GUI\MainGUI.h">
+    <ClInclude Include="src\GUI\Widgets\ImageWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\ScrollArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\SwitchableImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\TextArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\TextInputArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\Widget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Widgets\Widgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Window\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Window\WindowConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\EngineState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\StringConversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\UniqueID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameInitiatior.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Move.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Unit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Order.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\GameObjects\Unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,12 +3,14 @@
     "type": "order",
     "name": "attack",
     "description": "Attack.",
-    "texture": "data/graphix/testImages/orders/atak.bmp"
+    "texture": "data/graphix/testImages/orders/atak.bmp",
+    "icon": "data/graphix/testImages/orders/atakIco.bmp"
   },
   "1": {
     "type": "order",
     "name": "move",
     "description": "Move.",
-    "texture": "data/graphix/testImages/orders/ruch.bmp"
+    "texture": "data/graphix/testImages/orders/ruch.bmp",
+    "icon": "data/graphix/testImages/orders/ruchIco.bmp"
   }
 }

@@ -5,6 +5,10 @@
     "attack": 4,
     "defense": 8,
     "health": 5,
+
+    "distance": false,
+    "orders":  2,
+
     "faction": "Southern Cities",
     "description":  "Light militia infantry.",
     "unitType": "Infantry",
