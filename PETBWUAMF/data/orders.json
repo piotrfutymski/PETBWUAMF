@@ -6,6 +6,7 @@
     "texture": "data/graphix/testImages/orders/atak.bmp",
     "icon": "data/graphix/testImages/orders/atakIco.bmp"
   },
+
   "1": {
     "type": "order",
     "name": "move",

@@ -12,9 +12,55 @@
     "chargeAttack": 2,
     "chargeDefence": 2,
 
+    "move": 2,
+
     "faction": "Southern Cities",
     "description": "Light militia infantry.",
 
     "texture": "data/graphix/testImages/units/testowywojownik.bmp"
+  },
+
+  "1": {
+    "type": "unit",
+    "name": "testArcher",
+    "unitType": "Ranged",
+
+    "attack": 4,
+    "defence": 4,
+    "armor": 4,
+    "health": 60,
+    "rangedAttack": 4,
+    "chargeAttack": 1,
+    "chargeDefence": 1,
+
+    "move": 2,
+
+    "faction": "Southern Cities",
+    "description": "Light militia archer.",
+
+    "texture": "data/graphix/testImages/units/testarcher.bmp"
+  },
+
+
+  "2": {
+    "type": "unit",
+    "name": "testEliteGuard",
+    "unitType": "Infantry",
+
+    "attack": 18,
+    "defence": 12,
+    "armor": 14,
+    "health": 90,
+    "rangedAttack": 0,
+    "chargeAttack": 7,
+    "chargeDefence": 3,
+
+    "move": 3,
+
+    "faction": "Southern Cities",
+    "description": "Elite guard infantry.",
+
+    "texture": "data/graphix/testImages/units/testwarrior.bmp"
   }
+
 }

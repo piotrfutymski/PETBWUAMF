@@ -28,7 +28,7 @@ public:
 	static bool loadAllAssets(const nlohmann::json &settings);
 
 //Loading one type of assets
-	// Zostawilem to tak jak bylo, gdyz podoba mi sie uniwersalnosc tych assetow. Jak chcesz bym zmienil te wszystkie twoje else ify, to pogadamy.
+
 	static bool loadAssetsFromFile(const std::string & filename);
 
 	template <typename T>

@@ -22,6 +22,8 @@ public:
 	int _chargeAttack;
 	int _chargeDefence;
 
+	int _move;
+
 	std::string _description;
 	std::string _faction;
 	std::string _unitType;

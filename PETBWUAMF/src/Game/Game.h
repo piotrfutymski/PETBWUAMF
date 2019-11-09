@@ -31,9 +31,15 @@ public:
 
 	void logState()const;
 
+	//orders
+
 	Order * getOrder(const std::function<bool(Order* o)> & condition);
 
 	std::vector<Order *> getOrders(const std::function<bool(Order* o)> & condition);
+
+	//void c
+
+	//units
 
 	Unit * getUnit(const std::function<bool(Unit* o)> & condition);
 

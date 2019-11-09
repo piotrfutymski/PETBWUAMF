@@ -132,6 +132,7 @@
     <ClCompile Include="src\Assets\TextureAsset.cpp" />
     <ClCompile Include="src\Assets\UnitPrototype.cpp" />
     <ClCompile Include="src\Assets\GUIElementPrototype.cpp" />
+    <ClCompile Include="src\Game\Buff.cpp" />
     <ClCompile Include="src\Game\Unit.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="src\Assets\TextureAsset.h" />
     <ClInclude Include="src\Assets\UnitPrototype.h" />
     <ClInclude Include="src\Assets\GUIElementPrototype.h" />
+    <ClInclude Include="src\Game\Buff.h" />
     <ClInclude Include="src\Game\GameInitiatior.h" />
     <ClInclude Include="src\Game\Map.h" />
     <ClInclude Include="src\Game\Move.h" />

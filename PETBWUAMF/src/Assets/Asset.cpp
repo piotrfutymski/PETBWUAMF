@@ -11,7 +11,7 @@ Asset::~Asset()
 {
 }
 
-const std::string & Asset::getName()
+const std::string & Asset::getName()const
 {
 	return _name;
 }

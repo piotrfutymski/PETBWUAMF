@@ -16,11 +16,12 @@ public:
 
 	virtual void loadAsset(const nlohmann::json & assetFile) = 0;
 
-	const std::string & getName();
+	const std::string & getName()const;
 
 protected:
 
 	std::string _name;
+	int _ID;
 
 };
 

@@ -5,7 +5,7 @@
 #include <functional>
 
 #include "Game/Game.h"
-
+#include"Assets/AssetMeneger.h"
 
 
 class Application
@@ -30,6 +30,8 @@ private:
 	//Didax::Engine _engine;
 	//float sec = 0;
 	//int frames = 0;
+
+	Game _game;
 
 	nlohmann::json _settings;
 

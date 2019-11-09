@@ -26,14 +26,15 @@ void Application::init(std::string settingFilePath)
 	stream.close();
 
 	//_window.init(Didax::WindowConfig{ _settings });
-
 	//_clock.restart();
-
 	//Didax::Input::setWindow(&_window.getWindow());
-
 	//_engine.init([](Engine * e) {return true; }, _settings);
-
 	//_engine.startGame();
+
+	Didax::AssetMeneger::loadAllAssets(_settings);
+
+	_game.init({});
+
 }
 
 int Application::run()
