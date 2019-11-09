@@ -13,8 +13,6 @@ public:
 
 public:
 
-	std::string _unitType;
-
 	int _attack;
 	int _health;
 	int _armor;
@@ -22,10 +20,11 @@ public:
 
 	int _rangedAttack;
 	int _chargeAttack;
-	int _chargeDefense;
+	int _chargeDefence;
 
 	std::string _description;
-	std::string _fraction;
+	std::string _faction;
+	std::string _unitType;
 
 	std::string _texture;
 
