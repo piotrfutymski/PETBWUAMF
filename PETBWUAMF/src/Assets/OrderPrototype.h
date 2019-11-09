@@ -15,6 +15,6 @@ public:
 	std::string _description;
 
 	std::string _texture;
-	std::string _icon
+	std::string _icon;
 
 };

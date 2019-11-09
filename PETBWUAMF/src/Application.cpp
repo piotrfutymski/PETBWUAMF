@@ -25,20 +25,20 @@ void Application::init(std::string settingFilePath)
 
 	stream.close();
 
-	_window.init(Didax::WindowConfig{ _settings });
+	//_window.init(Didax::WindowConfig{ _settings });
 
-	_clock.restart();
+	//_clock.restart();
 
-	Didax::Input::setWindow(&_window.getWindow());
+	//Didax::Input::setWindow(&_window.getWindow());
 
-	_engine.init([](Engine * e) {return true; }, _settings);
+	//_engine.init([](Engine * e) {return true; }, _settings);
 
-	_engine.startGame();
+	//_engine.startGame();
 }
 
 int Application::run()
 {
-	try
+	/*try
 	{
 		while (_window.getWindow().isOpen())
 		{
@@ -56,9 +56,14 @@ int Application::run()
 		return 1;
 	}
 
+	return 0;*/
+
 	return 0;
 }
 
+
+
+/*
 void Application::input()
 {
 	sf::Event event;
@@ -96,3 +101,6 @@ void Application::render()
 	_engine.render(_window.getWindow());
 	_window.render();
 }
+
+
+*/

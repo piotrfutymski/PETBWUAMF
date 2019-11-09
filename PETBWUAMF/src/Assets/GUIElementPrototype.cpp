@@ -1,7 +1,7 @@
 #include "GUIElementPrototype.h"
 
 
-GUIElementPrototype::loadAsset(const nlohmann::json & assetFile)
+void GUIElementPrototype::loadAsset(const nlohmann::json & assetFile)
 {
 	auto files = assetFile["strings"];
 	auto values = assetFile["values"];

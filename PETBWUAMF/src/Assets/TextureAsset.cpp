@@ -1,7 +1,7 @@
 #include "TextureAsset.h"
 
 
-TextureAsset::loadAsset(const nlohmann::json & assetFile)
+void TextureAsset::loadAsset(const nlohmann::json & assetFile)
 {
 	sf::Image i;
 	i.loadFromFile(_name);

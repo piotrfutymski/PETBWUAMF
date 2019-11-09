@@ -8,6 +8,8 @@ Didax::AssetMeneger::~AssetMeneger()
 {
 }
 
+Didax::AssetMeneger::AssetHolder_t Didax::AssetMeneger::_assets = {};
+
 bool Didax::AssetMeneger::loadAllAssets(const nlohmann::json &settings)
 {
 	auto assets = settings["assetsFileNames"];

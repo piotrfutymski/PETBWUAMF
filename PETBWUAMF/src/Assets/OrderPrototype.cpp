@@ -1,7 +1,7 @@
 #include "OrderPrototype.h"
 
 
-OrderPrototype::loadAsset(const nlohmann::json & assetFile)
+void OrderPrototype::loadAsset(const nlohmann::json & assetFile)
 {
 	_description = assetFile["description"].get<std::string>();
 

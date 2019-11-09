@@ -26,16 +26,13 @@ public:
 
 private:
 
-	Didax::Window _window;
+	//Didax::Window _window;
+	//Didax::Engine _engine;
+	//float sec = 0;
+	//int frames = 0;
 
 	nlohmann::json _settings;
 
-	Didax::Engine _engine;
-
 	sf::Clock _clock;
-
-	float sec = 0;
-
-	int frames = 0;
 
 };
