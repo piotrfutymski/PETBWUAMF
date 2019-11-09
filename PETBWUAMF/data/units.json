@@ -2,16 +2,19 @@
   "0": {
     "type": "unit",
     "name": "testWarrior",
-    "attack": 4,
-    "defense": 8,
-    "health": 5,
+    "unitType": "infantry",
 
-    "distance": false,
-    "orders":  2,
+    "attack": 4,
+    "defence": 5,
+    "armor": 4,
+    "health": 60,
+    "rangedAttack": 0,
+    "chargeAttack": 2,
+    "chargeDefence": 2,
 
     "faction": "Southern Cities",
-    "description":  "Light militia infantry.",
-    "unitType": "Infantry",
+    "description": "Light militia infantry.",
+
     "texture": "data/graphix/testImages/units/testowywojownik.bmp"
   }
 }

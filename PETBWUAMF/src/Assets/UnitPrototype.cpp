@@ -4,11 +4,13 @@
 UnitPrototype::loadAsset(const nlohmann::json & assetFile)
 {
 	_attack =  assetFile["attack"];
-	_defense =  assetFile["defense"];
+	_defence =  assetFile["defence"];
+	_armor = assetFile["armor"];
 	_health =  assetFile["health"];
 
-	_distance = assetFile["distance"];
-	_orderCount = assetFile["orders"];
+	_rangedAttack = assetFile["rangedAttack"];
+	_chargeAttack = assetFile["chargeAttack"];
+	_chargeDefence = assetFile["chargeDefence"];
 
 	_description = assetFile["description"].get<std::string>();
 	_faction = assetFile["faction"].get<std::string>();

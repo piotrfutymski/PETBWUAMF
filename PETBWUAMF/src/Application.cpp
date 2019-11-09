@@ -8,6 +8,8 @@ Application::Application()
 
 void Application::init(std::string settingFilePath)
 {
+	srand(time(NULL));
+
 	std::ifstream stream(settingFilePath);
 
 	if(stream.is_open())
