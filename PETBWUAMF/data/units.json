@@ -13,6 +13,7 @@
     "chargeDefence": 2,
 
     "move": 2,
+    "morale": 6,
 
     "faction": "Southern Cities",
     "description": "Light militia infantry.",
@@ -34,6 +35,7 @@
     "chargeDefence": 1,
 
     "move": 2,
+    "morale": 5,
 
     "faction": "Southern Cities",
     "description": "Light militia archer.",
@@ -56,6 +58,7 @@
     "chargeDefence": 3,
 
     "move": 3,
+    "morale": 8,
 
     "faction": "Southern Cities",
     "description": "Elite guard infantry.",

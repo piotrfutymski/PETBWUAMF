@@ -59,6 +59,13 @@ int Application::run()
 
 	return 0;*/
 
+	while (!_game.isEnded())
+	{
+		_game.logState();
+		while(!_game.playMove(_game.getMoveFromConsole()))
+		;
+	}
+
 	return 0;
 }
 

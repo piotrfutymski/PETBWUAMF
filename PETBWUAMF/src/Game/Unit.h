@@ -1,24 +1,25 @@
 #pragma once
-#include "../Assets/AssetMeneger.h"
+#include "GameObject.h"
 #include "Buff.h"
 
-class Game;
-
-class Unit
+class Unit : public GameObject<UnitPrototype>
 {
 public:
 
-	using Buffs_t = std::vector<std::unique_ptr<Buff>>;
+	static sf::Vector2i MAXPOS;
+
+	using Buffs_t = std::vector<Buff*>;
 
 	Unit(const std::string & name);
-
-	const UnitPrototype * getPrototype()const;
+	~Unit() {};
 
 	void setPosition(const sf::Vector2i & p);
 	sf::Vector2i getPosition()const;
 
 	void setOwner(int player);
 	int getOwner()const;
+
+	int getMorale()const;
 
 	//attacking
 
@@ -29,14 +30,11 @@ public:
 	bool canMove(const sf::Vector2i & p)const;
 	void move(const sf::Vector2i & p);
 
-	int getProtection();
+	int getProtection()const;
 
 
 private:
 
-	Game * _game;
-
-	const UnitPrototype * _prototype;			
 	// Unit statistic at this point
 
 	int _attack;
@@ -49,6 +47,7 @@ private:
 	int _chargeDefence;
 
 	int _move;
+	int _morale;
 
 	float _formationSize {1};
 	
@@ -66,7 +65,7 @@ private:
 
 	//statics
 
-	static sf::Vector2i MAXPOS;
+
 	static int FRONT_SIZE;
 	static int ROUND_SIZE;
 

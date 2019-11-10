@@ -1,33 +1,32 @@
 #include "Unit.h"
 
 
-sf::Vector2i Unit::MAXPOS = { 16,10 };
+sf::Vector2i Unit::MAXPOS = { 15,9 };
 int Unit::ROUND_SIZE = 2;
 int Unit::FRONT_SIZE = 30;
 
 
 Unit::Unit(const std::string & name)
+	:GameObject<UnitPrototype>(name)
 {
-	_prototype = Didax::AssetMeneger::getAsset<UnitPrototype>(name);
 
-	_attack = _prototype->_attack;
-	_defence = _prototype->_defence;
-	_armor = _prototype->_armor;
-	_health = _prototype->_health;
+	_attack = this->getPrototype()->_attack;
+	_defence = this->getPrototype()->_defence;
+	_armor = this->getPrototype()->_armor;
+	_health = this->getPrototype()->_health;
 
-	_rangedAttack = _prototype->_rangedAttack;
-	_chargeAttack = _prototype->_chargeAttack;
-	_chargeDefence = _prototype->_chargeDefence;
+	_rangedAttack = this->getPrototype()->_rangedAttack;
+	_chargeAttack = this->getPrototype()->_chargeAttack;
+	_chargeDefence = this->getPrototype()->_chargeDefence;
+
+	_move = this->getPrototype()->_move;
+	_morale = this->getPrototype()->_morale;
 }
 
-const UnitPrototype * Unit::getPrototype()const
-{
-	return _prototype;
-}
 
 void Unit::setPosition(const sf::Vector2i & p)
 {
-	if (p.x < 0 || p.x >= MAXPOS.x || p.y < 0 || p.y >= MAXPOS.y)
+	if (p.x < 0 || p.x > MAXPOS.x || p.y < 0 || p.y > MAXPOS.y)
 		return;
 
 	_position = p;
@@ -47,6 +46,11 @@ void Unit::setOwner(int player)
 int Unit::getOwner() const
 {
 	return _owner;
+}
+
+int Unit::getMorale() const
+{
+	return _morale;
 }
 
 void Unit::normalAttack(Unit *enemy)
@@ -88,7 +92,7 @@ int Unit::normalRound(Unit *enemy)
 	int killcount = 0;
 	bool temp = false;
 	std::pair<int, int> chances = normalChance(enemy);
-	Logger::log(this->_prototype->getName() + " has chances: " +
+	Logger::log(this->getPrototype()->getName() + " has chances: " +
 		std::to_string(chances.first / 10) + "% " + std::to_string(chances.second / 10) + "% " +
 		std::to_string(chances.first*chances.second / 10000) + "%");
 	for (int unit = 1; unit <= front; unit++)
@@ -119,7 +123,7 @@ int Unit::normalRound(Unit *enemy)
 void Unit::casualties(int casualties)
 {
 	this->_health -= casualties;
-	Logger::log(this->_prototype->getName() + " has suffered " + std::to_string(casualties) + " casualties");
+	Logger::log(this->getPrototype()->getName() + " has suffered " + std::to_string(casualties) + " casualties");
 	if (this->_health <= 0)
 	{
 		this->_health = 0;
@@ -187,13 +191,27 @@ void Unit::rangedAttack(Unit *target)
 	return;
 }
 
+bool Unit::canMove(const sf::Vector2i & p) const
+{
+	return false;
+}
+
+void Unit::move(const sf::Vector2i & p)
+{
+}
+
+int Unit::getProtection() const
+{
+	return 0;
+}
+
 
 int Unit::rangedRound(Unit *target)
 {
 	int killcount = 0;
 	bool temp = false;
 	int chance = rangedChance(target);
-	Logger::log(this->_prototype->getName() + " has chance: " +
+	Logger::log(this->getPrototype()->getName() + " has chance: " +
 		std::to_string(chance / 10) + "%");
 	for (int unit = 1; unit <= this->_health / 2; unit++)
 	{

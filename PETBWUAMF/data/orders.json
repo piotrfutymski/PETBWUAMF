@@ -4,7 +4,10 @@
     "name": "attack",
     "description": "Attack.",
     "texture": "data/graphix/testImages/orders/atak.bmp",
-    "icon": "data/graphix/testImages/orders/atakIco.bmp"
+    "icon": "data/graphix/testImages/orders/atakIco.bmp",
+    "targets": {
+      "0": "unit"
+    }
   },
 
   "1": {
@@ -12,6 +15,44 @@
     "name": "move",
     "description": "Move.",
     "texture": "data/graphix/testImages/orders/ruch.bmp",
-    "icon": "data/graphix/testImages/orders/ruchIco.bmp"
+    "icon": "data/graphix/testImages/orders/ruchIco.bmp",
+    "targets": {
+      "0": "position"
+    }
+  },
+
+  "2": {
+    "type": "order",
+    "name": "charge",
+    "description": "Charge.",
+    "texture": "data/graphix/testImages/orders/atak.bmp",
+    "icon": "data/graphix/testImages/orders/atakIco.bmp",
+    "targets": {
+      "0": "position",
+      "1": "unit"
+    }
+
+  },
+
+  "3": {
+    "type": "order",
+    "name": "prepare",
+    "description": "Preperation.",
+    "texture": "data/graphix/testImages/orders/ruch.bmp",
+    "icon": "data/graphix/testImages/orders/ruchIco.bmp",
+    "targets": {
+    }
+  },
+
+  "4": {
+    "type": "order",
+    "name": "help",
+    "description": "Wzmacnia sojusznicza jednostke",
+    "texture": "data/graphix/testImages/orders/ruch.bmp",
+    "icon": "data/graphix/testImages/orders/ruchIco.bmp",
+    "targets": {
+      "0": "unit"
+    }
   }
+
 }

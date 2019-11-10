@@ -23,6 +23,7 @@ public:
 	int _chargeDefence;
 
 	int _move;
+	int _morale;
 
 	std::string _description;
 	std::string _faction;

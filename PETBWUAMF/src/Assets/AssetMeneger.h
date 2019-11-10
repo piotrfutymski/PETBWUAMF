@@ -11,6 +11,7 @@
 #include "FontAsset.h"
 #include "OrderPrototype.h"
 #include "UnitPrototype.h"
+#include "BuffPrototype.h"
 
 namespace Didax
 {
@@ -31,11 +32,21 @@ public:
 
 	static bool loadAssetsFromFile(const std::string & filename);
 
-	template <typename T>
-	static T * createAsset(const std::string name);
+	template<typename T>
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * createAsset(const std::string name)
+	{
+		_assets[name] = std::make_unique<T>(name);
+		return static_cast<T *> (_assets[name].get());
+	}
 
 	template <typename T>
-	static T * getAsset(const std::string name);
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * getAsset(const std::string name)
+	{
+		if (_assets.find(name) == _assets.end())
+			return nullptr;
+		else
+			return static_cast<T*> (_assets[name].get());
+	}
 
 private:
 	
@@ -44,21 +55,9 @@ private:
 };
 
 
-template<typename T>
-static T * AssetMeneger::createAsset(const std::string name)
-{
-	_assets[name] = std::make_unique<T>(name);
-	return static_cast<T *> (_assets[name].get());
-}
 
-template <typename T>
-static T * AssetMeneger::getAsset(const std::string name)
-{
-	if (_assets.find(name) == _assets.end())
-		return nullptr;
-	else
-		return static_cast<T*> (_assets[name].get());
-}
+
+
 
 }
 

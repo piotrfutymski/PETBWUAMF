@@ -13,6 +13,7 @@ void UnitPrototype::loadAsset(const nlohmann::json & assetFile)
 	_chargeDefence = assetFile["chargeDefence"];
 
 	_move = assetFile["move"];
+	_morale = assetFile["morale"];
 
 	_description = assetFile["description"].get<std::string>();
 	_faction = assetFile["faction"].get<std::string>();

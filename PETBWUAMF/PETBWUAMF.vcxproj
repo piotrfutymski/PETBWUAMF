@@ -127,12 +127,16 @@
   <ItemGroup>
     <ClCompile Include="src\Assets\AssetMeneger.cpp" />
     <ClCompile Include="src\Assets\Asset.cpp" />
+    <ClCompile Include="src\Assets\BuffPrototype.cpp" />
     <ClCompile Include="src\Assets\FontAsset.cpp" />
     <ClCompile Include="src\Assets\OrderPrototype.cpp" />
     <ClCompile Include="src\Assets\TextureAsset.cpp" />
     <ClCompile Include="src\Assets\UnitPrototype.cpp" />
     <ClCompile Include="src\Assets\GUIElementPrototype.cpp" />
     <ClCompile Include="src\Game\Buff.cpp" />
+    <ClCompile Include="src\Game\GameInitiatior.cpp" />
+    <ClCompile Include="src\Game\Map.cpp" />
+    <ClCompile Include="src\Game\Order.cpp" />
     <ClCompile Include="src\Game\Unit.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
@@ -143,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="src\Assets\AssetMeneger.h" />
     <ClInclude Include="src\Assets\Asset.h" />
+    <ClInclude Include="src\Assets\BuffPrototype.h" />
     <ClInclude Include="src\Assets\FontAsset.h" />
     <ClInclude Include="src\Assets\OrderPrototype.h" />
     <ClInclude Include="src\Assets\TextureAsset.h" />
@@ -150,6 +155,7 @@
     <ClInclude Include="src\Assets\GUIElementPrototype.h" />
     <ClInclude Include="src\Game\Buff.h" />
     <ClInclude Include="src\Game\GameInitiatior.h" />
+    <ClInclude Include="src\Game\GameObject.h" />
     <ClInclude Include="src\Game\Map.h" />
     <ClInclude Include="src\Game\Move.h" />
     <ClInclude Include="src\Game\Order.h" />

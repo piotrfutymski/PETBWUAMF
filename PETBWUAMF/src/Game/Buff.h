@@ -1,11 +1,11 @@
 #pragma once
+#include "GameObject.h"
 
-
-class Buff
+class Buff : public GameObject<BuffPrototype>
 {
 public:
 
-	Buff();
+	Buff(const std::string & name);
 	~Buff();
 
 };
