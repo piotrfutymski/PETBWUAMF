@@ -20,6 +20,15 @@ public:
 	int getOwner()const;
 
 	int getMorale()const;
+	int getHealth()const;
+	int getAttack()const;
+	int getProtection()const;
+	int getMove() const;
+	int getArmor() const;
+	int getDefence() const;
+	int getRangedAttack() const;
+	int getChargeDefence() const;
+	int getChargeAttack() const;
 
 	//attacking
 
@@ -30,7 +39,6 @@ public:
 	bool canMove(const sf::Vector2i & p)const;
 	void move(const sf::Vector2i & p);
 
-	int getProtection()const;
 
 
 private:

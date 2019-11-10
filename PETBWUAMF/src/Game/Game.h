@@ -41,7 +41,7 @@ public:
 
 	bool playMove(const Move & m);
 
-	void logState()const;
+	void logState(int owner)const;
 
 	bool isEnded()const;
 

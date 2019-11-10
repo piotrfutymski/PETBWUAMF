@@ -7,5 +7,9 @@ public:
 
 	Buff(const std::string & name);
 	~Buff();
+private:
+	int health;
+
+
 
 };

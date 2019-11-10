@@ -6,8 +6,9 @@ Game::Game()
 
 void Game::init(const GameInitiator & i)
 {
-	Logger::log("Game initialization");
-
+	Logger::log("---------------------------------------------------------");
+	Logger::log("---------------Game initialization started---------------");
+	Logger::log("---------------------------------------------------------");
 	Unit::setParent(this);
 	Order::setParent(this);
 	Buff::setParent(this);
@@ -40,7 +41,9 @@ void Game::init(const GameInitiator & i)
 		return a->getMorale() > b->getMorale();
 	});
 	_activeUnit = *_unitsInMoraleOrder.begin();
-
+	Logger::log("---------------------------------------------------------");
+	Logger::log("--------------Game initialization completed--------------");
+	Logger::log("---------------------------------------------------------");
 }
 
 void Game::initPrototypes()
@@ -52,41 +55,33 @@ bool Game::playMove(const Move & m)
 	return true;
 }
 
-void Game::logState()const
+void Game::logState(int owner)const
 {
-	Logger::log("On board, there are thease units:");
-	Logger::log("Player One Units:");
+	Logger::log("---------------------------------------------------------");
+	Logger::log("-----------------------Game Start------------------------");
+	Logger::log("---------------------------------------------------------");
+	Logger::log("---------------------------------------------------------");
+	Logger::log("---------------------Player "+ std::to_string(owner) +" Units----------------------");
+	Logger::log("---------------------------------------------------------");
 	for (auto &x : _units)
 	{
-		if (x->getOwner() == 0)
+		if (x->getOwner() == owner)
 		{
 			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y)+")");
+			Logger::log("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+			Logger::log("---------------------------------------------------------");
 		}
 	}
-	Logger::log("Player Two Units:");
-	for (auto &x : _units)
-	{
-		if (x->getOwner() == 1)
-		{
-			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
-		}
-	}
-
-	Logger::log("Player One Orders:");
+	Logger::log("---------------------------------------------------------");
+	Logger::log("---------------------------------------------------------");
+	Logger::log("--------------------Player "+ std::to_string(owner) +" Orders----------------------");
+	Logger::log("---------------------------------------------------------");
 	for (auto &x : _orders)
 	{
-		if (x->getOwner() == 0)
+		if (x->getOwner() == owner)
 		{
 			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName());
-		}
-	}
-
-	Logger::log("Player Two Orders:");
-	for (auto &x : _orders)
-	{
-		if (x->getOwner() == 1)
-		{
-			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName());
+			Logger::log("---------------------------------------------------------");
 		}
 	}
 }
@@ -105,22 +100,24 @@ Move Game::getMoveFromConsole()
 {
 	Move res;
 	res.unitID = _activeUnit->getID();
-
-	Logger::log("If you want to see possible moves - y, or just do move");
+	int _activePlayer = _activeUnit->getOwner();
+	this->logState(_activePlayer);
+	Logger::log("---------------------------------------------------------");
+	Logger::log("----------------------Make a move------------------------");
+	Logger::log("---------------------------------------------------------");
 	auto a = std::getchar();
 	if (a == 'y')
 		logPossibleMoves();
-
 	Order * order = nullptr;
 	int oID;
-	while(1)
+	while (1)
 	{
-		Logger::log("Pick order id");
+		Logger::log("----------------------Pick order id----------------------");
 		std::cin >> oID;
 		order = this->getObject<Order>(oID);
 		if (order == nullptr)
 		{
-			Logger::log("Order doesn't exist");
+			Logger::log("-------------------Order doesn't exist-------------------");
 			continue;
 		}
 		if (order->canBeUsed(_activeUnit))
@@ -132,7 +129,7 @@ Move Game::getMoveFromConsole()
 		Logger::log("Order can't be used");
 	}
 	res.orderID = oID;
-	
+
 	for (size_t i = 0; i < order->getTargetsCount(); i++)
 	{
 		if (order->getTargetType(i) == OrderPrototype::Target::Position_target)
@@ -140,7 +137,7 @@ Move Game::getMoveFromConsole()
 			Logger::log("Choose Position (int) (int)");
 			int x, y;
 			std::cin >> x;
-			std::cin>> y;
+			std::cin >> y;
 			res.positions.push_back({ x,y });
 		}
 		else
@@ -151,7 +148,6 @@ Move Game::getMoveFromConsole()
 			res.units.push_back(id);
 		}
 	}
-
 	return res;
 
 	

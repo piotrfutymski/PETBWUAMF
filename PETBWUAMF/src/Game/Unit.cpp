@@ -43,16 +43,50 @@ void Unit::setOwner(int player)
 		_owner = player;
 }
 
-int Unit::getOwner() const
+int Unit::getProtection() const
 {
-	return _owner;
+	return _armor + _defence;
 }
-
+int Unit::getHealth() const
+{
+	return _health;
+}
 int Unit::getMorale() const
 {
 	return _morale;
 }
-
+int Unit::getAttack() const
+{
+	return _attack;
+}
+int Unit::getOwner() const
+{
+	return _owner;
+}
+int Unit::getMove() const
+{
+	return _move;
+}
+int Unit::getArmor() const
+{
+	return _armor;
+}
+int Unit::getDefence() const
+{
+	return _defence;
+}
+int Unit::getRangedAttack() const
+{
+	return _rangedAttack;
+}
+int Unit::getChargeDefence() const
+{
+	return _chargeDefence;
+}
+int Unit::getChargeAttack() const
+{
+	return _chargeAttack;
+}
 void Unit::normalAttack(Unit *enemy)
 {
 	for (int round = 1; round <= ROUND_SIZE; round++)
@@ -198,11 +232,6 @@ bool Unit::canMove(const sf::Vector2i & p) const
 
 void Unit::move(const sf::Vector2i & p)
 {
-}
-
-int Unit::getProtection() const
-{
-	return 0;
 }
 
 
