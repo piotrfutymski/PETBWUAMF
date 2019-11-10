@@ -1,6 +1,5 @@
 #include "Unit.h"
 
-
 sf::Vector2i Unit::MAXPOS = { 15,9 };
 int Unit::ROUND_SIZE = 2;
 int Unit::FRONT_SIZE = 30;
@@ -48,9 +47,36 @@ int Unit::getOwner() const
 	return _owner;
 }
 
+bool Unit::isRanged() const
+{
+	if (this->getPrototype()->_rangedAttack > 0)
+		return true;
+	return false;
+}
+
+bool Unit::isInFight() const
+{
+	return _isInFight;
+}
+
+bool Unit::isInFightWith(size_t id)
+{
+	for (auto u: _inFightAreaWith)
+	{
+		if (u == id)
+			return true;
+	}
+	return false;
+}
+
 int Unit::getMorale() const
 {
 	return _morale;
+}
+
+int Unit::getMove()
+{
+	return _move;
 }
 
 void Unit::normalAttack(Unit *enemy)

@@ -42,3 +42,8 @@ bool Order::canBeATarget(Unit * u, int n, size_t unit)const
 	return this->getPrototype()->_isProperAsTargetU(u, n, unit);
 }
 
+bool Order::execute(Unit *u, const Move & m)
+{
+	return this->getPrototype()->_execute(u, m);
+}
+

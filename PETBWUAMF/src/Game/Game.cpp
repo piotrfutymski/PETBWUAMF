@@ -43,12 +43,21 @@ void Game::init(const GameInitiator & i)
 
 }
 
-void Game::initPrototypes()
-{
-}
+
 
 bool Game::playMove(const Move & m)
 {
+
+	auto o = this->getObject<Order>(m.orderID);
+
+	o->execute(_activeUnit, m);
+	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
+
+	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
+		return a->getMorale() > b->getMorale();
+	});
+	_activeUnit = *_unitsInMoraleOrder.begin();
+
 	return true;
 }
 
@@ -89,6 +98,8 @@ void Game::logState()const
 			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName());
 		}
 	}
+
+	Logger::log("U R playing unit with id: " + std::to_string(_activeUnit->getID()));
 }
 
 bool Game::isEnded() const

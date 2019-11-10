@@ -16,3 +16,23 @@ void OrderPrototype::loadAsset(const nlohmann::json & assetFile)
 			_targets.push_back(OrderPrototype::Target::Unit_target);
 	}
 }
+
+void OrderPrototype::set_canBeUsed(const std::function<bool(Unit*)>& f)
+{
+	_canBeUsed = f;
+}
+
+void OrderPrototype::set_isProperAsTargetP(const std::function<bool(Unit*, int, const sf::Vector2i&)>& f)
+{
+	_isProperAsTargetP = f;
+}
+
+void OrderPrototype::set_isProperAsTargetU(const std::function<bool(Unit*, int, size_t)>& f)
+{
+	_isProperAsTargetU = f;
+}
+
+void OrderPrototype::set_execute(const std::function<bool(Unit *, const Move &)> & f)
+{
+	_execute = f;
+}

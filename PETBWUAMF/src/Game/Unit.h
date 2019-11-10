@@ -13,13 +13,23 @@ public:
 	Unit(const std::string & name);
 	~Unit() {};
 
+	//getters and setters
+
 	void setPosition(const sf::Vector2i & p);
 	sf::Vector2i getPosition()const;
 
 	void setOwner(int player);
 	int getOwner()const;
 
+	bool isRanged()const;
+
+	bool isInFight()const;
+
+	bool isInFightWith(size_t id);
+
 	int getMorale()const;
+
+	int getMove();
 
 	//attacking
 
@@ -55,6 +65,7 @@ private:
 
 	bool _isInFight{ false };
 	bool _isAlive{ true };
+	std::vector<size_t> _inFightAreaWith;
 
 	sf::Vector2i _position{ 0,0 };
 	int _owner{ 0 };
