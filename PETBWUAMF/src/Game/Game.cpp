@@ -137,7 +137,6 @@ Move Game::getMoveFromConsole()
 		if (order->canBeUsed(_activeUnit))
 		{
 			Logger::log("Choosed order: " + oID);
-			Logger::log("\n");
 			break;
 		}
 		Logger::log("Order can't be used");
