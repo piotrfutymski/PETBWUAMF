@@ -140,6 +140,9 @@
     <ClInclude Include="src\Game\PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\ConsoleColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\settings.json">

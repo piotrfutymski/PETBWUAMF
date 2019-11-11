@@ -31,7 +31,6 @@ public:
 	int getHealth()const;
 	int getAttack()const;
 	int getProtection()const;
-	int getMove() const;
 	int getArmor() const;
 	int getDefence() const;
 	int getRangedAttack() const;
@@ -39,7 +38,7 @@ public:
 	int getChargeAttack() const;
 
 	int getMove();
-
+	
 	//attacking
 
 	void normalAttack(Unit *enemy);

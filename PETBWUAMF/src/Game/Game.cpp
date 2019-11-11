@@ -81,7 +81,7 @@ void Game::logState(int owner)const
 			Logger::log("---------------------------------------------------------");
 		}
 	}
-	Logger::log("---------------------------------------------------------");
+	//Logger::log("---------------------------------------------------------");
 	Logger::log("---------------------------------------------------------");
 	Logger::log("--------------------Player "+ std::to_string(owner) +" Orders----------------------");
 	Logger::log("---------------------------------------------------------");
@@ -93,7 +93,7 @@ void Game::logState(int owner)const
 			Logger::log("---------------------------------------------------------");
 		}
 	}
-
+	this->logSimpleMap();
 	Logger::log("U R playing unit with id: " + std::to_string(_activeUnit->getID()));
 }
 
@@ -105,6 +105,71 @@ bool Game::isEnded() const
 void Game::logPossibleMoves()
 {
 	Logger::log("TODO\n");
+}
+
+void Game::logSimpleMap()const
+{
+	int sizeX = Unit::MAXPOS.x;
+	int sizeY = Unit::MAXPOS.y;
+	std::vector<std::vector<char>> map;
+	//char map[16][10];
+	for (int x = 0; x <= sizeX; x++)
+	{
+		map.push_back(std::vector<char>());
+		for (int y = 0; y <= sizeY; y++)
+		{
+			map[x].push_back('O');
+		}
+	}
+
+	for (auto &unit : _units)
+	{
+		if (unit->getOwner()==0)
+			map[unit->getPosition().x][unit->getPosition().y] = 'F';
+		else
+			map[unit->getPosition().x][unit->getPosition().y] = 'S';
+	}
+	map[_activeUnit->getPosition().x][_activeUnit->getPosition().y] = 'A';
+
+
+
+
+	Logger::logW("    |");
+	for (int y = 0; y <= sizeY; y++)
+	{
+		Logger::logW(std::to_string(y));
+		Logger::logW("|");
+	}
+	Logger::log("");
+	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
+	//Logger::log("   XXXXXXXXXXXX");
+	for (int x = 0; x <= sizeX; x++)
+	{
+		if (x < 10)
+			Logger::logW(std::to_string(x) + " ");
+		else
+			Logger::logW(std::to_string(x));
+		Logger::logW("|X|");
+		for (int y = 0; y <= sizeY; y++)
+		{
+			if (map[x][y] == 'A')
+				std::cout << yellow;
+
+			else if (map[x][y] == 'F')
+				std::cout << blue;
+
+			else if (map[x][y] == 'S')
+				std::cout << red;
+
+			Logger::logW(map[x][y]);
+			std::cout << white;
+			Logger::logW("|");
+		}
+		Logger::logW("X|");
+		Logger::log("");
+	}
+	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
+	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
 }
 
 Move Game::getMoveFromConsole()
@@ -133,18 +198,18 @@ Move Game::getMoveFromConsole()
 		}
 		if (order->canBeUsed(_activeUnit))
 		{
-			Logger::log("Choosed order: " + oID);
+			Logger::log("-------------------Choosed order: " + std::to_string(oID) + "-------------------");
 			break;
 		}
-		Logger::log("Order can't be used");
+		Logger::log("-------------------Order can't be used-------------------");
 	}
 	res.orderID = oID;
-
+	Logger::log("---------------------------------------------------------");
 	for (size_t i = 0; i < order->getTargetsCount(); i++)
 	{
 		if (order->getTargetType(i) == OrderPrototype::Target::Position_target)
 		{
-			Logger::log("Choose Position (int) (int)");
+			Logger::log("---------------Choose Position (int) (int)----------------");
 			int x, y;
 			std::cin >> x;
 			std::cin >> y;
@@ -152,7 +217,7 @@ Move Game::getMoveFromConsole()
 		}
 		else
 		{
-			Logger::log("Choose Target ID (int)");
+			Logger::log("------------------Choose Target ID (int)------------------");
 			int id;
 			std::cin >> id;
 			res.units.push_back(id);

@@ -10,7 +10,7 @@
 #include "Order.h"
 #include "Unit.h"
 #include "PathFinder.h"
-
+#include "ConsoleColor.h"
 
 class Game
 {
@@ -50,7 +50,7 @@ public:
 
 	Move getMoveFromConsole();
 
-	
+	void logSimpleMap()const;
 
 private:
 	//templates

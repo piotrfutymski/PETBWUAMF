@@ -18,7 +18,24 @@ public:
 #endif 
 
 	}
+	static void logW(const std::string & msg)
+	{
+#ifdef DEBUG
 
+		std::cout << msg;
+
+#endif 
+
+	}
+	static void logW(const char & msg)
+	{
+#ifdef DEBUG
+
+		std::cout << msg;
+
+#endif 
+
+	}
 private:
 
 
