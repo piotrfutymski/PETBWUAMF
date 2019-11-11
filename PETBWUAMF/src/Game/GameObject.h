@@ -25,6 +25,11 @@ public:
 		return _prototype;
 	};
 
+	Game * getGame()
+	{
+		return _game;
+	}
+
 	//
 
 	static void setParent(Game * g)

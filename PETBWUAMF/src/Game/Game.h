@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Order.h"
 #include "Unit.h"
+#include "PathFinder.h"
 
 
 class Game
@@ -48,6 +49,8 @@ public:
 	void logPossibleMoves();
 
 	Move getMoveFromConsole();
+
+	
 
 private:
 	//templates

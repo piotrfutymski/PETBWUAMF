@@ -1,7 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include "Move.h"
 
 class Unit;
+
 
 class Order : public GameObject<OrderPrototype>
 {
@@ -25,6 +27,8 @@ public:
 
 	bool canBeATarget(Unit *u, int n, const sf::Vector2i & pos)const;
 	bool canBeATarget(Unit *u, int n, size_t unit)const;
+
+	bool execute(Unit *u, const Move & m);
 
 private:
 

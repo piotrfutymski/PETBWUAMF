@@ -1,6 +1,5 @@
 #include "Unit.h"
 
-
 sf::Vector2i Unit::MAXPOS = { 15,9 };
 int Unit::ROUND_SIZE = 2;
 int Unit::FRONT_SIZE = 30;
@@ -36,11 +35,26 @@ sf::Vector2i Unit::getPosition() const
 {
 	return _position;
 }
-
-void Unit::setOwner(int player)
+bool Unit::isInFight() const
 {
-	if (player == 0 || player == 1)
-		_owner = player;
+	return _isInFight;
+}
+
+bool Unit::isInFightWith(size_t id)
+{
+	for (auto u : _inFightAreaWith)
+	{
+		if (u == id)
+			return true;
+	}
+	return false;
+}
+
+bool Unit::isRanged() const
+{
+	if (this->getPrototype()->_rangedAttack > 0)
+		return true;
+	return false;
 }
 
 int Unit::getProtection() const
@@ -62,6 +76,11 @@ int Unit::getAttack() const
 int Unit::getOwner() const
 {
 	return _owner;
+}
+void Unit::setOwner(int player)
+{
+	if (player == 0 || player == 1)
+		_owner = player;
 }
 int Unit::getMove() const
 {
