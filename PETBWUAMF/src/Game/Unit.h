@@ -39,6 +39,8 @@ public:
 
 	int getMove();
 	
+
+	void getSimpleInfo() const;
 	//attacking
 
 	void normalAttack(Unit *enemy);

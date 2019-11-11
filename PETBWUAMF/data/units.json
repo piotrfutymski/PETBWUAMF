@@ -35,7 +35,7 @@
     "chargeDefence": 1,
 
     "move": 2,
-    "morale": 5,
+    "morale": 7,
 
     "faction": "Southern Cities",
     "description": "Light militia archer.",

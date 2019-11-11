@@ -106,8 +106,17 @@ int Unit::getChargeAttack() const
 {
 	return _chargeAttack;
 }
+
+void Unit::getSimpleInfo() const
+{
+	Logger::log(this->getPrototype()->getName() + " on pos (" + std::to_string(this->getPosition().x) + "," + std::to_string(this->getPosition().y) + ")");
+	Logger::log("Attack: " + std::to_string(_attack) + " Protection: " + std::to_string(this->getProtection()) + " Health: " + std::to_string(_health));
+	Logger::log("---------------------------------------------------------");
+}
+
 void Unit::normalAttack(Unit *enemy)
 {
+	Logger::log("-------------------Attack in progress--------------------");
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
 		if (!this->sideFight(enemy))
@@ -121,14 +130,33 @@ void Unit::normalAttack(Unit *enemy)
 			break;
 		}
 	}
-
+	Logger::log("---------------------Attack finished---------------------");
+	Logger::log("----------------Press something to continue--------------");
+	std::getchar();
 	//Is fight prawdopodobnie bêdzie ustawiane gdy jednostka dotknie innej
 	/*this->_isInFight = true;
 	enemy->_isInFight = true;
 	return;*/
 
 }
+void Unit::rangedAttack(Unit *target)
+{
+	Logger::log("---------------Ranged Attack in progress-----------------");
+	for (int round = 1; round <= ROUND_SIZE; round++)
+	{
 
+		target->casualties(this->rangedRound(target));
+		if (!target->_isAlive)
+		{
+			Logger::log("Defending unit destroyed.");
+			break;
+		}
+	}
+	Logger::log("----------------Ranged Attack finished-------------------");
+	Logger::log("----------------Press something to continue--------------");
+	std::getchar();
+	return;
+}
 bool Unit::sideFight(Unit *enemy)
 {
 	this->casualties(enemy->normalRound(this));
@@ -226,22 +254,6 @@ int Unit::rangedChance(Unit *target)
 	int chance = (sumAttack / sumDefence) * 1000;
 
 	return chance;
-}
-
-
-void Unit::rangedAttack(Unit *target)
-{
-	for (int round = 1; round <= ROUND_SIZE; round++)
-	{
-
-		target->casualties(this->rangedRound(target));
-		if (!target->_isAlive)
-		{
-			Logger::log("Defending unit destroyed.");
-			break;
-		}
-	}
-	return;
 }
 
 bool Unit::canMove(const sf::Vector2i & p) const

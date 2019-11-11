@@ -43,13 +43,14 @@ public:
 	bool playMove(const Move & m);
 
 	void logState(int owner)const;
-
+	void logStateUnits(int owner)const;
+	void logStateOrders(int owner)const;
 	bool isEnded()const;
 
 	void logPossibleMoves();
 
 	Move getMoveFromConsole();
-
+	void makeMove();
 	void logSimpleMap()const;
 
 private:
@@ -138,6 +139,8 @@ private:
 	std::vector<Unit *> _unitsInMoraleOrder;
 
 	Unit * _activeUnit;
+
+	size_t _activePlayer;
 
 	int _player0CommandPoints;
 	int _player1CommandPoints;
