@@ -40,6 +40,7 @@ bool Unit::isInFight() const
 	return _isInFight;
 }
 
+
 bool Unit::isInFightWith(size_t id)
 {
 	for (auto u : _inFightAreaWith)
@@ -48,6 +49,41 @@ bool Unit::isInFightWith(size_t id)
 			return true;
 	}
 	return false;
+}
+
+void Unit::setInFightWith(const std::vector<size_t> & ids)
+{
+	_inFightAreaWith = ids;
+	if (ids.size() > 0)
+		_isInFight = true;
+	else
+		_isInFight = false;
+}
+
+void Unit::addInFightWith(size_t id)
+{
+	if (_inFightAreaWith.size() == 0)
+		_isInFight = true;
+	if (auto it = std::find(_inFightAreaWith.begin(), _inFightAreaWith.end(), id); it == _inFightAreaWith.end())
+	{
+		_inFightAreaWith.push_back(id);
+	}
+}
+
+void Unit::removeInFightWith(size_t id)
+{
+	if (auto it = std::find(_inFightAreaWith.begin(), _inFightAreaWith.end(), id); it != _inFightAreaWith.end())
+	{
+		_inFightAreaWith.erase(it);
+	}
+	if (_inFightAreaWith.size() == 0)
+		_isInFight = false;
+	
+}
+
+const std::vector<size_t>& Unit::getEnemyInFightWhith() const
+{
+	return _inFightAreaWith;
 }
 
 bool Unit::isRanged() const

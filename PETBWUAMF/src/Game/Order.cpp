@@ -11,6 +11,11 @@ int Order::getTargetsCount() const
 	return this->getPrototype()->_targets.size();
 }
 
+std::vector<OrderPrototype::Target> Order::getProperTargets(Unit *u, int n) const
+{
+	return std::move(this->getPrototype()->_getProperTargets(u, n));
+}
+
 void Order::setOwner(int player)
 {
 	if (player == 0 || player == 1)
@@ -27,19 +32,9 @@ bool Order::canBeUsed(Unit * u)const
 	return this->getPrototype()->_canBeUsed(u);
 }
 
-OrderPrototype::Target Order::getTargetType(int n)const
+OrderPrototype::TargetType Order::getTargetType(int n)const
 {
 	return this->getPrototype()->_targets[n];
-}
-
-bool Order::canBeATarget(Unit * u, int n, const sf::Vector2i & pos)const
-{
-	return this->getPrototype()->_isProperAsTargetP(u, n, pos);
-}
-
-bool Order::canBeATarget(Unit * u, int n, size_t unit)const
-{
-	return this->getPrototype()->_isProperAsTargetU(u, n, unit);
 }
 
 bool Order::execute(Unit *u, const Move & m)

@@ -21,12 +21,11 @@ public:
 
 	bool canBeUsed(Unit * u)const;
 
-	OrderPrototype::Target getTargetType(int n)const;
+	OrderPrototype::TargetType getTargetType(int n)const;
 
 	int getTargetsCount()const;
 
-	bool canBeATarget(Unit *u, int n, const sf::Vector2i & pos)const;
-	bool canBeATarget(Unit *u, int n, size_t unit)const;
+	std::vector<OrderPrototype::Target> getProperTargets(Unit *u, int n)const;
 
 	bool execute(Unit *u, const Move & m);
 

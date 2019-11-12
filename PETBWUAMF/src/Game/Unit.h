@@ -26,6 +26,10 @@ public:
 	bool isInFight()const;
 
 	bool isInFightWith(size_t id);
+	void setInFightWith(const std::vector<size_t> & ids);
+	void addInFightWith(size_t id);
+	void removeInFightWith(size_t id);
+	const std::vector<size_t> & getEnemyInFightWhith()const;
 
 	int getMorale()const;
 	int getHealth()const;

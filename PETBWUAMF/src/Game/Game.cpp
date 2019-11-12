@@ -9,6 +9,7 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------------------------------------------------");
 	Logger::log("---------------Game initialization started---------------");
 	Logger::log("---------------------------------------------------------");
+
 	Unit::setParent(this);
 	Order::setParent(this);
 	Buff::setParent(this);
@@ -38,9 +39,12 @@ void Game::init(const GameInitiator & i)
 		order->setOwner(1);
 	}
 	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
-		return a->getMorale() > b->getMorale();
+		int am = a->getMorale();
+		int bm = b->getMorale();
+			return am > bm;
 	});
 	_activeUnit = *_unitsInMoraleOrder.begin();
+
 	Logger::log("---------------------------------------------------------");
 	Logger::log("--------------Game initialization completed--------------");
 	Logger::log("---------------------------------------------------------");
@@ -57,7 +61,9 @@ bool Game::playMove(const Move & m)
 	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
 
 	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
-		return a->getMorale() > b->getMorale();
+		int am = a->getMorale();
+		int bm = b->getMorale();
+			return am > bm;
 	});
 	_activeUnit = *_unitsInMoraleOrder.begin();
 
@@ -182,6 +188,36 @@ void Game::logSimpleMap()const
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
 	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
 }
+
+
+std::vector<Order*> Game::getPossibleOrders()
+{
+	auto res =  std::vector<Order*>();
+
+	for (auto & o : _orders)
+	{
+		if (o->getOwner() == _activePlayer && o->canBeUsed(_activeUnit))
+			res.push_back(o.get());
+	}
+	return res;
+}
+
+
+std::vector<Unit*> Game::getNeightbours(Unit * u)
+{
+	auto res = std::vector<Unit*>();
+	auto pos = u->getPosition();
+
+	for(auto &x: _units)
+	{
+		auto tpos = x->getPosition();
+		if ((tpos.x >= pos.x - 1 && tpos.x <= pos.x + 1) && (tpos.y >= pos.y - 1 && tpos.y <= pos.y + 1) && tpos != pos)
+			res.push_back(x.get());
+	}
+
+	return res;
+
+}
 void  Game::makeMove()
 {
 	Logger::log("---------------------------------------------------------");
@@ -191,12 +227,9 @@ void  Game::makeMove()
 
 	Logger::logW("ID:" + std::to_string(_activeUnit->getID()) + " Name: ");
 	_activeUnit->getSimpleInfo();
-	for (auto &x : _orders)
+	for (auto &x : this->getPossibleOrders())
 	{
-		if (x->getOwner() == _activePlayer)
-		{
-			Logger::logW(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
-		}
+		Logger::logW(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
 	}
 	Logger::log("");
 	Logger::log("---------------------------------------------------------");
@@ -209,7 +242,7 @@ Move Game::getMoveFromConsole()
 	this->logState(_activePlayer);
 
 	this->makeMove();
-	/*pomoc jest dla slabych
+	/*pomoc jest dla slabych							xDDDD
 	auto a = std::getchar();
 	if (a == 'y')
 		logPossibleMoves(); */
@@ -236,8 +269,15 @@ Move Game::getMoveFromConsole()
 	Logger::log("---------------------------------------------------------");
 	for (size_t i = 0; i < order->getTargetsCount(); i++)
 	{
-		if (order->getTargetType(i) == OrderPrototype::Target::Position_target)
+		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
+
+			Logger::log("--------------------Possible positions(int) (int)--------");
+			for (auto x: order->getProperTargets(_activeUnit, i))
+			{
+				Logger::log(std::to_string(x.pos.x)+";"+std::to_string(x.pos.y));
+			}
+
 			Logger::log("----------------------Choose Position (int) (int)--------");
 			int x, y;
 			std::cin >> x;

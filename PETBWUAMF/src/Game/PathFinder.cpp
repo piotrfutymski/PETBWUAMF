@@ -37,17 +37,57 @@ void PathFinder::addEnemy(const sf::Vector2i & pos)
 
 bool PathFinder::isInArea(const sf::Vector2i & pos)
 {
-	if (pos.x > 0 && pos.x < _xSize && pos.y > 0 && pos.y < _ySize)
+	if (pos.x >= 0 && pos.x < _xSize && pos.y >= 0 && pos.y < _ySize)
 		return true;
 	return false;
 }
 
 bool PathFinder::pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move)
 {
+	auto ref = std::map<int, bool>();
+	return _pathExist(start, target, move, ref);
+
+}
+
+std::map<int, bool> PathFinder::getGoodPositions(const sf::Vector2i & start, int move)
+{
+	auto notChecked = std::vector<sf::Vector2i>();
+	for (int i = 0; i < _xSize; i++)
+	{
+		for (int j = 0; j < _ySize; j++)
+		{
+			notChecked.push_back({ i,j });
+		}
+	}
+
+	auto res = std::map<int, bool>();
+	
+	while (notChecked.size() > 0)
+	{
+		auto it = res.find({notChecked.back().x * 1000+notChecked.back().y});
+		if (it == res.end())
+		{
+			auto copy = *this;
+			copy._pathExist(start, notChecked.back(), move, res);
+		}
+		notChecked.pop_back();
+	}
+	return res;
+}
+
+bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool>& positions)
+{
 	if (start == target && move >= 0)
+	{
+		positions[target.x*1000 + target.y] = true;
 		return true;
-	if (move <= 0)
+	}
+	if (move <= 0 || this->getSquereDistance(start, target) > move *move)
+	{
+		if(positions[target.x * 1000 + target.y]!=true)
+			positions[target.x * 1000 + target.y] = false;
 		return false;
+	}
 
 	for (int i = start.x - 1; i <= start.x + 1; i++)
 	{
@@ -60,25 +100,51 @@ bool PathFinder::pathExist(const sf::Vector2i & start, const sf::Vector2i & targ
 				PathFinder p = *this;
 				p.addAllay(start);
 				if (i == start.x || j == start.y)
-					if (p.pathExist({ i,j }, target, move - 1))
+				{
+					if (p._pathExist({ i,j }, target, move - 1, positions))
+					{
+						positions[target.x * 1000 + target.y] = true;
 						return true;
-					else if (p.pathExist({ i,j }, target, move - 1.41))
-						return true;
+					}
+				}
+				else if (p._pathExist({ i,j }, target, move - 1.41, positions))
+				{
+					positions[target.x * 1000 + target.y] = true;
+					return true;
+				}
+		
+						
 			}
 			else if (this->isInArea({ i,j }) && _matrix[i][j] == 2)
 			{
 				PathFinder p = *this;
 				p.addAllay(start);
 				if (i == start.x || j == start.y)
+				{
 					if (p.pathExist({ i,j }, target, std::min(move - 1, 0.0f)))
+					{
+						positions[target.x * 1000 + target.y] = true;
 						return true;
-					else if (p.pathExist({ i,j }, target, std::min(move - 1, 0.0f)))
-						return true;
+					}
+				}
+				else if (p.pathExist({ i,j }, target, std::min(move - 1, 0.0f)))
+				{
+					positions[target.x * 1000 + target.y] = true;
+					return true;
+				}
+			
 			}
 		}
 	}
 
+	if (positions[target.x * 1000 + target.y] != true)
+		positions[target.x * 1000 + target.y] = false;
 	return false;
-
-
 }
+
+float PathFinder::getSquereDistance(const sf::Vector2i & first, const sf::Vector2i & second)
+{
+	return (first.x - second.x)*(first.x - second.x) + (first.y - second.y)*(first.y - second.y);
+}
+
+

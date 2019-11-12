@@ -20,16 +20,26 @@ void Game::initPrototypes()
 		return false;
 	});
 
-	p->set_isProperAsTargetP([](Unit * u,int n, const sf::Vector2i & pos) {
-		return false;
-	});
-
-	p->set_isProperAsTargetU([](Unit * u, int n, size_t tar) {
+	p->set_getProperTargets([this](Unit * u,int n) {
+		auto res = std::vector<OrderPrototype::Target>();
 		if (n != 0)
-			return false;
-		if (u->isInFightWith(tar))
-			return true;
-		return false;
+			return res;
+		auto& units = this->getHolder<Unit>();
+		if (u->isRanged())
+		{
+			for (size_t i = 0; i < units.size(); i++)
+			{
+				res.push_back({ OrderPrototype::TargetType::Unit_target, {0,0}, units[i]->getID() });
+			}
+		}
+		else
+		{
+			for (auto & x : u->getEnemyInFightWhith())
+			{
+				res.push_back({ OrderPrototype::TargetType::Unit_target, {0,0}, x });
+			}
+		}
+		return std::move(res);
 	});
 
 	p->set_execute([this](Unit * u, const Move & m) {
@@ -49,9 +59,10 @@ void Game::initPrototypes()
 		return true;
 	});
 
-	p->set_isProperAsTargetP([this](Unit * u, int n, const sf::Vector2i & pos) {
+	p->set_getProperTargets([this](Unit * u, int n) {
+		auto res = std::vector<OrderPrototype::Target>();
 		if (n != 0)
-			return false;
+			return res;
 		PathFinder pathFinder(Unit::MAXPOS.x+1, Unit::MAXPOS.y+1);
 		int ow = u->getOwner();
 		for (auto & x: _units)
@@ -62,20 +73,63 @@ void Game::initPrototypes()
 				pathFinder.addEnemy(x->getPosition());
 		}
 
-		return pathFinder.pathExist(u->getPosition(), pos, u->getMove());
-	});
-
-	p->set_isProperAsTargetU([](Unit * u, int n, size_t tar) {
-		return false;
-	});
-
-	p->set_execute([this, p](Unit * u, const Move & m) {
-		if (p->_isProperAsTargetP(u, 0, m.positions[0]))
+		for (auto el: pathFinder.getGoodPositions(u->getPosition(), u->getMove()) )
 		{
-			u->setPosition(m.positions[0]);
-			return true;
+			if (el.second == true)
+				res.push_back({ OrderPrototype::TargetType::Position_target, {el.first / 1000, el.first % 1000 }, 0});
 		}
+
+		return std::move(res);
+	});
+
+
+	p->set_execute([this](Unit * u, const Move & m) {
+		
+		for (auto neight : this->getNeightbours(u))
+		{
+			if(neight->getOwner() != u->getOwner())
+				neight->removeInFightWith(u->getID());
+		}
+		u->setPosition(m.positions[0]);
+		auto neights = std::vector<size_t>();
+		for (auto neight : this->getNeightbours(u))
+		{
+			if (neight->getOwner() != u->getOwner())
+			{
+				neight->addInFightWith(u->getID());
+				neights.push_back(neight->getID());
+			}		
+		}
+		u->setInFightWith(neights);
+		return true;
+	});
+
+
+	//CHARGE
+
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("charge");
+
+	p->set_canBeUsed([this](Unit * u)
+	{
 		return false;
 	});
+
+	//PREPARE
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
+
+	p->set_canBeUsed([this](Unit * u)
+	{
+		return false;
+	});
+
+	//HELP
+
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("help");
+
+	p->set_canBeUsed([this](Unit * u)
+	{
+		return false;
+	});
+
 
 }

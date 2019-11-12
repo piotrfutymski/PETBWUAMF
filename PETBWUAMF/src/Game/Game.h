@@ -53,6 +53,10 @@ public:
 	void makeMove();
 	void logSimpleMap()const;
 
+	std::vector<Order *> getPossibleOrders();
+
+	std::vector<Unit *> getNeightbours(Unit * u);
+
 private:
 	//templates
 	template <typename T>

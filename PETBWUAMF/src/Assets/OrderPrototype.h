@@ -9,9 +9,16 @@ class OrderPrototype :public Asset
 {
 public:
 
-	enum Target
+	enum TargetType
 	{
 		Position_target, Unit_target
+	};
+
+	struct Target
+	{
+		TargetType type;
+		sf::Vector2i pos;
+		size_t targetID;
 	};
 
 	OrderPrototype(const std::string & name) :Asset(name) {};
@@ -21,18 +28,16 @@ public:
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
 
 	void set_canBeUsed(const std::function<bool(Unit*)> &);
-	void set_isProperAsTargetP(const std::function<bool(Unit *, int, const sf::Vector2i &)> &);
-	void set_isProperAsTargetU(const std::function<bool(Unit *, int, size_t)> &);
+	void set_getProperTargets(const std::function<std::vector<Target>(Unit *, int)> &);
 	void set_execute(const std::function<bool(Unit *, const Move &)> &);
 
 public:
 
 	std::function<bool(Unit * )> _canBeUsed;
-	std::function<bool(Unit * , int , const sf::Vector2i &)> _isProperAsTargetP;
-	std::function<bool(Unit * , int , size_t)> _isProperAsTargetU;
+	std::function<std::vector<Target>(Unit *, int)> _getProperTargets;
 	std::function<bool(Unit *, const Move &)> _execute;
 
-	std::vector<Target> _targets;
+	std::vector<TargetType> _targets;
 	std::string _description;
 
 	std::string _texture;
