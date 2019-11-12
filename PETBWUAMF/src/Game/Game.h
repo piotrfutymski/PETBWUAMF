@@ -42,23 +42,16 @@ public:
 
 	bool playMove(const Move & m);
 
-	void logState(int owner)const;
-	void logStateUnits(int owner)const;
-	void logStateOrders(int owner)const;
+
 	bool isEnded()const;
 
 	void logPossibleMoves();
 
-
-
 	Move getMoveFromConsole();
-	void makeMove();
 
+	Unit * getActiveUnit();
 
-	void logSimpleMap() const;
-	void logConstructMap(std::vector<std::vector<char>> map) const;
-	std::vector<std::vector<char>> logStartMap() const;
-	void logMoveMap(Order *order, int i) const;
+	size_t getActivePlayer();
 
 	std::vector<Order *> getPossibleOrders();
 

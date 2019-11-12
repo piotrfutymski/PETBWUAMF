@@ -134,6 +134,7 @@
     <ClCompile Include="src\Assets\UnitPrototype.cpp" />
     <ClCompile Include="src\Assets\GUIElementPrototype.cpp" />
     <ClCompile Include="src\Game\Buff.cpp" />
+    <ClCompile Include="src\Game\ConsoleUI.cpp" />
     <ClCompile Include="src\Game\GameInitiatior.cpp" />
     <ClCompile Include="src\Game\Map.cpp" />
     <ClCompile Include="src\Game\Order.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\Assets\GUIElementPrototype.h" />
     <ClInclude Include="src\Game\Buff.h" />
     <ClInclude Include="src\Game\ConsoleColor.h" />
+    <ClInclude Include="src\Game\ConsoleUI.h" />
     <ClInclude Include="src\Game\GameInitiatior.h" />
     <ClInclude Include="src\Game\GameObject.h" />
     <ClInclude Include="src\Game\Map.h" />
