@@ -11,7 +11,7 @@ int Order::getTargetsCount() const
 	return this->getPrototype()->_targets.size();
 }
 
-std::vector<OrderPrototype::Target> Order::getProperTargets(Unit *u, int n) const
+std::vector<OrderPrototype::Target> Order::getProperTargets(const Unit *u, int n) const
 {
 	return std::move(this->getPrototype()->_getProperTargets(u, n));
 }

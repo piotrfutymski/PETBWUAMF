@@ -18,25 +18,22 @@ class ConsoleUI
 public:
 	ConsoleUI();
 	virtual ~ConsoleUI();
-	void init(Game * g);
 
-	void logState(int owner)const;
-	void logStateUnits(int owner)const;
-	void logStateOrders(int owner)const;
+	void logState(const Game & game)const;
+	void logStateUnits(const Game & game, int owner)const;
+	void logStateOrders(const Game & game)const;
 
-	void  makeMove();
+	void  makeMove(const Game & game);
 
-	void logSimpleMap() const;
+	void logSimpleMap(const Game & game) const;
 
-	void logMoveMap(Order *order, int i) const;
+	void logMoveMap(const Game & game, Order *order, int i) const;
 	/*
 	static void setParent(Game * g)
 	{
 		_game = g;
 	};*/
 private:
-
-	 Game * _game;
 
 	void logConstructMap(std::vector<std::vector<char>> map) const;
 	std::vector<std::vector<char>> logStartMap() const;

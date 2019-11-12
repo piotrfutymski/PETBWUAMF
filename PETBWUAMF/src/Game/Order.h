@@ -25,7 +25,7 @@ public:
 
 	int getTargetsCount()const;
 
-	std::vector<OrderPrototype::Target> getProperTargets(Unit *u, int n)const;
+	std::vector<OrderPrototype::Target> getProperTargets(const Unit *u, int n)const;
 
 	bool execute(Unit *u, const Move & m);
 

@@ -6,31 +6,25 @@ ConsoleUI::ConsoleUI()
 {
 }
 
-void ConsoleUI::init(Game * g)
-{
-	_game = g;
-	_game->getUI(this);
-}
-
-void ConsoleUI::logState(int owner)const
+void ConsoleUI::logState(const Game & game)const
 {
 	Logger::log("---------------------------------------------------------");
 	Logger::log("------------------------New Turn-------------------------");
 	Logger::log("---------------------------------------------------------");
-	this->logStateUnits(owner);
-	this->logStateUnits((owner + 1) % 2);
-	this->logStateOrders(owner);
-	this->logSimpleMap();
+	this->logStateUnits(game, game.getActivePlayer());
+	this->logStateUnits(game, (game.getActivePlayer()+1)%2);
+	this->logStateOrders(game);
+	this->logSimpleMap(game);
 	Logger::log("---------------------------------------------------------");
-	Logger::log(this->_game->getActiveUnit()->getPrototype()->getName() + "'s Turn.");
+	Logger::log(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
 }
 
-void ConsoleUI::logStateUnits(int owner)const
+void ConsoleUI::logStateUnits(const Game & game, int owner)const
 {
 	Logger::log("---------------------------------------------------------");
 	Logger::log("---------------------Player " + std::to_string(owner) + " Units----------------------");
 	Logger::log("---------------------------------------------------------");
-	for (auto &x : this->_game->getHolder<Unit>())
+	for (auto &x : game.getHolder<Unit>())
 	{
 		if (x->getOwner() == owner)
 		{
@@ -42,12 +36,13 @@ void ConsoleUI::logStateUnits(int owner)const
 		}
 	}
 }
-void ConsoleUI::logStateOrders(int owner)const
+void ConsoleUI::logStateOrders(const Game & game)const
 {
+	auto owner = game.getActivePlayer();
 	Logger::log("---------------------------------------------------------");
 	Logger::log("--------------------Player " + std::to_string(owner) + " Orders----------------------");
 	Logger::log("---------------------------------------------------------");
-	for (auto &x : _game->getHolder<Order>())
+	for (auto &x : game.getHolder<Order>())
 	{
 		if (x->getOwner() == owner)
 		{
@@ -58,16 +53,16 @@ void ConsoleUI::logStateOrders(int owner)const
 }
 
 
-void  ConsoleUI::makeMove()
+void  ConsoleUI::makeMove(const Game & game)
 {
 	Logger::log("---------------------------------------------------------");
 	Logger::log("----------------------Make a move------------------------");
 	Logger::log("---------------------------------------------------------");
 
 
-	Logger::logW("ID:" + std::to_string(_game->getActiveUnit->getID()) + " Name: ");
-	_game->getActiveUnit()->getSimpleInfo();
-	for (auto &x : _game->getPossibleOrders())
+	Logger::logW("ID:" + std::to_string(game.getActiveUnit()->getID()) + " Name: ");
+	game.getActiveUnit()->getSimpleInfo();
+	for (auto &x : game.getPossibleOrders())
 	{
 		Logger::logW(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
 	}
@@ -91,41 +86,41 @@ std::vector<std::vector<char>> ConsoleUI::logStartMap()const
 	}
 	return map;
 }
-void ConsoleUI::logSimpleMap()const
+void ConsoleUI::logSimpleMap(const Game & game)const
 {
 	auto map = logStartMap();
 
 
-	for (auto &unit : _game->getHolder<Unit>())
+	for (auto &unit : game.getHolder<Unit>())
 	{
 		if (unit->getOwner() == 0)
 			map[unit->getPosition().x][unit->getPosition().y] = 'F';
 		else
 			map[unit->getPosition().x][unit->getPosition().y] = 'S';
 	}
-	map[_game->getActiveUnit->getPosition().x][_game->getActiveUnit->getPosition().y] = 'A';
+	map[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'A';
 
 	logConstructMap(map);
 
 }
 
-void ConsoleUI::logMoveMap(Order *order, int i)const
+void ConsoleUI::logMoveMap(const Game & game, Order *order, int i)const
 {
 	auto map = logStartMap();
 
-	for (auto x : order->getProperTargets(_game->getActiveUnit(), i))
+	for (auto x : order->getProperTargets(game.getActiveUnit(), i))
 	{
 		map[x.pos.x][x.pos.y] = 'M';
 	}
 
-	for (auto &unit : _game->getHolder<Unit>())
+	for (auto &unit : game.getHolder<Unit>())
 	{
 		if (unit->getOwner() == 0)
 			map[unit->getPosition().x][unit->getPosition().y] = 'F';
 		else
 			map[unit->getPosition().x][unit->getPosition().y] = 'S';
 	}
-	map[_game->getActiveUnit->getPosition().x][_game->getActiveUnit->getPosition().y] = 'A';
+	map[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'A';
 
 	logConstructMap(map);
 }

@@ -41,7 +41,7 @@ public:
 	int getChargeDefence() const;
 	int getChargeAttack() const;
 
-	int getMove();
+	int getMove()const;
 	
 
 	void getSimpleInfo() const;

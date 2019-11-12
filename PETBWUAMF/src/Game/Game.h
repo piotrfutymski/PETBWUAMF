@@ -10,7 +10,9 @@
 #include "Order.h"
 #include "Unit.h"
 #include "PathFinder.h"
-#include "ConsoleUI.h"
+
+
+
 class Game
 {
 private:
@@ -27,6 +29,7 @@ public:
 	using UnitHolder_t = std::vector<std::unique_ptr<Unit>>;
 	using BuffHolder_t = std::vector<std::unique_ptr<Buff>>;
 
+
 	Game();
 
 	Game(const Game &) = delete;
@@ -35,26 +38,25 @@ public:
 
 	Game operator=(const Game &) = delete;
 
+	//inits
+
 	void init(const GameInitiator & i);
 
-	void initPrototypes();
+	//Application Layer
 
 	bool playMove(const Move & m);
 
-	void getUI(ConsoleUI * UI);
-
 	bool isEnded()const;
 
-	void logPossibleMoves();
 
-	Move getMoveFromConsole();
+	//Logic Layer
 
+	const Unit * getActiveUnit()const;
 	Unit * getActiveUnit();
-
-	size_t getActivePlayer();
+	size_t getActivePlayer()const;
 
 	std::vector<Order *> getPossibleOrders();
-
+	const std::vector<Order *> getPossibleOrders()const;
 	std::vector<Unit *> getNeightbours(Unit * u);
 
 private:
@@ -146,10 +148,12 @@ private:
 
 	size_t _activePlayer;
 
-	ConsoleUI * _consoleUI;
-
 	int _player0CommandPoints;
 	int _player1CommandPoints;
+
+private:
+
+	void initPrototypes();
 
 
 };

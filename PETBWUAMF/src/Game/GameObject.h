@@ -15,7 +15,7 @@ public:
 		_prototype = Didax::AssetMeneger::getAsset<Prototype>(name);
 	};
 
-	size_t getID()
+	size_t getID()const
 	{
 		return _id;
 	};

@@ -6,6 +6,7 @@
 
 #include "Game/Game.h"
 #include"Assets/AssetMeneger.h"
+#include "Game/ConsoleUI.h"
 
 
 class Application
@@ -22,6 +23,8 @@ public:
 	void update();
 
 	void render();
+
+	Move getMoveFromConsole();
 
 
 private:

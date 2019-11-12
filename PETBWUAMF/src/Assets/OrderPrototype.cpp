@@ -22,7 +22,7 @@ void OrderPrototype::set_canBeUsed(const std::function<bool(Unit*)>& f)
 	_canBeUsed = f;
 }
 
-void OrderPrototype::set_getProperTargets(const std::function<std::vector<Target>(Unit *, int)> & f)
+void OrderPrototype::set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int)> & f)
 {
 	_getProperTargets = f;
 }

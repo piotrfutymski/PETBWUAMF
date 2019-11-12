@@ -32,7 +32,6 @@ void Application::init(std::string settingFilePath)
 	//_engine.startGame();
 
 	Didax::AssetMeneger::loadAllAssets(_settings);
-	_consoleUI.init(&_game);
 	_game.init({});
 
 }
@@ -58,16 +57,79 @@ int Application::run()
 	}
 
 	return 0;*/
-
 	while (!_game.isEnded())
 	{
-		while(!_game.playMove(_game.getMoveFromConsole()))
-		;
+		while (!_game.playMove(this->getMoveFromConsole()))
+			;
 	}
 
 	return 0;
 }
 
+
+Move Application::getMoveFromConsole()
+{
+	Move res;
+	res.unitID = _game.getActiveUnit()->getID();
+	
+	_consoleUI.logState(_game);
+	_consoleUI.makeMove(_game);
+
+	Order * order = nullptr;
+	int oID;
+	while (1)
+	{
+		Logger::log("----------------------Pick order id----------------------");
+		std::cin >> oID;
+		order = _game.getObject<Order>(oID);
+		if (order == nullptr)
+		{
+			Logger::log("-------------------Order doesn't exist-------------------");
+			continue;
+		}
+		if (order->canBeUsed(_game.getActiveUnit()))
+		{
+			Logger::log("----------------------Choosed order: " + std::to_string(oID) + "-------------------");
+			break;
+		}
+		Logger::log("-------------------Order can't be used-------------------");
+	}
+	res.orderID = oID;
+	Logger::log("---------------------------------------------------------");
+	for (size_t i = 0; i < order->getTargetsCount(); i++)
+	{
+		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
+		{
+			_consoleUI.logMoveMap(_game, order, i);
+			Logger::log("--------------------Possible positions(int) (int)--------");
+			for (auto x : order->getProperTargets(_game.getActiveUnit(), i))
+			{
+				Logger::log(std::to_string(x.pos.x) + ";" + std::to_string(x.pos.y));
+			}
+
+			Logger::log("----------------------Choose Position (int) (int)--------");
+			int x, y;
+			std::cin >> x;
+			std::cin >> y;
+			res.positions.push_back({ x,y });
+			Logger::log("---------------------------------------------------------");
+		}
+		else
+		{
+			Logger::log("------------------Choose Target ID (int)-----------------");
+			if (_game.getActivePlayer() == 1)
+				_consoleUI.logStateUnits(_game, 0);
+			else
+				_consoleUI.logStateUnits(_game, 1);
+			int id;
+			std::cin >> id;
+			res.units.push_back(id);
+			Logger::log("---------------------------------------------------------");
+		}
+	}
+	return res;
+
+}
 
 
 /*

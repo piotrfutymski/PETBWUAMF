@@ -20,7 +20,7 @@ void Game::initPrototypes()
 		return false;
 	});
 
-	p->set_getProperTargets([this](Unit * u,int n) {
+	p->set_getProperTargets([this](const Unit * u,int n) {
 		auto res = std::vector<OrderPrototype::Target>();
 		if (n != 0)
 			return res;
@@ -59,7 +59,7 @@ void Game::initPrototypes()
 		return true;
 	});
 
-	p->set_getProperTargets([this](Unit * u, int n) {
+	p->set_getProperTargets([this](const Unit * u, int n) {
 		auto res = std::vector<OrderPrototype::Target>();
 		if (n != 0)
 			return res;

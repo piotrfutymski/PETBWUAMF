@@ -118,7 +118,7 @@ void Unit::setOwner(int player)
 	if (player == 0 || player == 1)
 		_owner = player;
 }
-int Unit::getMove()
+int Unit::getMove()const
 {
 	return _move;
 }
