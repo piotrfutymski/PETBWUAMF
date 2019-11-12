@@ -33,6 +33,8 @@ private:
 
 	Game _game;
 
+	ConsoleUI _consoleUI;
+
 	nlohmann::json _settings;
 
 	sf::Clock _clock;

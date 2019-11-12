@@ -32,7 +32,7 @@ void Application::init(std::string settingFilePath)
 	//_engine.startGame();
 
 	Didax::AssetMeneger::loadAllAssets(_settings);
-
+	_consoleUI.init(&_game);
 	_game.init({});
 
 }

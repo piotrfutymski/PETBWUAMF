@@ -13,7 +13,6 @@ void Game::init(const GameInitiator & i)
 	Unit::setParent(this);
 	Order::setParent(this);
 	Buff::setParent(this);
-
 	this->initPrototypes();
 
 
@@ -50,7 +49,10 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------------------------------------------------");
 }
 
-
+void Game::getUI(ConsoleUI * UI)
+{
+	_consoleUI = UI;
+}
 
 bool Game::playMove(const Move & m)
 {
@@ -135,9 +137,9 @@ Move Game::getMoveFromConsole()
 	Move res;
 	res.unitID = _activeUnit->getID();
 	_activePlayer = _activeUnit->getOwner();
-	this->logState(_activePlayer);
+	_consoleUI->logState(_activePlayer);
 
-	this->makeMove();
+	_consoleUI->makeMove();
 	/*pomoc jest dla slabych							xDDDD
 	auto a = std::getchar();
 	if (a == 'y')
@@ -167,7 +169,7 @@ Move Game::getMoveFromConsole()
 	{
 		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
-			logMoveMap(order, i);
+			_consoleUI->logMoveMap(order, i);
 			Logger::log("--------------------Possible positions(int) (int)--------");
 			for (auto x: order->getProperTargets(_activeUnit, i))
 			{
@@ -185,9 +187,9 @@ Move Game::getMoveFromConsole()
 		{
 			Logger::log("------------------Choose Target ID (int)-----------------");
 			if (_activePlayer == 1)
-				logStateUnits(0);
+				_consoleUI->logStateUnits(0);
 			else
-				logStateUnits(1);
+				_consoleUI->logStateUnits(1);
 			int id;
 			std::cin >> id;
 			res.units.push_back(id);

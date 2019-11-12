@@ -10,8 +10,7 @@
 #include "Order.h"
 #include "Unit.h"
 #include "PathFinder.h"
-#include "ConsoleColor.h"
-
+#include "ConsoleUI.h"
 class Game
 {
 private:
@@ -42,6 +41,7 @@ public:
 
 	bool playMove(const Move & m);
 
+	void getUI(ConsoleUI * UI);
 
 	bool isEnded()const;
 
@@ -145,6 +145,8 @@ private:
 	Unit * _activeUnit;
 
 	size_t _activePlayer;
+
+	ConsoleUI * _consoleUI;
 
 	int _player0CommandPoints;
 	int _player1CommandPoints;
