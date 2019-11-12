@@ -49,9 +49,16 @@ public:
 
 	void logPossibleMoves();
 
+
+
 	Move getMoveFromConsole();
 	void makeMove();
-	void logSimpleMap()const;
+
+
+	void logSimpleMap() const;
+	void logConstructMap(std::vector<std::vector<char>> map) const;
+	std::vector<std::vector<char>> logStartMap() const;
+	void logMoveMap(Order *order, int i) const;
 
 	std::vector<Order *> getPossibleOrders();
 

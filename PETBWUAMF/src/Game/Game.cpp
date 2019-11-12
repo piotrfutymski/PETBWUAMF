@@ -123,8 +123,7 @@ void Game::logPossibleMoves()
 {
 	Logger::log("TODO\n");
 }
-
-void Game::logSimpleMap()const
+std::vector<std::vector<char>> Game::logStartMap()const
 {
 	int sizeX = Unit::MAXPOS.x;
 	int sizeY = Unit::MAXPOS.y;
@@ -138,6 +137,12 @@ void Game::logSimpleMap()const
 			map[x].push_back('O');
 		}
 	}
+	return map;
+}
+void Game::logSimpleMap()const
+{
+	auto map = logStartMap();
+
 
 	for (auto &unit : _units)
 	{
@@ -148,9 +153,35 @@ void Game::logSimpleMap()const
 	}
 	map[_activeUnit->getPosition().x][_activeUnit->getPosition().y] = 'A';
 
+	logConstructMap(map);
 
+}
 
+void Game::logMoveMap(Order *order, int i)const
+{
+	auto map = logStartMap();
 
+	for (auto x : order->getProperTargets(_activeUnit, i))
+	{
+		map[x.pos.x][x.pos.y] = 'M';
+	}
+
+	for (auto &unit : _units)
+	{
+		if (unit->getOwner() == 0)
+			map[unit->getPosition().x][unit->getPosition().y] = 'F';
+		else
+			map[unit->getPosition().x][unit->getPosition().y] = 'S';
+	}
+	map[_activeUnit->getPosition().x][_activeUnit->getPosition().y] = 'A';
+
+	logConstructMap(map);
+}
+
+void Game::logConstructMap(std::vector<std::vector<char>> map) const
+{
+	int sizeX = Unit::MAXPOS.x;
+	int sizeY = Unit::MAXPOS.y;
 	Logger::logW("    |");
 	for (int y = 0; y <= sizeY; y++)
 	{
@@ -178,6 +209,8 @@ void Game::logSimpleMap()const
 			else if (map[x][y] == 'S')
 				std::cout << red;
 
+			else if (map[x][y] == 'M')
+				std::cout << green;
 			Logger::logW(map[x][y]);
 			std::cout << white;
 			Logger::logW("|");
@@ -188,7 +221,6 @@ void Game::logSimpleMap()const
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
 	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
 }
-
 
 std::vector<Order*> Game::getPossibleOrders()
 {
@@ -271,7 +303,7 @@ Move Game::getMoveFromConsole()
 	{
 		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
-
+			logMoveMap(order, i);
 			Logger::log("--------------------Possible positions(int) (int)--------");
 			for (auto x: order->getProperTargets(_activeUnit, i))
 			{
