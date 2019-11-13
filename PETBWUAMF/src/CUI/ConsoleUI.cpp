@@ -59,7 +59,6 @@ void  ConsoleUI::makeMove(const Game & game)
 	Logger::log("----------------------Make a move------------------------");
 	Logger::log("---------------------------------------------------------");
 
-
 	Logger::logW("ID:" + std::to_string(game.getActiveUnit()->getID()) + " Name: ");
 	game.getActiveUnit()->getSimpleInfo();
 	for (auto &x : game.getPossibleOrders())
@@ -126,8 +125,13 @@ void ConsoleUI::AttackMap(const Game & game)
 	this->ConstructMap();
 }
 
-void ConsoleUI::ConstructMap() const
+void ConsoleUI::ConstructMap()
 {
+	COORD savedcoords = GetCursorPos();
+	if (savedcoords.Y - _lastcoords.Y < Unit::MAXPOS.x * 2)
+		SetCursorPos(_lastcoords);
+	CursorByUp();
+	CursorToRight();
 	int sizeX = Unit::MAXPOS.x;
 	int sizeY = Unit::MAXPOS.y;
 	Logger::logW("    |");
@@ -140,14 +144,14 @@ void ConsoleUI::ConstructMap() const
 			Logger::logW(y - 10 + 'A');
 		Logger::logW("|");
 	}
-	Logger::log("");
+	CursorToRight();
 
 	Logger::logW("  |");
 	for (int y = 0; y <= sizeY+2; y++)
 	{
 		Logger::logW("X|");
 	}
-	Logger::log("");
+	CursorToRight();
 	//Logger::log("   XXXXXXXXXXXX");
 	for (int x = 0; x <= sizeX; x++)
 	{
@@ -174,7 +178,7 @@ void ConsoleUI::ConstructMap() const
 			Logger::logW("|");
 		}
 		Logger::logW("X|");
-		Logger::log("");
+		CursorToRight();
 	}
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
 	Logger::logW("  |");
@@ -182,7 +186,8 @@ void ConsoleUI::ConstructMap() const
 	{
 		Logger::logW("X|");
 	}
-	Logger::log("");
+	SetCursorPos(savedcoords);
+	_lastcoords = savedcoords;
 }
 
 void ConsoleUI::SimUnitsMap(const Game & game)
@@ -248,4 +253,33 @@ char ConsoleUI::TypeUnitMap(const Game & game, const std::string type)
 }
 ConsoleUI::~ConsoleUI()
 {
+}
+
+COORD ConsoleUI::GetCursorPos()
+{
+	COORD cords;
+	CONSOLE_SCREEN_BUFFER_INFO buffer_info = CONSOLE_SCREEN_BUFFER_INFO();
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &buffer_info);
+	cords = buffer_info.dwCursorPosition;
+	return cords;
+}
+
+void ConsoleUI::SetCursorPos(COORD cords)
+{
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
+}
+void ConsoleUI::CursorToRight()
+{
+	COORD cords;
+	cords = GetCursorPos();
+	cords.Y++;
+	cords.X = 60;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
+}
+void ConsoleUI::CursorByUp()
+{
+	COORD cords;
+	cords = GetCursorPos();
+	cords.Y -= Unit::MAXPOS.x;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
 }

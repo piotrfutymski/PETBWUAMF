@@ -101,7 +101,6 @@ Move Application::getMoveFromConsole()
 		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
 			_consoleUI.MoveMap(_game, order, i);
-
 			Logger::log("----------------------Choose Position (int) (int)--------");
 			int x, y;
 			std::cin >> x;

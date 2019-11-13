@@ -29,20 +29,26 @@ public:
 	{
 		_game = g;
 	};*/
+
 private:
+
+
+
 	std::vector<std::vector<char>> _map;
 	std::vector<std::vector<char>> _colormap;
-
+	COORD _lastcoords;
 
 	char TypeUnitMap(const Game & game, const std::string type);
 	void SimUnitsMap(const Game & game);
 	void NumUnitsMap(const Game & game);
 	void ConUnitMap(const Game & game);
 	void SimMovMap(const Game & game, Order *order);
-	void ConstructMap() const;
+	void ConstructMap();
 	void ClearMap();
 
-
-
+	COORD GetCursorPos();
+	void SetCursorPos(COORD cords);
+	void CursorToRight();
+	void CursorByUp();
 };
 //Game* _game = nullptr;
