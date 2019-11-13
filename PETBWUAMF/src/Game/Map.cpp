@@ -55,14 +55,19 @@ std::vector<size_t> Map::getNeightbours(size_t u)const
 {
 	auto res = std::vector<size_t>();
 	auto pos = this->findUnitPosition(u);
-	if (pos.x = -1)
+	if (pos.x == -1)
 		return res;
 
-	for (int i = pos.x-1; i <= pos.x+1; i++)
-		for (int j = pos.y-1; j < pos.y+1; j++)
+	for (int i = pos.x - 1; i <= pos.x + 1; i++)
+	{
+		for (int j = pos.y - 1; j < pos.y + 1; j++)
+		{
 			if (this->properPosition({ i,j }))
 				if (_mapData[i][j].first != -1 && pos != sf::Vector2i{ i,j })
 					res.push_back(_mapData[i][j].first);
+		}		
+	}
+		
 
 	return res;
 }
@@ -74,6 +79,7 @@ std::vector<sf::Vector2i> Map::getPaths(size_t u, int move)const
 	auto pos = unit.first;
 
 	for (int i = 0; i < MAP_WIDTH; i++)
+	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
 			if (_mapData[i][j].first != -1 && unit.second == _mapData[i][j].second)
@@ -81,6 +87,8 @@ std::vector<sf::Vector2i> Map::getPaths(size_t u, int move)const
 			if (_mapData[i][j].first != -1 && unit.second != _mapData[i][j].second)
 				pathFinder.addEnemy({ i,j });
 		}
+	}
+		
 
 	if (pos.x == -1)
 		return {};
@@ -91,9 +99,14 @@ std::vector<sf::Vector2i> Map::getPaths(size_t u, int move)const
 sf::Vector2i Map::findUnitPosition(size_t u)const
 {
 	for (int i = 0; i < MAP_WIDTH; i++)
+	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
+		{
 			if (_mapData[i][j].first == u)
 				return{ i,j };
+		}		
+	}
+		
 
 	return{ -1,-1 };
 
@@ -102,9 +115,14 @@ sf::Vector2i Map::findUnitPosition(size_t u)const
 std::pair<sf::Vector2i, int> Map::findUnit(size_t u) const
 {
 	for (int i = 0; i < MAP_WIDTH; i++)
+	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
+		{
 			if (_mapData[i][j].first == u)
 				return { {i,j}, _mapData[i][j].second };
+		}
+			
+	}	
 
 	return { {-1,-1}, 0 };
 }
