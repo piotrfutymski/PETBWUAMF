@@ -2,7 +2,7 @@
   "0": {
     "type": "unit",
     "name": "testWarrior",
-    "unitType": "infantry",
+    "unitType": "Infantry",
 
     "attack": 4,
     "defence": 5,
@@ -47,7 +47,7 @@
   "2": {
     "type": "unit",
     "name": "testEliteGuard",
-    "unitType": "Infantry",
+    "unitType": "EliteInfantry",
 
     "attack": 18,
     "defence": 12,
