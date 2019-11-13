@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include <map>
+#include <algorithm>
 
 class PathFinder
 {
@@ -23,7 +24,7 @@ private:
 
 	std::vector<std::vector<int>> _matrix;
 
-	bool _pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool> & positions);
+	bool _pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool> & positions, std::vector<sf::Vector2i> & notChecked);
 
 	float getSquereDistance(const sf::Vector2i & first, const sf::Vector2i & second);
 

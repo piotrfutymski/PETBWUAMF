@@ -45,7 +45,8 @@ bool PathFinder::isInArea(const sf::Vector2i & pos)
 bool PathFinder::pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move)
 {
 	auto ref = std::map<int, bool>();
-	return _pathExist(start, target, move, ref);
+	auto ref2 = std::vector<sf::Vector2i>();
+	return _pathExist(start, target, move, ref,ref2);
 
 }
 
@@ -68,24 +69,25 @@ std::map<int, bool> PathFinder::getGoodPositions(const sf::Vector2i & start, int
 		if (it == res.end())
 		{
 			auto copy = *this;
-			copy._pathExist(start, notChecked.back(), move, res);
+			copy._pathExist(start, notChecked.back(), move, res, notChecked);
 		}
-		notChecked.pop_back();
 	}
 	return res;
 }
 
-bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool>& positions)
+bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool>& positions, std::vector<sf::Vector2i> & notChecked)
 {
 	if (start == target && move >= 0)
 	{
 		positions[target.x*1000 + target.y] = true;
+		notChecked.erase(std::remove(notChecked.begin(), notChecked.end(), target), notChecked.end());
 		return true;
 	}
 	if (move <= 0 || this->getSquereDistance(start, target) > move *move)
 	{
 		if(positions[target.x * 1000 + target.y]!=true)
 			positions[target.x * 1000 + target.y] = false;
+		notChecked.erase(std::remove(notChecked.begin(), notChecked.end(), target), notChecked.end());
 		return false;
 	}
 
@@ -101,15 +103,13 @@ bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & tar
 				p.addAllay(start);
 				if (i == start.x || j == start.y)
 				{
-					if (p._pathExist({ i,j }, target, move - 1, positions))
+					if (p._pathExist({ i,j }, target, move - 1, positions, notChecked))
 					{
-						positions[target.x * 1000 + target.y] = true;
 						return true;
 					}
 				}
-				else if (p._pathExist({ i,j }, target, move - 1.41, positions))
+				else if (p._pathExist({ i,j }, target, move - 1.41, positions, notChecked))
 				{
-					positions[target.x * 1000 + target.y] = true;
 					return true;
 				}
 		
@@ -123,13 +123,11 @@ bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & tar
 				{
 					if (p.pathExist({ i,j }, target, std::min(move - 1, 0.0f)))
 					{
-						positions[target.x * 1000 + target.y] = true;
 						return true;
 					}
 				}
 				else if (p.pathExist({ i,j }, target, std::min(move - 1, 0.0f)))
 				{
-					positions[target.x * 1000 + target.y] = true;
 					return true;
 				}
 			
@@ -139,6 +137,7 @@ bool PathFinder::_pathExist(const sf::Vector2i & start, const sf::Vector2i & tar
 
 	if (positions[target.x * 1000 + target.y] != true)
 		positions[target.x * 1000 + target.y] = false;
+	notChecked.erase(std::remove(notChecked.begin(), notChecked.end(), target), notChecked.end());
 	return false;
 }
 
