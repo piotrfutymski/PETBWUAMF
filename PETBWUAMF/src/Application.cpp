@@ -100,12 +100,7 @@ Move Application::getMoveFromConsole()
 	{
 		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
-			_consoleUI.logMoveMap(_game, order, i);
-			Logger::log("--------------------Possible positions(int) (int)--------");
-			for (auto x : order->getProperTargets(_game.getActiveUnit(), i))
-			{
-				Logger::log(std::to_string(x.pos.x) + ";" + std::to_string(x.pos.y));
-			}
+			_consoleUI.MoveMap(_game, order, i);
 
 			Logger::log("----------------------Choose Position (int) (int)--------");
 			int x, y;
@@ -116,6 +111,7 @@ Move Application::getMoveFromConsole()
 		}
 		else
 		{
+			_consoleUI.AttackMap(_game);
 			Logger::log("------------------Choose Target ID (int)-----------------");
 			if (_game.getActivePlayer() == 1)
 				_consoleUI.logStateUnits(_game, 0);

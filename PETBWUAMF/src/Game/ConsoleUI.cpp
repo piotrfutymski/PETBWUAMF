@@ -6,7 +6,7 @@ ConsoleUI::ConsoleUI()
 {
 }
 
-void ConsoleUI::logState(const Game & game)const
+void ConsoleUI::logState(const Game & game)
 {
 	Logger::log("---------------------------------------------------------");
 	Logger::log("------------------------New Turn-------------------------");
@@ -14,7 +14,7 @@ void ConsoleUI::logState(const Game & game)const
 	this->logStateUnits(game, game.getActivePlayer());
 	this->logStateUnits(game, (game.getActivePlayer()+1)%2);
 	this->logStateOrders(game);
-	this->logSimpleMap(game);
+	this->SimpleMap(game);
 	Logger::log("---------------------------------------------------------");
 	Logger::log(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
 }
@@ -70,62 +70,63 @@ void  ConsoleUI::makeMove(const Game & game)
 	Logger::log("---------------------------------------------------------");
 }
 
-std::vector<std::vector<char>> ConsoleUI::logStartMap()const
+
+
+void ConsoleUI::ClearMap()
 {
 	int sizeX = Unit::MAXPOS.x;
 	int sizeY = Unit::MAXPOS.y;
-	std::vector<std::vector<char>> map;
 	//char map[16][10];
+	_map.clear();
+	_colormap.clear();
 	for (int x = 0; x <= sizeX; x++)
 	{
-		map.push_back(std::vector<char>());
+		_map.push_back(std::vector<char>());
+		_colormap.push_back(std::vector<char>());
 		for (int y = 0; y <= sizeY; y++)
 		{
-			map[x].push_back('O');
+			_map[x].push_back('O');
+			_colormap[x].push_back('W');
 		}
 	}
-	return map;
 }
-void ConsoleUI::logSimpleMap(const Game & game)const
+void ConsoleUI::SimpleMap(const Game & game)
 {
-	auto map = logStartMap();
+	this->ClearMap();
 
+	this->SimUnitsMap(game);
 
-	for (auto &unit : game.getHolder<Unit>())
-	{
-		if (unit->getOwner() == 0)
-			map[unit->getPosition().x][unit->getPosition().y] = 'F';
-		else
-			map[unit->getPosition().x][unit->getPosition().y] = 'S';
-	}
-	map[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'A';
+	this->ConUnitMap(game);
 
-	logConstructMap(map);
+	this->ConstructMap();
 
 }
 
-void ConsoleUI::logMoveMap(const Game & game, Order *order, int i)const
+void ConsoleUI::MoveMap(const Game & game, Order *order, int i)
 {
-	auto map = logStartMap();
+	this->ClearMap();
 
-	for (auto x : order->getProperTargets(game.getActiveUnit(), i))
-	{
-		map[x.pos.x][x.pos.y] = 'M';
-	}
+	this->SimUnitsMap(game);
+	
+	this->SimMovMap(game, order);
 
-	for (auto &unit : game.getHolder<Unit>())
-	{
-		if (unit->getOwner() == 0)
-			map[unit->getPosition().x][unit->getPosition().y] = 'F';
-		else
-			map[unit->getPosition().x][unit->getPosition().y] = 'S';
-	}
-	map[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'A';
+	this->ConUnitMap(game);
 
-	logConstructMap(map);
+	this->ConstructMap();
 }
 
-void ConsoleUI::logConstructMap(std::vector<std::vector<char>> map) const
+void ConsoleUI::AttackMap(const Game & game)
+{
+	this->ClearMap();
+
+	this->NumUnitsMap(game);
+
+	this->ConUnitMap(game);
+
+	this->ConstructMap();
+}
+
+void ConsoleUI::ConstructMap() const
 {
 	int sizeX = Unit::MAXPOS.x;
 	int sizeY = Unit::MAXPOS.y;
@@ -136,7 +137,13 @@ void ConsoleUI::logConstructMap(std::vector<std::vector<char>> map) const
 		Logger::logW("|");
 	}
 	Logger::log("");
-	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
+
+	Logger::logW("  |");
+	for (int y = 0; y <= sizeY+2; y++)
+	{
+		Logger::logW("X|");
+	}
+	Logger::log("");
 	//Logger::log("   XXXXXXXXXXXX");
 	for (int x = 0; x <= sizeX; x++)
 	{
@@ -147,18 +154,18 @@ void ConsoleUI::logConstructMap(std::vector<std::vector<char>> map) const
 		Logger::logW("|X|");
 		for (int y = 0; y <= sizeY; y++)
 		{
-			if (map[x][y] == 'A')
+			if (_colormap[x][y] == 'Y')
 				std::cout << yellow;
 
-			else if (map[x][y] == 'F')
+			else if (_colormap[x][y] == 'B')
 				std::cout << blue;
 
-			else if (map[x][y] == 'S')
+			else if (_colormap[x][y] == 'R')
 				std::cout << red;
 
-			else if (map[x][y] == 'M')
+			else if (_colormap[x][y] == 'G')
 				std::cout << green;
-			Logger::logW(map[x][y]);
+			Logger::logW(_map[x][y]);
 			std::cout << white;
 			Logger::logW("|");
 		}
@@ -166,11 +173,75 @@ void ConsoleUI::logConstructMap(std::vector<std::vector<char>> map) const
 		Logger::log("");
 	}
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
-	Logger::log("  |X|X|X|X|X|X|X|X|X|X|X|X|");
+	Logger::logW("  |");
+	for (int y = 0; y <= sizeY + 2; y++)
+	{
+		Logger::logW("X|");
+	}
+	Logger::log("");
 }
 
+void ConsoleUI::SimUnitsMap(const Game & game)
+{
+	for (auto &unit : game.getHolder<Unit>())
+	{
+		if (unit->getOwner() == game.getActivePlayer())
+			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'B';
+		else
+			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
 
+		this->_map[unit->getPosition().x][unit->getPosition().y] =
+			TypeUnitMap(game, unit->getPrototype()->_unitType);
 
+	}
+}
+void ConsoleUI::NumUnitsMap(const Game & game)
+{
+	for (auto &unit : game.getHolder<Unit>())
+	{
+		if (unit->getOwner() == game.getActivePlayer())
+		{
+			this->_map[unit->getPosition().x][unit->getPosition().y] = 
+				TypeUnitMap(game, unit->getPrototype()->_unitType);
+			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'B';
+		}
+
+		else
+		{
+			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
+			if (unit->getID() < 9)
+				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() + '0';
+			else
+				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() + 'a';
+		}
+
+	}
+}
+void ConsoleUI::ConUnitMap(const Game & game)
+{
+	this->_colormap[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'Y';
+}
+
+void ConsoleUI::SimMovMap(const Game & game, Order *order)
+{
+	for (auto x : order->getProperTargets(game.getActiveUnit(), 0))
+	{
+		//this->_map[x.pos.x][x.pos.y] = 'M';
+		this->_colormap[x.pos.x][x.pos.y] = 'G';
+	}
+}
+char ConsoleUI::TypeUnitMap(const Game & game, const std::string type)
+{
+
+	if (type == "Infantry")
+		return 'I';
+	else if (type == "Ranged")
+		return 'R';
+	else if (type == "EliteInfantry")
+		return 'G';
+	else
+		return '?';
+}
 ConsoleUI::~ConsoleUI()
 {
 }

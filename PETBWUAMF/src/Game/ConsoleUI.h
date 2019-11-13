@@ -19,24 +19,34 @@ public:
 	ConsoleUI();
 	virtual ~ConsoleUI();
 
-	void logState(const Game & game)const;
+	void logState(const Game & game);
 	void logStateUnits(const Game & game, int owner)const;
 	void logStateOrders(const Game & game)const;
 
 	void  makeMove(const Game & game);
 
-	void logSimpleMap(const Game & game) const;
+	void SimpleMap(const Game & game);
 
-	void logMoveMap(const Game & game, Order *order, int i) const;
+	void AttackMap(const Game & game);
+
+	void MoveMap(const Game & game, Order *order, int i);
 	/*
 	static void setParent(Game * g)
 	{
 		_game = g;
 	};*/
 private:
+	std::vector<std::vector<char>> _map;
+	std::vector<std::vector<char>> _colormap;
 
-	void logConstructMap(std::vector<std::vector<char>> map) const;
-	std::vector<std::vector<char>> logStartMap() const;
+
+	char TypeUnitMap(const Game & game, const std::string type);
+	void SimUnitsMap(const Game & game);
+	void NumUnitsMap(const Game & game);
+	void ConUnitMap(const Game & game);
+	void SimMovMap(const Game & game, Order *order);
+	void ConstructMap() const;
+	void ClearMap();
 
 
 
