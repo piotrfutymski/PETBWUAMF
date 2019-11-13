@@ -133,7 +133,11 @@ void ConsoleUI::ConstructMap() const
 	Logger::logW("    |");
 	for (int y = 0; y <= sizeY; y++)
 	{
-		Logger::logW(std::to_string(y));
+		//Logger::logW(std::to_string(y));
+		if (y < 10)
+			Logger::logW(std::to_string(y));
+		else
+			Logger::logW(y - 10 + 'A');
 		Logger::logW("|");
 	}
 	Logger::log("");
@@ -209,10 +213,10 @@ void ConsoleUI::NumUnitsMap(const Game & game)
 		else
 		{
 			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
-			if (unit->getID() < 9)
+			if (unit->getID() <= 9)
 				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() + '0';
 			else
-				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() + 'a';
+				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() - 10 + 'a';
 		}
 
 	}
