@@ -10,69 +10,27 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------Game initialization started---------------");
 	Logger::log("---------------------------------------------------------");
 
-	Unit::setParent(this);
-	Order::setParent(this);
-	Buff::setParent(this);
 	this->initPrototypes();
-
-
-	for (auto &u : i._units)
-	{
-		auto unit = this->createObject<Unit>(u.first);
-		unit->setPosition(u.second);
-		_unitsInMoraleOrder.push_back(unit);
-		if (u.second.x < 2)
-			unit->setOwner(0);
-		else
-			unit->setOwner(1);
-	}
-
-	for (auto &o : i._fPlayerOrders)
-	{
-		auto order = this->createObject<Order>(o);
-		order->setOwner(0);
-	}
-	for (auto &o : i._sPlayerOrders)
-	{
-		auto order = this->createObject<Order>(o);
-		order->setOwner(1);
-	}
-	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
-		int am = a->getMorale();
-		int bm = b->getMorale();
-			return am > bm;
-	});
-	_activeUnit = *_unitsInMoraleOrder.begin();
-	_activePlayer = _activeUnit->getOwner();
+	this->createObjects(i);
+	this->newRound();
+	this->newTurn();
 
 	Logger::log("---------------------------------------------------------");
 	Logger::log("--------------Game initialization completed--------------");
 	Logger::log("---------------------------------------------------------");
 }
 
-bool Game::playMove(const Move & m)
+void Game::playMove(const Move & m)
 {
-
-	auto o = this->getObject<Order>(m.orderID);
-
-	o->execute(_activeUnit, m);
-	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
+	//Jednostka wykonuje rozkaz
+	this->executeOrder(m);
+	this->endTurn();
 	if (_unitsInMoraleOrder.size() == 0)
 	{
-		for (auto &u : _units)
-		{
-			_unitsInMoraleOrder.push_back(u.get());
-		}
+		this->newRound();
 	}
-	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
-		int am = a->getMorale();
-		int bm = b->getMorale();
-			return am > bm;
-	});
-	_activeUnit = *_unitsInMoraleOrder.begin();
-	_activePlayer = _activeUnit->getOwner();
+	this->newTurn();
 
-	return true;
 }
 
 bool Game::isEnded() const
@@ -108,17 +66,90 @@ const std::vector<Order*> Game::getPossibleOrders() const
 std::vector<Unit*> Game::getNeightbours(Unit * u)
 {
 	auto res = std::vector<Unit*>();
-	auto pos = u->getPosition();
-
-	for(auto &x: _units)
+	for (auto &x : _map.getNeightbours(u->getID()))
 	{
-		auto tpos = x->getPosition();
-		if ((tpos.x >= pos.x - 1 && tpos.x <= pos.x + 1) && (tpos.y >= pos.y - 1 && tpos.y <= pos.y + 1) && tpos != pos)
-			res.push_back(x.get());
+		res.push_back(this->getObject<Unit>(x));
+	}
+	return res;
+}
+
+const std::vector<Unit*> Game::getNeightbours(Unit * u) const
+{
+	std::vector<Unit*> res{};
+	for (auto &x : _map.getNeightbours(u->getID()))
+	{
+		res.push_back(const_cast<Unit*>(this->getObject<Unit>(x)));
+	}
+	return res;
+}
+
+const Map & Game::getMap() const
+{
+	return _map;
+}
+
+Map & Game::getMap()
+{
+	return _map;
+}
+
+void Game::createObjects(const GameInitiator & i)
+{
+
+	for (auto &u : i._units)
+	{
+		auto unit = this->createObject<Unit>(u.first);
+		unit->setPosition(u.second);
+		if (u.second.x < 2)
+			unit->setOwner(0);
+		else
+			unit->setOwner(1);
+
+		_map.setUnitPosition(unit->getID(), unit->getOwner(), unit->getPosition());
 	}
 
-	return res;
+	for (auto &o : i._fPlayerOrders)
+	{
+		auto order = this->createObject<Order>(o);
+		order->setOwner(0);
+	}
+	for (auto &o : i._sPlayerOrders)
+	{
+		auto order = this->createObject<Order>(o);
+		order->setOwner(1);
+	}
+}
 
+void Game::newRound()
+{
+	for (auto &u : _units)
+	{
+		_unitsInMoraleOrder.push_back(u.get());
+	}
+
+}
+
+void Game::newTurn()
+{
+	std::sort(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), [](Unit * a, Unit * b) {
+		int am = a->getMorale();
+		int bm = b->getMorale();
+		return am > bm;
+	});
+	_activeUnit = *_unitsInMoraleOrder.begin();
+	_activePlayer = _activeUnit->getOwner();
+
+}
+
+void Game::executeOrder(const Move & m)
+{
+	auto o = this->getObject<Order>(m.orderID);
+	o->execute(_activeUnit, m);
+}
+
+void Game::endTurn()
+{
+	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
 }
 
 
@@ -132,7 +163,7 @@ Unit * Game::getActiveUnit()
 	return _activeUnit;
 }
 
-size_t Game::getActivePlayer()const
+int Game::getActivePlayer()const
 {
 	return _activePlayer;
 }

@@ -12,7 +12,7 @@
     "chargeAttack": 2,
     "chargeDefence": 2,
 
-    "move": 10,
+    "move": 4,
     "morale": 6,
 
     "faction": "Southern Cities",
@@ -34,7 +34,7 @@
     "chargeAttack": 1,
     "chargeDefence": 1,
 
-    "move": 10,
+    "move": 5,
     "morale": 7,
 
     "faction": "Southern Cities",
