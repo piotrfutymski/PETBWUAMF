@@ -59,8 +59,7 @@ int Application::run()
 	return 0;*/
 	while (!_game.isEnded())
 	{
-		while (!_game.playMove(this->getMoveFromConsole()))
-			;
+		_game.playMove(this->getMoveFromConsole());
 	}
 
 	return 0;

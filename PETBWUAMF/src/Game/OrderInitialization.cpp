@@ -63,22 +63,13 @@ void Game::initPrototypes()
 		auto res = std::vector<OrderPrototype::Target>();
 		if (n != 0)
 			return res;
-		PathFinder pathFinder(Unit::MAXPOS.x+1, Unit::MAXPOS.y+1);
-		int ow = u->getOwner();
-		for (auto & x: _units)
-		{
-			if (x->getOwner() == ow)
-				pathFinder.addAllay(x->getPosition());
-			else
-				pathFinder.addEnemy(x->getPosition());
-		}
 
-		for (auto el: pathFinder.getGoodPositions(u->getPosition(), u->getMove()) )
-		{
-			if (el.second == true)
-				res.push_back({ OrderPrototype::TargetType::Position_target, {el.first / 1000, el.first % 1000 }, 0});
-		}
+		auto paths = this->getMap().getPaths(u->getID(), u->getMove());
 
+		for (auto & el: paths )
+		{
+				res.push_back({ OrderPrototype::TargetType::Position_target, el, 0});
+		}
 		return std::move(res);
 	});
 
@@ -90,6 +81,7 @@ void Game::initPrototypes()
 			if(neight->getOwner() != u->getOwner())
 				neight->removeInFightWith(u->getID());
 		}
+		this->getMap().moveUnitFromPosition(u->getPosition(), m.positions[0]);
 		u->setPosition(m.positions[0]);
 		auto neights = std::vector<size_t>();
 		for (auto neight : this->getNeightbours(u))
@@ -101,6 +93,7 @@ void Game::initPrototypes()
 			}		
 		}
 		u->setInFightWith(neights);
+
 		return true;
 	});
 

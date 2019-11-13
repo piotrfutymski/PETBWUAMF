@@ -14,9 +14,7 @@ public:
 
 	bool isInArea(const sf::Vector2i & pos);
 
-	bool pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move);
-
-	std::map<int, bool> getGoodPositions(const sf::Vector2i & start, int move);
+	std::vector<sf::Vector2i> getGoodPositions(const sf::Vector2i & start, int move);
 
 private:
 	int _xSize;
@@ -24,7 +22,7 @@ private:
 
 	std::vector<std::vector<int>> _matrix;
 
-	bool _pathExist(const sf::Vector2i & start, const sf::Vector2i & target, float move, std::map<int, bool> & positions, std::vector<sf::Vector2i> & notChecked);
+	void calculatePath(const sf::Vector2i & start, float move, std::vector<std::vector<float>> & positions);
 
 	float getSquereDistance(const sf::Vector2i & first, const sf::Vector2i & second);
 

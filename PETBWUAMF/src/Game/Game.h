@@ -15,6 +15,8 @@
 
 class Game
 {
+
+
 private:
 	template <typename T>
 	struct isGameType : public std::conditional_t<
@@ -29,6 +31,7 @@ public:
 	using UnitHolder_t = std::vector<std::unique_ptr<Unit>>;
 	using BuffHolder_t = std::vector<std::unique_ptr<Buff>>;
 
+	//constructing
 
 	Game();
 
@@ -44,20 +47,57 @@ public:
 
 	//Application Layer
 
-	bool playMove(const Move & m);
+	void playMove(const Move & m);
+
+	//getters
 
 	bool isEnded()const;
 
-
-	//Logic Layer
-
 	const Unit * getActiveUnit()const;
 	Unit * getActiveUnit();
-	size_t getActivePlayer()const;
+	int getActivePlayer()const;
 
 	std::vector<Order *> getPossibleOrders();
 	const std::vector<Order *> getPossibleOrders()const;
+
 	std::vector<Unit *> getNeightbours(Unit * u);
+	const std::vector<Unit *>getNeightbours(Unit * u)const;
+
+	const Map & getMap()const;
+	Map & getMap();
+
+
+private:
+
+	OrderHolder_t _orders;			// all orders in game
+	UnitHolder_t _units;			// all units in game
+	BuffHolder_t _buffs;			//all buffs in game
+
+	Map _map;						// map
+
+	//game parameters
+
+	bool _isEnded{ false };
+
+	std::vector<Unit *> _unitsInMoraleOrder;
+
+	Unit * _activeUnit;
+
+	int _activePlayer;
+
+	int _player0CommandPoints;
+	int _player1CommandPoints;
+
+private:
+
+	void createObjects(const GameInitiator & i);
+	void newRound();
+	void newTurn();
+	void executeOrder(const Move & m);
+	void endTurn();
+
+	void initPrototypes();
+
 
 private:
 	//templates
@@ -130,30 +170,6 @@ public:
 	}
 
 
-private:
-
-	OrderHolder_t _orders;			// all orders in game
-	UnitHolder_t _units;			// all units in game
-	BuffHolder_t _buffs;			//all buffs in game
-
-	Map _map;						// map
-
-	//game parameters
-
-	bool _isEnded{ false };
-
-	std::vector<Unit *> _unitsInMoraleOrder;
-
-	Unit * _activeUnit;
-
-	size_t _activePlayer;
-
-	int _player0CommandPoints;
-	int _player1CommandPoints;
-
-private:
-
-	void initPrototypes();
 
 
 };
