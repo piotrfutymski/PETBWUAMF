@@ -6,7 +6,7 @@
 
 #include "Game/Game.h"
 #include"Assets/AssetMeneger.h"
-#include "Game/ConsoleUI.h"
+#include "CUI/ConsoleUI.h"
 
 
 class Application

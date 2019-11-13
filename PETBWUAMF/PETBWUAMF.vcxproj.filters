@@ -75,7 +75,7 @@
     <ClCompile Include="src\Game\PathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\ConsoleUI.cpp">
+    <ClCompile Include="src\CUI\ConsoleUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,10 +143,10 @@
     <ClInclude Include="src\Game\PathFinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\ConsoleColor.h">
+    <ClInclude Include="src\CUI\ConsoleUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\ConsoleUI.h">
+    <ClInclude Include="src\CUI\ConsoleColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

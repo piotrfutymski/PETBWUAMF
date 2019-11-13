@@ -4,14 +4,8 @@
 #include <algorithm> 
 #include <functional>
 #include <type_traits>
-#include "GameInitiatior.h"
-#include "Move.h"
-#include "Map.h"
-#include "Order.h"
-#include "Unit.h"
-#include "PathFinder.h"
+#include "../Game/Game.h"
 #include "ConsoleColor.h"
-#include "Game.h"
 
 class ConsoleUI
 {
