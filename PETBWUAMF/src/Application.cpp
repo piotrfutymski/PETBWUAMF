@@ -109,8 +109,8 @@ Move Application::getMoveFromConsole()
 		}
 		else
 		{
-			_consoleUI.AttackMap(_game);
 			Logger::log("------------------Choose Target ID (int)-----------------");
+			_consoleUI.AttackMap(_game);
 			if (_game.getActivePlayer() == 1)
 				_consoleUI.logStateUnits(_game, 0);
 			else

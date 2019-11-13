@@ -128,7 +128,7 @@ void ConsoleUI::AttackMap(const Game & game)
 void ConsoleUI::ConstructMap()
 {
 	COORD savedcoords = GetCursorPos();
-	if (savedcoords.Y - _lastcoords.Y < Unit::MAXPOS.x * 2)
+	if (savedcoords.Y - _lastcoords.Y < Unit::MAXPOS.x + 4)
 		SetCursorPos(_lastcoords);
 	CursorByUp();
 	CursorToRight();
