@@ -1,7 +1,7 @@
 #include "Unit.h"
 
-sf::Vector2i Unit::MAXPOS = { 15,9 };
-int Unit::ROUND_SIZE = 2;
+sf::Vector2i Unit::MAXPOS = { 15,18 };
+int Unit::ROUND_SIZE = 1;
 int Unit::FRONT_SIZE = 30;
 
 
@@ -14,12 +14,16 @@ Unit::Unit(const std::string & name)
 	_armor = this->getPrototype()->_armor;
 	_health = this->getPrototype()->_health;
 
+
 	_rangedAttack = this->getPrototype()->_rangedAttack;
+	_rangedRange = this->getPrototype()->_rangedRange;
 	_chargeAttack = this->getPrototype()->_chargeAttack;
 	_chargeDefence = this->getPrototype()->_chargeDefence;
 
+
 	_move = this->getPrototype()->_move;
 	_morale = this->getPrototype()->_morale;
+	_formationSize = this->getPrototype()->_formationSize;
 }
 
 
@@ -134,6 +138,10 @@ int Unit::getRangedAttack() const
 {
 	return _rangedAttack;
 }
+int Unit::getRangedRange() const
+{
+	return _rangedRange;
+}
 int Unit::getChargeDefence() const
 {
 	return _chargeDefence;
@@ -148,6 +156,13 @@ void Unit::getSimpleInfo() const
 	Logger::log(this->getPrototype()->getName() + " on pos (" + std::to_string(this->getPosition().x) + "," + std::to_string(this->getPosition().y) + ")");
 	Logger::log("Attack: " + std::to_string(_attack) + " Protection: " + std::to_string(this->getProtection()) + " Health: " + std::to_string(_health));
 	Logger::log("---------------------------------------------------------");
+}
+
+float Unit::getDistanceTo(const Unit *enemy)const
+{
+	float x = enemy->_position.x - this->_position.x;
+	float y = enemy->_position.y - this->_position.y;
+	return std::sqrt(x * x + y * y);
 }
 
 void Unit::normalAttack(Unit *enemy)

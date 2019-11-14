@@ -19,11 +19,13 @@ public:
 	int _defence;
 
 	int _rangedAttack;
+	int _rangedRange;
 	int _chargeAttack;
 	int _chargeDefence;
 
 	int _move;
 	int _morale;
+	float _formationSize;
 
 	std::string _description;
 	std::string _faction;

@@ -10,8 +10,15 @@ void Game::initPrototypes()
 
 	p->set_canBeUsed([this](Unit * u)
 	{
+		auto & units = this->getHolder<Unit>();
 		if (u->isRanged())
-			return true;
+		{
+			for (size_t i = 0; i < units.size(); i++)
+			{
+				if (u->getOwner() != units[i]->getOwner() && u->getDistanceTo(units[i].get()) <= u->getRangedRange())
+					return true;
+			}
+		}
 		else
 		{
 			if (u->isInFight())
@@ -29,14 +36,15 @@ void Game::initPrototypes()
 		{
 			for (size_t i = 0; i < units.size(); i++)
 			{
-				res.push_back({ OrderPrototype::TargetType::Unit_target, {0,0}, units[i]->getID() });
+				if (u->getOwner() != units[i]->getOwner() && u->getDistanceTo(units[i].get()) <= u->getRangedRange())
+					res.push_back({ OrderPrototype::TargetType::Unit_target, units[i]->getPosition(), units[i]->getID() });
 			}
 		}
 		else
 		{
 			for (auto & x : u->getEnemyInFightWhith())
 			{
-				res.push_back({ OrderPrototype::TargetType::Unit_target, {0,0}, x });
+				res.push_back({ OrderPrototype::TargetType::Unit_target, this->getObject<Unit>(x)->getPosition(), x });
 			}
 		}
 		return std::move(res);

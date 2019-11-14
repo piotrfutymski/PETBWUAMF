@@ -40,10 +40,11 @@ public:
 	int getRangedAttack() const;
 	int getChargeDefence() const;
 	int getChargeAttack() const;
+	int getRangedRange() const;
 
 	int getMove()const;
 	
-
+	float getDistanceTo(const Unit *enemy)const;
 	void getSimpleInfo() const;
 	//attacking
 
@@ -66,13 +67,14 @@ private:
 	int _defence;
 
 	int _rangedAttack;
+	int _rangedRange;
 	int _chargeAttack;
 	int _chargeDefence;
 
 	int _move;
 	int _morale;
 
-	float _formationSize {1};
+	float _formationSize;
 	
 	// Unit situation at this point
 

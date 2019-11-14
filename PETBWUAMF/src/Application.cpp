@@ -99,7 +99,7 @@ Move Application::getMoveFromConsole()
 	{
 		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
 		{
-			_consoleUI.MoveMap(_game, order, i);
+			_consoleUI.MoveMap(_game, order);
 			Logger::log("----------------------Choose Position (int) (int)--------");
 			int x, y;
 			std::cin >> x;
@@ -110,7 +110,7 @@ Move Application::getMoveFromConsole()
 		else
 		{
 			Logger::log("------------------Choose Target ID (int)-----------------");
-			_consoleUI.AttackMap(_game);
+			_consoleUI.AttackMap(_game, order);
 			if (_game.getActivePlayer() == 1)
 				_consoleUI.logStateUnits(_game, 0);
 			else

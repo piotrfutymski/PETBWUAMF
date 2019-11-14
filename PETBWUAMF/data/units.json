@@ -14,7 +14,7 @@
 
     "move": 4,
     "morale": 6,
-
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Light militia infantry.",
 
@@ -31,12 +31,13 @@
     "armor": 4,
     "health": 60,
     "rangedAttack": 4,
+    "rangedRange": 6,
     "chargeAttack": 1,
     "chargeDefence": 1,
 
     "move": 5,
     "morale": 7,
-
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Light militia archer.",
 
@@ -59,7 +60,7 @@
 
     "move": 100,
     "morale": 8,
-
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Elite guard infantry.",
 
@@ -79,6 +80,7 @@
     "chargeDefence": 4,
     "move": 2,
     "morale": 4,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Light, militia bordering, spearman",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -97,6 +99,7 @@
     "chargeDefence": 6,
     "move": 2,
     "morale": 6,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy spearman, main battleline unit of Lorhien.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -115,6 +118,7 @@
     "chargeDefence": 2,
     "move": 2,
     "morale": 5,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Light swordman, primary agressive unit of Lorhien.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -133,6 +137,7 @@
     "chargeDefence": 2,
     "move": 2,
     "morale": 6,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy swordman, best mainline unit of Lorhien.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -147,10 +152,12 @@
     "armor": 6,
     "health": 120,
     "rangedAttack": 4,
+    "rangedRange": 6,
     "chargeAttack": 1,
     "chargeDefence": 1,
     "move": 3,
     "morale": 4,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Mostly used as scout, only archers in Lorhien's army.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -165,10 +172,12 @@
     "armor": 12,
     "health": 90,
     "rangedAttack": 12,
+    "rangedRange": 5,
     "chargeAttack": 2,
     "chargeDefence": 4,
     "move": 2,
     "morale": 6,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy spearman, armed also with a siege crossbow, primary maning walls of Loranth.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -187,6 +196,7 @@
     "chargeDefence": 6,
     "move": 2,
     "morale": 8,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy naginata-wielding Guardian of Loranth Citadel, best living soldier of Necromancers.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -205,6 +215,7 @@
     "chargeDefence": 12,
     "move": 4,
     "morale": 10,
+    "formationSize": 1,
     "faction": "Lorhien",
     "description": "Special //  Jednostka strasznie nie oplacalna przez swoje super niskie zycie, ale ordery mialyby to nadrabiac",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -223,6 +234,7 @@
     "chargeDefence": 0,
     "move": 3,
     "morale": 3,
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Farmers, given weapons and told to fight for their country",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -241,6 +253,7 @@
     "chargeDefence": 0,
     "move": 3,
     "morale": 4,
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Main infantry of South, very good at offense",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -259,6 +272,7 @@
     "chargeDefence": 6,
     "move": 3,
     "morale": 5,
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Guards of Cities, only spearman unit in South.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -277,6 +291,7 @@
     "chargeDefence": 4,
     "move": 4,
     "morale": 6,
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Gladiators fighting in South, forcefully conscripted to army.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
@@ -295,6 +310,7 @@
     "chargeDefence": 6,
     "move": 2,
     "morale": 8,
+    "formationSize": 1,
     "faction": "Southern Cities",
     "description": "Tyrants' Guard, best infantry of South.",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"

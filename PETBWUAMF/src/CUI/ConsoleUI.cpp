@@ -101,7 +101,7 @@ void ConsoleUI::SimpleMap(const Game & game)
 
 }
 
-void ConsoleUI::MoveMap(const Game & game, Order *order, int i)
+void ConsoleUI::MoveMap(const Game & game, Order *order)
 {
 	this->ClearMap();
 
@@ -114,11 +114,13 @@ void ConsoleUI::MoveMap(const Game & game, Order *order, int i)
 	this->ConstructMap();
 }
 
-void ConsoleUI::AttackMap(const Game & game)
+void ConsoleUI::AttackMap(const Game & game, Order *order)
 {
 	this->ClearMap();
 
-	this->NumUnitsMap(game);
+	this->SimUnitsMap(game);
+
+	this->NumUnitsMap(game, order);
 
 	this->ConUnitMap(game);
 
@@ -204,8 +206,18 @@ void ConsoleUI::SimUnitsMap(const Game & game)
 
 	}
 }
-void ConsoleUI::NumUnitsMap(const Game & game)
+void ConsoleUI::NumUnitsMap(const Game & game, Order *order)
 {
+	for (auto x : order->getProperTargets(game.getActiveUnit(), 0))
+	{
+		this->_colormap[x.pos.x][x.pos.y] = 'G';
+		//this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
+		if (x.targetID <= 9)
+			this->_map[x.pos.x][x.pos.y] = x.targetID + '0';
+		else
+			this->_map[x.pos.x][x.pos.y] = x.targetID - 10 + 'a';
+	}
+	/*
 	for (auto &unit : game.getHolder<Unit>())
 	{
 		if (unit->getOwner() == game.getActivePlayer())
@@ -225,6 +237,7 @@ void ConsoleUI::NumUnitsMap(const Game & game)
 		}
 
 	}
+	*/
 }
 void ConsoleUI::ConUnitMap(const Game & game)
 {
@@ -244,10 +257,16 @@ char ConsoleUI::TypeUnitMap(const Game & game, const std::string type)
 
 	if (type == "Infantry")
 		return 'I';
-	else if (type == "Ranged")
-		return 'R';
-	else if (type == "EliteInfantry")
+	 if (type == "Archer")
+		return 'A';
+	if (type == "EliteInfantry" || type== "Guard")
 		return 'G';
+	if (type == "Spearman")
+		return 'W';
+	if (type == "Axeman")
+		return 'E';
+	if (type == "Crossbowman")
+		return 'C';
 	else
 		return '?';
 }

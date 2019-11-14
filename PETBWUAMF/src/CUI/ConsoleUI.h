@@ -21,9 +21,9 @@ public:
 
 	void SimpleMap(const Game & game);
 
-	void AttackMap(const Game & game);
+	void AttackMap(const Game & game, Order *order);
 
-	void MoveMap(const Game & game, Order *order, int i);
+	void MoveMap(const Game & game, Order *order);
 	/*
 	static void setParent(Game * g)
 	{
@@ -40,7 +40,7 @@ private:
 
 	char TypeUnitMap(const Game & game, const std::string type);
 	void SimUnitsMap(const Game & game);
-	void NumUnitsMap(const Game & game);
+	void NumUnitsMap(const Game & game, Order *order);
 	void ConUnitMap(const Game & game);
 	void SimMovMap(const Game & game, Order *order);
 	void ConstructMap();

@@ -5,15 +5,15 @@ GameInitiator::GameInitiator()
 
 	// przyk³adowe stworzenie initiatora (normalnie ma byæ na zewn¹trz klasy oczywiœcie)
 
-	this->addUnitToFirstPlayer("testWarrior", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
-	this->addUnitToFirstPlayer("testWarrior", 1, 6);
-	this->addUnitToFirstPlayer("testEliteGuard", 1, 5);
-	this->addUnitToFirstPlayer("testArcher", 0, 5);
+	this->addUnitToFirstPlayer("Light Spearman", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
+	this->addUnitToFirstPlayer("Light Spearman", 1, 6);
+	this->addUnitToFirstPlayer("Lorhien Guard", 1, 5);
+	this->addUnitToFirstPlayer("Light Scout", 0, 5);
 
-	this->addUnitToSecondPlayer("testWarrior", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
-	this->addUnitToSecondPlayer("testWarrior", 1, 6);
-	this->addUnitToSecondPlayer("testEliteGuard", 1, 5);
-	this->addUnitToSecondPlayer("testArcher", 0, 5);
+	this->addUnitToSecondPlayer("Light Militia", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
+	this->addUnitToSecondPlayer("Light Militia", 1, 6);
+	this->addUnitToSecondPlayer("Palace Guard", 1, 5);
+	this->addUnitToSecondPlayer("Heavy Crossbow Warden", 0, 5);
 
 	// I rozkazy
 
