@@ -1,12 +1,13 @@
 #pragma once
 #include "GameObject.h"
 #include "Buff.h"
+#include "Map.h"
 
 class Unit : public GameObject<UnitPrototype>
 {
 public:
 
-	static sf::Vector2i MAXPOS;
+	//static sf::Vector2i MAXPOS;
 
 	using Buffs_t = std::vector<Buff*>;
 

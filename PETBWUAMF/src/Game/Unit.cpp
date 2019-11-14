@@ -1,6 +1,6 @@
 #include "Unit.h"
 
-sf::Vector2i Unit::MAXPOS = { 15,18 };
+//sf::Vector2i Unit::MAXPOS = { 15,9 };
 int Unit::ROUND_SIZE = 1;
 int Unit::FRONT_SIZE = 30;
 
@@ -8,7 +8,6 @@ int Unit::FRONT_SIZE = 30;
 Unit::Unit(const std::string & name)
 	:GameObject<UnitPrototype>(name)
 {
-
 	_attack = this->getPrototype()->_attack;
 	_defence = this->getPrototype()->_defence;
 	_armor = this->getPrototype()->_armor;
@@ -29,7 +28,7 @@ Unit::Unit(const std::string & name)
 
 void Unit::setPosition(const sf::Vector2i & p)
 {
-	if (p.x < 0 || p.x > MAXPOS.x || p.y < 0 || p.y > MAXPOS.y)
+	if (p.x < 0 || p.x > Map::MAP_WIDTH || p.y < 0 || p.y > Map::MAP_HEIGHT)
 		return;
 
 	_position = p;
@@ -167,6 +166,7 @@ float Unit::getDistanceTo(const Unit *enemy)const
 
 void Unit::normalAttack(Unit *enemy)
 {
+	//
 	Logger::log("-------------------Attack in progress--------------------");
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{

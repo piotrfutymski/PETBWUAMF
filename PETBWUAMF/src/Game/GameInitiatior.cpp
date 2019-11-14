@@ -41,7 +41,7 @@ void GameInitiator::addUnitToFirstPlayer(const std::string & name, int line, int
 
 void GameInitiator::addUnitToSecondPlayer(const std::string & name, int line, int position)
 {
-	this->addUnit(name, { Unit::MAXPOS.x - line,position });
+	this->addUnit(name, { Map::MAP_WIDTH - (1 + line),position });
 }
 
 void GameInitiator::addOrderToFirstPlayer(const std::string & name)

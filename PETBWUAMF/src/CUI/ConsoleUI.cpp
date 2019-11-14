@@ -73,16 +73,16 @@ void  ConsoleUI::makeMove(const Game & game)
 
 void ConsoleUI::ClearMap()
 {
-	int sizeX = Unit::MAXPOS.x;
-	int sizeY = Unit::MAXPOS.y;
+	int sizeX = Map::MAP_WIDTH;
+	int sizeY = Map::MAP_HEIGHT;
 	//char map[16][10];
 	_map.clear();
 	_colormap.clear();
-	for (int x = 0; x <= sizeX; x++)
+	for (int x = 0; x < sizeX; x++)
 	{
 		_map.push_back(std::vector<char>());
 		_colormap.push_back(std::vector<char>());
-		for (int y = 0; y <= sizeY; y++)
+		for (int y = 0; y < sizeY; y++)
 		{
 			_map[x].push_back('O');
 			_colormap[x].push_back('W');
@@ -130,14 +130,14 @@ void ConsoleUI::AttackMap(const Game & game, Order *order)
 void ConsoleUI::ConstructMap()
 {
 	COORD savedcoords = GetCursorPos();
-	if (savedcoords.Y - _lastcoords.Y < Unit::MAXPOS.x + 4)
+	if (savedcoords.Y - _lastcoords.Y < Map::MAP_WIDTH + 4)
 		SetCursorPos(_lastcoords);
 	CursorByUp();
 	CursorToRight();
-	int sizeX = Unit::MAXPOS.x;
-	int sizeY = Unit::MAXPOS.y;
+	int sizeX = Map::MAP_WIDTH;
+	int sizeY = Map::MAP_HEIGHT;
 	Logger::logW("    |");
-	for (int y = 0; y <= sizeY; y++)
+	for (int y = 0; y < sizeY; y++)
 	{
 		//Logger::logW(std::to_string(y));
 		if (y < 10)
@@ -149,20 +149,20 @@ void ConsoleUI::ConstructMap()
 	CursorToRight();
 
 	Logger::logW("  |");
-	for (int y = 0; y <= sizeY+2; y++)
+	for (int y = 0; y < sizeY+2; y++)
 	{
 		Logger::logW("X|");
 	}
 	CursorToRight();
 	//Logger::log("   XXXXXXXXXXXX");
-	for (int x = 0; x <= sizeX; x++)
+	for (int x = 0; x < sizeX; x++)
 	{
 		if (x < 10)
 			Logger::logW(std::to_string(x) + " ");
 		else
 			Logger::logW(std::to_string(x));
 		Logger::logW("|X|");
-		for (int y = 0; y <= sizeY; y++)
+		for (int y = 0; y < sizeY; y++)
 		{
 			if (_colormap[x][y] == 'Y')
 				std::cout << yellow;
@@ -184,7 +184,7 @@ void ConsoleUI::ConstructMap()
 	}
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
 	Logger::logW("  |");
-	for (int y = 0; y <= sizeY + 2; y++)
+	for (int y = 0; y < sizeY + 2; y++)
 	{
 		Logger::logW("X|");
 	}
@@ -299,6 +299,6 @@ void ConsoleUI::CursorByUp()
 {
 	COORD cords;
 	cords = GetCursorPos();
-	cords.Y -= Unit::MAXPOS.x;
+	cords.Y -= Map::MAP_WIDTH;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
 }
