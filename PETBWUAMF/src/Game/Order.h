@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Move.h"
+#include "MoveRes.h"
 
 class Unit;
 
@@ -23,7 +24,7 @@ public:
 	OrderPrototype::TargetType getTargetType(int n)const;
 	int getTargetsCount()const;
 	std::vector<OrderPrototype::Target> getProperTargets(const Unit *u, int n, const Move & m)const;
-	bool execute(Unit *u, const Move & m);
+	MoveRes execute(Unit *u, const Move & m);
 
 private:
 

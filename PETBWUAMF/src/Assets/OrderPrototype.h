@@ -4,6 +4,7 @@
 
 class Unit;
 class Move;
+class MoveRes;
 
 class OrderPrototype :public Asset
 {
@@ -29,13 +30,13 @@ public:
 
 	void set_canBeUsed(const std::function<bool(Unit*)> &);
 	void set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int, const Move & m)> &);
-	void set_execute(const std::function<bool(Unit *, const Move &)> &);
+	void set_execute(const std::function<MoveRes(Unit *, const Move &)> &);
 
 public:
 
 	std::function<bool(Unit * )> _canBeUsed;
 	std::function<std::vector<Target>(const Unit *, int, const Move & m)> _getProperTargets;
-	std::function<bool(Unit *, const Move &)> _execute;
+	std::function<MoveRes(Unit *, const Move &)> _execute;
 
 	bool _canBeUsedOnAllUnit;
 	std::vector <std::string> _allowedTypes;

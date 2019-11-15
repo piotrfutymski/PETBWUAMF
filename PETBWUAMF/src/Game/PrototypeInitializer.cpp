@@ -47,7 +47,7 @@ std::vector<OrderPrototype::Target> PrototypeInitializer::getPossibleFightTarget
 	return res;
 }
 
-void PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
+MoveRes PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 {
 	for (auto neight : game->getNeightbours(u))
 	{
@@ -66,14 +66,22 @@ void PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 		}
 	}
 	u->setInFightWith(neights);
+
+	return { {{u->getID(), pos}},{},{},{} };
 }
 
-void PrototypeInitializer::attack(Unit * u, size_t en)
+MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 {
+	auto enemy = game->getObject<Unit>(en);
+	auto startH = enemy->getHealth();
 	if (u->hasFlag(Unit::UFlag::Ranged))
-		u->rangedAttack(game->getObject<Unit>(en));
+		u->rangedAttack(enemy);
 	else
-		u->normalAttack(game->getObject<Unit>(en));
+		u->normalAttack(enemy);
+
+	auto endH = enemy->getHealth();
+
+	return{ {},{{en, endH - startH}},{},{} };
 }
 
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)
@@ -107,8 +115,7 @@ void PrototypeInitializer::initOrders()
 	});
 
 	p->set_execute([](Unit * u, const Move & m) {
-		PrototypeInitializer::attack(u, m.units[0]);
-		return true;
+		return PrototypeInitializer::attack(u, m.units[0]);
 	});
 
 	//MOVE
@@ -129,8 +136,7 @@ void PrototypeInitializer::initOrders()
 	});
 
 	p->set_execute([](Unit * u, const Move & m) {
-		PrototypeInitializer::move(u, m.positions[0]);
-		return true;
+		return PrototypeInitializer::move(u, m.positions[0]);
 	});
 
 
@@ -174,9 +180,9 @@ void PrototypeInitializer::initOrders()
 
 	p->set_execute([=](Unit * u, const Move & m) {
 		g->addBuff("chargeBoost", u->getID());
-		PrototypeInitializer::move(u, m.positions[0]);
-		PrototypeInitializer::attack(u, m.units[0]);
-		return true;
+		auto a = PrototypeInitializer::move(u, m.positions[0]);
+		auto b = PrototypeInitializer::attack(u, m.units[0]);
+		return a+b;
 	});
 
 
@@ -195,7 +201,7 @@ void PrototypeInitializer::initOrders()
 	});
 	p->set_execute([=](Unit * u, const Move & m) {
 		g->addBuff("prepareBoost", u->getID());
-		return true;
+		return (MoveRes{ {},{},{{u->getID(),Unit::UParameter::Armor, u->getChargeDefence() }},{} });
 	});
 
 	//HELP
@@ -223,7 +229,7 @@ void PrototypeInitializer::initOrders()
 	});
 	p->set_execute([=](Unit * u, const Move & m) {
 		g->getObject<Unit>(m.units[0])->upgradeParameter(Unit::UParameter::Health, 5);
-		return true;
+		return (MoveRes{ {},{},{{u->getID(), Unit::UParameter::Health, 5 }},{} });
 	});
 }
 

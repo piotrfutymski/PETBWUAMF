@@ -42,7 +42,7 @@ void OrderPrototype::set_getProperTargets(const std::function<std::vector<Target
 	_getProperTargets = f;
 }
 
-void OrderPrototype::set_execute(const std::function<bool(Unit *, const Move &)> & f)
+void OrderPrototype::set_execute(const std::function<MoveRes(Unit *, const Move &)> & f)
 {
 	_execute = f;
 }

@@ -37,7 +37,7 @@ OrderPrototype::TargetType Order::getTargetType(int n)const
 	return this->getPrototype()->_targets[n];
 }
 
-bool Order::execute(Unit *u, const Move & m)
+MoveRes Order::execute(Unit *u, const Move & m)
 {
 	return this->getPrototype()->_execute(u, m);
 }

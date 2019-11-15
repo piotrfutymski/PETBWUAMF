@@ -3,11 +3,14 @@
 #include <fstream>
 #include <iostream>
 #include <functional>
+#include <thread>
+#include <mutex>
 
 #include "Game/Game.h"
 #include "Game/PrototypeInitializer.h"
 #include "Assets/AssetMeneger.h"
 #include "CUI/ConsoleUI.h"
+#include "GUI/Engine.h"
 
 
 class Application
@@ -19,21 +22,17 @@ public:
 
 	int run();
 
-	void input();
-
-	void update();
-
-	void render();
+	void playGame()
+	{
+		while (!_game.isEnded())
+		{
+			_game.playMove(this->getMoveFromConsole());
+		}
+	}
 
 	Move getMoveFromConsole();
 
-
 private:
-
-	//Didax::Window _window;
-	//Didax::Engine _engine;
-	//float sec = 0;
-	//int frames = 0;
 
 	Game _game;
 
@@ -41,6 +40,8 @@ private:
 
 	nlohmann::json _settings;
 
-	sf::Clock _clock;
+	std::mutex gameMutex;
 
+	Didax::Engine _engine;
 };
+

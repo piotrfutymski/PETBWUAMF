@@ -8,7 +8,7 @@
 #include "Move.h"
 #include "Map.h"
 #include "Order.h"
-#include "Unit.h"
+#include "MoveRes.h"
 #include "PathFinder.h"
 
 
@@ -47,7 +47,7 @@ public:
 
 	//Application Layer
 
-	void playMove(const Move & m);
+	MoveRes playMove(const Move & m);
 
 	//getters
 
@@ -95,7 +95,7 @@ private:
 	void createObjects(const GameInitiator & i);
 	void newRound();
 	void newTurn();
-	void executeOrder(const Move & m);
+	MoveRes executeOrder(const Move & m);
 	void endTurn();
 
 private:

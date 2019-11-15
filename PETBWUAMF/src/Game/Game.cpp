@@ -19,16 +19,17 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------------------------------------------------");
 }
 
-void Game::playMove(const Move & m)
+MoveRes Game::playMove(const Move & m)
 {
 	//Jednostka wykonuje rozkaz
-	this->executeOrder(m);
+	auto res = this->executeOrder(m);
 	this->endTurn();
 	if (_unitsInMoraleOrder.size() == 0)
 	{
 		this->newRound();
 	}
 	this->newTurn();
+	return res;
 
 }
 
@@ -155,10 +156,10 @@ void Game::newTurn()
 
 }
 
-void Game::executeOrder(const Move & m)
+MoveRes Game::executeOrder(const Move & m)
 {
 	auto o = this->getObject<Order>(m.orderID);
-	o->getPrototype()->_execute(_activeUnit, m);
+	return o->execute(_activeUnit, m);
 }
 
 void Game::endTurn()
