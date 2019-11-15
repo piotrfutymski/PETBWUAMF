@@ -1,11 +1,17 @@
 {
   "0": {
     "type": "buff",
-    "name": "attackBoost"
+    "name": "prepareBoost",
+    "time": 1,
+    "firstValue": 0,
+    "secondValue": 0
   },
 
   "1": {
     "type": "buff",
-    "name": "defenceBoost"
+    "name": "chargeBoost",
+    "time": 0,
+    "firstValue": 0,
+    "secondValue": 0
   }
 }

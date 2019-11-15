@@ -57,6 +57,9 @@ public:
 	int getMove()const;
 
 	int getParameter(UParameter p)const;
+	void setParameter(UParameter p, int value);
+	void upgradeParameter(UParameter p, float value);
+	void upgradeParameter(UParameter p, int value);
 
 	// flags
 	
@@ -64,6 +67,7 @@ public:
 
 	// help functions
 
+	bool isDead()const;
 	float getDistanceTo(const Unit *enemy)const;
 
 	//attacking
@@ -117,6 +121,9 @@ private:
 	std::pair<int, int> normalChance(Unit *enemy);
 	int rangedChance(Unit *target);
 	int rangedRound(Unit *target);
+
+	const int& parameterFromEnum(UParameter p)const;
+	int& parameterFromEnum(UParameter p);
 
 public:
 

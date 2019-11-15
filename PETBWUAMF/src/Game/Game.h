@@ -60,11 +60,13 @@ public:
 	std::vector<Order *> getPossibleOrders();
 	const std::vector<Order *> getPossibleOrders()const;
 
-	std::vector<Unit *> getNeightbours(Unit * u);
-	const std::vector<Unit *>getNeightbours(Unit * u)const;
+	std::vector<Unit*> getNeightbours(Unit * u);
+	const std::vector<Unit*> getNeightbours(Unit * u)const;
 
 	const Map & getMap()const;
 	Map & getMap();
+
+	Buff * addBuff(const std::string & s, size_t unit);
 
 
 private:
@@ -119,13 +121,20 @@ private:
 public:
 	//templates
 
-	template <typename T>
-	typename  std::enable_if<Game::isGameType<T>::value, T>::type * createObject(const std::string & prototypeName)
+	template <typename T, typename... Args>
+	typename  std::enable_if<Game::isGameType<T>::value, T>::type * createObject(const std::string & prototypeName, Args&&... args)
 	{
 		auto& holder = getHolder<T>();
-		auto a = std::make_unique<T>(prototypeName);
+		auto a = std::make_unique<T>(prototypeName, std::forward<Args>(args)...);
 		holder.push_back(std::move(a));
 		return (holder.end() - 1)->get();
+	}
+
+	template <typename T>
+	 void destroyObject(typename std::enable_if<Game::isGameType<T>::value, T>::type * obj)
+	{
+		auto& holder = getHolder<T>();
+		holder.erase(_find<T>(obj->getID()));
 	}
 
 	template <typename T>

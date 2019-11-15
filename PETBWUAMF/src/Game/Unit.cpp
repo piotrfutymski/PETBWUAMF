@@ -127,30 +127,24 @@ int Unit::getMove()const
 }
 int Unit::getParameter(UParameter p) const
 {
-	if (p == UParameter::Morale)
-		return _morale;
-	else if (p == UParameter::Armor)
-		return _armor;
-	else if (p == UParameter::Attack)
-		return _attack;
-	else if (p == UParameter::ChargeAttack)
-		return _chargeAttack;
-	else if (p == UParameter::ChargeDeffence)
-		return _chargeDefence;
-	else if (p == UParameter::Defence)
-		return _defence;
-	else if (p == UParameter::Health)
-		return _health;
-	else if (p == UParameter::Move)
-		return _move;
-	else if (p == UParameter::Protection)
+	if (p == UParameter::Protection)
 		return this->getProtection();
-	else if (p == UParameter::Range)
-		return _rangedRange;
-	else if (p == UParameter::RangedAttack)
-		return _rangedAttack;
+	else
+		return this->parameterFromEnum(p);
 
 	return 0;
+}
+void Unit::setParameter(UParameter p, int value)
+{
+	this->parameterFromEnum(p) = value;
+}
+void Unit::upgradeParameter(UParameter p, float value)
+{
+	this->parameterFromEnum(p) = (int)(this->getParameter(p)* value);
+}
+void Unit::upgradeParameter(UParameter p, int value)
+{
+	this->parameterFromEnum(p) = this->getParameter(p) + value;
 }
 int Unit::getArmor() const
 {
@@ -182,6 +176,13 @@ void Unit::getSimpleInfo() const
 	Logger::log(this->getPrototype()->getName() + " on pos (" + std::to_string(this->getPosition().x) + "," + std::to_string(this->getPosition().y) + ")");
 	Logger::log("Attack: " + std::to_string(_attack) + " Protection: " + std::to_string(this->getProtection()) + " Health: " + std::to_string(_health));
 	Logger::log("---------------------------------------------------------");
+}
+
+bool Unit::isDead() const
+{
+	if (_health <= 0)
+		return true;
+	return false;
 }
 
 float Unit::getDistanceTo(const Unit *enemy)const
@@ -355,4 +356,52 @@ int Unit::rangedRound(Unit *target)
 				std::to_string(chance / 10) + "%");
 	}
 	return killcount;
+}
+
+const int & Unit::parameterFromEnum(UParameter p)const
+{
+	if (p == UParameter::Morale)
+		return _morale;
+	else if (p == UParameter::Armor)
+		return _armor;
+	else if (p == UParameter::Attack)
+		return _attack;
+	else if (p == UParameter::ChargeAttack)
+		return _chargeAttack;
+	else if (p == UParameter::ChargeDeffence)
+		return _chargeDefence;
+	else if (p == UParameter::Defence)
+		return _defence;
+	else if (p == UParameter::Health)
+		return _health;
+	else if (p == UParameter::Move)
+		return _move;
+	else if (p == UParameter::Range)
+		return _rangedRange;
+	else if (p == UParameter::RangedAttack)
+		return _rangedAttack;
+}
+
+int & Unit::parameterFromEnum(UParameter p)
+{
+	if (p == UParameter::Morale)
+		return _morale;
+	else if (p == UParameter::Armor)
+		return _armor;
+	else if (p == UParameter::Attack)
+		return _attack;
+	else if (p == UParameter::ChargeAttack)
+		return _chargeAttack;
+	else if (p == UParameter::ChargeDeffence)
+		return _chargeDefence;
+	else if (p == UParameter::Defence)
+		return _defence;
+	else if (p == UParameter::Health)
+		return _health;
+	else if (p == UParameter::Move)
+		return _move;
+	else if (p == UParameter::Range)
+		return _rangedRange;
+	else if (p == UParameter::RangedAttack)
+		return _rangedAttack;
 }

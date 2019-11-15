@@ -1,6 +1,8 @@
 #pragma once
 #include "Asset.h"
 
+class Buff;
+
 class BuffPrototype :public Asset
 {
 public:
@@ -9,4 +11,15 @@ public:
 	// Inherited via Asset
 
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
+
+public:
+
+	std::function<void(size_t, Buff *)> _onBegin;
+	std::function<void(size_t, Buff *)> _onTurnEnd;
+	std::function<void(size_t, Buff *)> _onEnd;
+
+	int _time;				// -1 = always
+	int _Fvalue;
+	float _Svalue;
+
 };

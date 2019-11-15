@@ -44,7 +44,8 @@ std::vector<Order*> Game::getPossibleOrders()
 
 	for (auto & o : _orders)
 	{
-		if (o->getOwner() == _activePlayer && o->canBeUsed(_activeUnit))
+		auto prot = o->getPrototype();
+		if (o->getOwner() == _activePlayer && prot->_canBeUsed(_activeUnit))
 			res.push_back(o.get());
 	}
 	return res;
@@ -56,7 +57,8 @@ const std::vector<Order*> Game::getPossibleOrders() const
 
 	for (auto & o : _orders)
 	{
-		if (o->getOwner() == _activePlayer && o->canBeUsed(_activeUnit))
+		auto prot = o->getPrototype();
+		if (o->getOwner() == _activePlayer && prot->_canBeUsed(_activeUnit))
 			res.push_back(o.get());
 	}
 	return res;
@@ -90,6 +92,19 @@ const Map & Game::getMap() const
 Map & Game::getMap()
 {
 	return _map;
+}
+
+Buff * Game::addBuff(const std::string & s, size_t unit)
+{
+	auto b = this->createObject<Buff>(s, unit);
+	if (b == nullptr)
+		return b;
+	if (b->getRestTime() == -1)
+	{
+		this->destroyObject<Buff>(b);
+		return nullptr;
+	}
+	return b;
 }
 
 void Game::createObjects(const GameInitiator & i)
@@ -143,12 +158,36 @@ void Game::newTurn()
 void Game::executeOrder(const Move & m)
 {
 	auto o = this->getObject<Order>(m.orderID);
-	o->execute(_activeUnit, m);
+	o->getPrototype()->_execute(_activeUnit, m);
 }
 
 void Game::endTurn()
 {
 	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
+	auto it = _units.begin();
+	while (it != _units.end())
+	{
+		if ((*it)->isDead())
+		{
+			_unitsInMoraleOrder.erase(std::remove(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get()));
+			it = _units.erase(it);
+		}
+		else
+			it++;
+	}
+	auto bt = _buffs.begin();
+	while (bt != _buffs.end())
+	{
+		if ((*bt)->getOwner() == _activeUnit->getID())
+		{
+			if ((*bt)->onTurnEnd())
+				bt = _buffs.erase(bt);
+			else
+				bt++;
+		}
+		else
+			bt++;
+	}
 }
 
 

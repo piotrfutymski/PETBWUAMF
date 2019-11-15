@@ -9,75 +9,8 @@ void PrototypeInitializer::initGame(Game * g)
 
 void PrototypeInitializer::initPrototypes()
 {
-	auto p = Didax::AssetMeneger::getAsset<OrderPrototype>("attack");
-	auto g = game;
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0 && PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-
-	p->set_getProperTargets([](const Unit * u, int n) {
-		if (n != 0)
-			return std::vector<OrderPrototype::Target>();
-		return std::move(PrototypeInitializer::getPossibleFightTargets(u));
-	});
-
-	p->set_execute([](Unit * u, const Move & m) {
-		PrototypeInitializer::attack(u, m);
-		return true;
-	});
-
-	//MOVE
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("move");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		if(PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-
-	p->set_getProperTargets([](const Unit * u, int n) {
-		if (n != 0)
-			return std::vector<OrderPrototype::Target>();
-		return std::move(PrototypeInitializer::getPosibleMoves(u));
-	});
-
-	p->set_execute([](Unit * u, const Move & m) {
-		PrototypeInitializer::move(u, m);
-		return true;
-	});
-
-
-	//CHARGE
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("charge");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		return false;
-	});
-
-	//PREPARE
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		return false;
-	});
-
-	//HELP
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("help");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		return false;
-	});
+	initOrders();
+	initBuffs();
 }
 
 std::vector<OrderPrototype::Target> PrototypeInitializer::getPosibleMoves(const Unit * u)
@@ -114,15 +47,15 @@ std::vector<OrderPrototype::Target> PrototypeInitializer::getPossibleFightTarget
 	return res;
 }
 
-void PrototypeInitializer::move(Unit * u, const Move & m)
+void PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 {
 	for (auto neight : game->getNeightbours(u))
 	{
 		if (neight->getOwner() != u->getOwner())
 			neight->removeInFightWith(u->getID());
 	}
-	game->getMap().moveUnitFromPosition(u->getPosition(), m.positions[0]);
-	u->setPosition(m.positions[0]);
+	game->getMap().moveUnitFromPosition(u->getPosition(), pos);
+	u->setPosition(pos);
 	auto neights = std::vector<size_t>();
 	for (auto neight : game->getNeightbours(u))
 	{
@@ -135,12 +68,12 @@ void PrototypeInitializer::move(Unit * u, const Move & m)
 	u->setInFightWith(neights);
 }
 
-void PrototypeInitializer::attack(Unit * u, const Move & m)
+void PrototypeInitializer::attack(Unit * u, size_t en)
 {
 	if (u->hasFlag(Unit::UFlag::Ranged))
-		u->rangedAttack(game->getObject<Unit>(m.units[0]));
+		u->rangedAttack(game->getObject<Unit>(en));
 	else
-		u->normalAttack(game->getObject<Unit>(m.units[0]));
+		u->normalAttack(game->getObject<Unit>(en));
 }
 
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)
@@ -153,4 +86,182 @@ bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit 
 	if (std::find(o->_allowedUnits.begin(), o->_allowedUnits.end(), uprot->getName()) != o->_allowedUnits.end())
 		return true;
 	return false;
+}
+
+void PrototypeInitializer::initOrders()
+{
+	auto p = Didax::AssetMeneger::getAsset<OrderPrototype>("attack");
+	auto g = game;
+
+	p->set_canBeUsed([p](Unit * u)
+	{
+		if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0 && PrototypeInitializer::canBeUsedOnUnit(p, u))
+			return true;
+		return false;
+	});
+
+	p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
+		if (n != 0)
+			return std::vector<OrderPrototype::Target>();
+		return std::move(PrototypeInitializer::getPossibleFightTargets(u));
+	});
+
+	p->set_execute([](Unit * u, const Move & m) {
+		PrototypeInitializer::attack(u, m.units[0]);
+		return true;
+	});
+
+	//MOVE
+
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("move");
+
+	p->set_canBeUsed([p](Unit * u)
+	{
+		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+			return true;
+		return false;
+	});
+
+	p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
+		if (n != 0)
+			return std::vector<OrderPrototype::Target>();
+		return std::move(PrototypeInitializer::getPosibleMoves(u));
+	});
+
+	p->set_execute([](Unit * u, const Move & m) {
+		PrototypeInitializer::move(u, m.positions[0]);
+		return true;
+	});
+
+
+	//CHARGE
+
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("charge");
+
+	p->set_canBeUsed([=](Unit * u)
+	{
+		if (u->hasFlag(Unit::UFlag::Ranged))
+			return false;
+		if (g->getMap().posInFightAfterMove(u->getID(), u->getMove()).size() != 0)
+			return true;
+		return false;
+	});
+	p->set_getProperTargets([=](const Unit * u, int n, const Move & m) {
+		auto res = std::vector<OrderPrototype::Target>();
+		if (n == 0)
+		{
+			auto pos = g->getMap().posInFightAfterMove(u->getID(), u->getMove());
+			for (auto & x: pos)
+			{
+				res.push_back({ OrderPrototype::TargetType::Position_target,x, 0 });
+			}
+			return res;
+		}
+		else if (n == 1)
+		{
+			auto nei = g->getMap().getNeightboursOfPos(m.positions[0]);
+			for (auto & x : nei)
+			{
+				if (x.second != u->getOwner())
+				{
+					auto unit = g->getObject<Unit>(x.first);
+					res.push_back({ OrderPrototype::TargetType::Unit_target,unit->getPosition(), unit->getID() });
+				}				
+			}
+		}
+		return std::vector<OrderPrototype::Target>();
+	});
+
+	p->set_execute([=](Unit * u, const Move & m) {
+		g->addBuff("chargeBoost", u->getID());
+		PrototypeInitializer::move(u, m.positions[0]);
+		PrototypeInitializer::attack(u, m.units[0]);
+		return true;
+	});
+
+
+	//PREPARE
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
+
+	p->set_canBeUsed([p](Unit * u)
+	{
+		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+			return true;
+		return false;
+	});
+	p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
+	{
+		return std::vector<OrderPrototype::Target>();
+	});
+	p->set_execute([=](Unit * u, const Move & m) {
+		g->addBuff("prepareBoost", u->getID());
+		return true;
+	});
+
+	//HELP
+
+	p = Didax::AssetMeneger::getAsset<OrderPrototype>("help");
+
+	p->set_canBeUsed([p](Unit * u)
+	{
+		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+			return true;
+		return false;
+	});
+	p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
+	{
+		auto res = std::vector<OrderPrototype::Target>();
+		if (n != 0)
+			return res;
+		for (auto & x : g->getHolder<Unit>())
+		{
+			if (x->getOwner() == u->getOwner() && x.get()!=u)
+				res.push_back({ OrderPrototype::TargetType::Unit_target,u->getPosition(), u->getID() });
+
+		}
+		return res;
+	});
+	p->set_execute([=](Unit * u, const Move & m) {
+		g->getObject<Unit>(m.units[0])->upgradeParameter(Unit::UParameter::Health, 5);
+		return true;
+	});
+}
+
+void PrototypeInitializer::initBuffs()
+{
+	auto p = Didax::AssetMeneger::getAsset<BuffPrototype>("prepareBoost");
+	auto g = game;
+
+	//Prepare
+
+	p->_onBegin = [=](size_t u, Buff * buff)
+	{
+		auto unit = g->getObject<Unit>(u);
+		buff->setBoostValue(unit->getChargeDefence());
+		unit->upgradeParameter(Unit::UParameter::Armor, unit->getChargeDefence());
+	};
+
+	p->_onTurnEnd = [=](size_t u, Buff * buff) {};
+	p->_onEnd = [=](size_t u, Buff * buff)
+	{
+		auto unit = g->getObject<Unit>(u);
+		unit->upgradeParameter(Unit::UParameter::Armor, -buff->getBoostValue());
+	};
+
+	//Charge
+
+	p = Didax::AssetMeneger::getAsset<BuffPrototype>("chargeBoost");
+	p->_onBegin = [=](size_t u, Buff * buff)
+	{
+		auto unit = g->getObject<Unit>(u);
+		buff->setBoostValue(unit->getChargeAttack());
+		unit->upgradeParameter(Unit::UParameter::Attack, unit->getChargeAttack());
+	};
+	p->_onTurnEnd = [=](size_t u, Buff * buff) {};
+	p->_onEnd = [=](size_t u, Buff * buff)
+	{
+		auto unit = g->getObject<Unit>(u);
+		unit->upgradeParameter(Unit::UParameter::Attack, -buff->getBoostValue());
+	};
+	
 }

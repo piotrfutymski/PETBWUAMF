@@ -28,13 +28,13 @@ public:
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
 
 	void set_canBeUsed(const std::function<bool(Unit*)> &);
-	void set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int)> &);
+	void set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int, const Move & m)> &);
 	void set_execute(const std::function<bool(Unit *, const Move &)> &);
 
 public:
 
 	std::function<bool(Unit * )> _canBeUsed;
-	std::function<std::vector<Target>(const Unit *, int)> _getProperTargets;
+	std::function<std::vector<Target>(const Unit *, int, const Move & m)> _getProperTargets;
 	std::function<bool(Unit *, const Move &)> _execute;
 
 	bool _canBeUsedOnAllUnit;

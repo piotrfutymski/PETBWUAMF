@@ -208,7 +208,7 @@ void ConsoleUI::SimUnitsMap(const Game & game)
 }
 void ConsoleUI::NumUnitsMap(const Game & game, Order *order)
 {
-	for (auto x : order->getProperTargets(game.getActiveUnit(), 0))
+	for (auto x : order->getProperTargets(game.getActiveUnit(), 0, {}))
 	{
 		this->_colormap[x.pos.x][x.pos.y] = 'G';
 		//this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
@@ -246,7 +246,7 @@ void ConsoleUI::ConUnitMap(const Game & game)
 
 void ConsoleUI::SimMovMap(const Game & game, Order *order)
 {
-	for (auto x : order->getProperTargets(game.getActiveUnit(), 0))
+	for (auto x : order->getProperTargets(game.getActiveUnit(), 0, {}))
 	{
 		//this->_map[x.pos.x][x.pos.y] = 'M';
 		this->_colormap[x.pos.x][x.pos.y] = 'G';

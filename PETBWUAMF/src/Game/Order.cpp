@@ -11,9 +11,9 @@ int Order::getTargetsCount() const
 	return this->getPrototype()->_targets.size();
 }
 
-std::vector<OrderPrototype::Target> Order::getProperTargets(const Unit *u, int n) const
+std::vector<OrderPrototype::Target> Order::getProperTargets(const Unit *u, int n, const Move & m) const
 {
-	return std::move(this->getPrototype()->_getProperTargets(u, n));
+	return std::move(this->getPrototype()->_getProperTargets(u, n, m));
 }
 
 void Order::setOwner(int player)

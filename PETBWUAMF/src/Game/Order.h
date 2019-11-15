@@ -20,13 +20,9 @@ public:
 	int getOwner()const;
 
 	bool canBeUsed(Unit * u)const;
-
 	OrderPrototype::TargetType getTargetType(int n)const;
-
 	int getTargetsCount()const;
-
-	std::vector<OrderPrototype::Target> getProperTargets(const Unit *u, int n)const;
-
+	std::vector<OrderPrototype::Target> getProperTargets(const Unit *u, int n, const Move & m)const;
 	bool execute(Unit *u, const Move & m);
 
 private:
