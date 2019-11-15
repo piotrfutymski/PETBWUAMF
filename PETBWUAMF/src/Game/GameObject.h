@@ -25,26 +25,12 @@ public:
 		return _prototype;
 	};
 
-	Game * getGame()
-	{
-		return _game;
-	}
-
 	//
-
-	static void setParent(Game * g)
-	{
-		_game = g;
-	};
 
 private:
 
-static Game * _game;
 const Prototype * _prototype;
 
 size_t _id;
 
 };
-
-template <typename T>
-Game* GameObject<T>::_game = nullptr;

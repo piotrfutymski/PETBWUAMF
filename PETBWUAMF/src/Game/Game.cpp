@@ -10,7 +10,6 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------Game initialization started---------------");
 	Logger::log("---------------------------------------------------------");
 
-	this->initPrototypes();
 	this->createObjects(i);
 	this->newRound();
 	this->newTurn();

@@ -96,9 +96,6 @@ private:
 	void executeOrder(const Move & m);
 	void endTurn();
 
-	void initPrototypes();
-
-
 private:
 	//templates
 	template <typename T>

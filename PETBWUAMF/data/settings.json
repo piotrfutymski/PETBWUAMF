@@ -10,6 +10,7 @@
 	  "assetsTextures":  "data/textures.json",
 	  "assetsGui":  "data/gui.json",
 	  "assetsUnits":  "data/units.json",
-	  "assetsOrders":  "data/orders.json"
+    "assetsOrders": "data/orders.json",
+    "assetBuffs":  "data/buffs.json"
   }
 }

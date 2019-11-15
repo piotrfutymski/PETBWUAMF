@@ -31,7 +31,6 @@ public:
 
 private:
 
-
 	Location _location{ Location::InHand };
 
 	int _owner{ 0 };

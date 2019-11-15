@@ -1,0 +1,11 @@
+{
+  "0": {
+    "type": "buff",
+    "name": "attackBoost"
+  },
+
+  "1": {
+    "type": "buff",
+    "name": "defenceBoost"
+  }
+}

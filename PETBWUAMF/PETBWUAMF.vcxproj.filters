@@ -69,13 +69,13 @@
     <ClCompile Include="src\Assets\BuffPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\OrderInitialization.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game\PathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CUI\ConsoleUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PrototypeInitializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,6 +149,9 @@
     <ClInclude Include="src\CUI\ConsoleColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\PrototypeInitializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\settings.json">
@@ -175,5 +178,6 @@
     <None Include="data\units.json">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data\buffs.json" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,6 @@ bool Didax::AssetMeneger::loadAllAssets(const nlohmann::json &settings)
 	for (auto& assetCategory: assets)
 		if (!loadAssetsFromFile(assetCategory)) return false;
 		
-
 	return true;
 }
 
@@ -50,6 +49,8 @@ bool Didax::AssetMeneger::loadAssetsFromFile(const std::string & filename)
 			a = createAsset<UnitPrototype>(element["name"]);
 		else if (element["type"] == "order")
 			a = createAsset<OrderPrototype>(element["name"]);
+		else if (element["type"] == "buff")
+			a = createAsset<BuffPrototype>(element["name"]);
 		else
 			return false;
 		try

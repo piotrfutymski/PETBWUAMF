@@ -21,7 +21,6 @@ public:
 protected:
 
 	std::string _name;
-	int _ID;
 
 };
 

@@ -23,14 +23,16 @@ Unit::Unit(const std::string & name)
 	_move = this->getPrototype()->_move;
 	_morale = this->getPrototype()->_morale;
 	_formationSize = this->getPrototype()->_formationSize;
+
+	_flags = UFlag::None;
+
+	if (_rangedAttack > 0)
+		_flags = UFlag::Ranged;
 }
 
 
 void Unit::setPosition(const sf::Vector2i & p)
 {
-	if (p.x < 0 || p.x > Map::MAP_WIDTH || p.y < 0 || p.y > Map::MAP_HEIGHT)
-		return;
-
 	_position = p;
 }
 
@@ -89,11 +91,9 @@ const std::vector<size_t>& Unit::getEnemyInFightWhith() const
 	return _inFightAreaWith;
 }
 
-bool Unit::isRanged() const
+bool Unit::hasFlag(UFlag f) const
 {
-	if (this->getPrototype()->_rangedAttack > 0)
-		return true;
-	return false;
+	return (bool)(f & _flags);
 }
 
 int Unit::getProtection() const
@@ -124,6 +124,33 @@ void Unit::setOwner(int player)
 int Unit::getMove()const
 {
 	return _move;
+}
+int Unit::getParameter(UParameter p) const
+{
+	if (p == UParameter::Morale)
+		return _morale;
+	else if (p == UParameter::Armor)
+		return _armor;
+	else if (p == UParameter::Attack)
+		return _attack;
+	else if (p == UParameter::ChargeAttack)
+		return _chargeAttack;
+	else if (p == UParameter::ChargeDeffence)
+		return _chargeDefence;
+	else if (p == UParameter::Defence)
+		return _defence;
+	else if (p == UParameter::Health)
+		return _health;
+	else if (p == UParameter::Move)
+		return _move;
+	else if (p == UParameter::Protection)
+		return this->getProtection();
+	else if (p == UParameter::Range)
+		return _rangedRange;
+	else if (p == UParameter::RangedAttack)
+		return _rangedAttack;
+
+	return 0;
 }
 int Unit::getArmor() const
 {
@@ -306,16 +333,6 @@ int Unit::rangedChance(Unit *target)
 
 	return chance;
 }
-
-bool Unit::canMove(const sf::Vector2i & p) const
-{
-	return false;
-}
-
-void Unit::move(const sf::Vector2i & p)
-{
-}
-
 
 int Unit::rangedRound(Unit *target)
 {

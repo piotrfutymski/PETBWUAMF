@@ -5,7 +5,8 @@
 #include <functional>
 
 #include "Game/Game.h"
-#include"Assets/AssetMeneger.h"
+#include "Game/PrototypeInitializer.h"
+#include "Assets/AssetMeneger.h"
 #include "CUI/ConsoleUI.h"
 
 

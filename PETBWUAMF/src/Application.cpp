@@ -34,6 +34,9 @@ void Application::init(std::string settingFilePath)
 	Didax::AssetMeneger::loadAllAssets(_settings);
 	_game.init({});
 
+	PrototypeInitializer::initGame(&_game);
+	PrototypeInitializer::initPrototypes();
+
 }
 
 int Application::run()
