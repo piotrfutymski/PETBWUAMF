@@ -169,7 +169,10 @@ void Game::endTurn()
 	{
 		if ((*it)->isDead())
 		{
-			_unitsInMoraleOrder.erase(std::remove(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get()));
+			auto itt = std::find(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get());
+			if(itt != _unitsInMoraleOrder.end())
+				_unitsInMoraleOrder.erase(std::remove(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get()));
+			_map.removeUnitFromPosition((*it)->getPosition());
 			it = _units.erase(it);
 		}
 		else
