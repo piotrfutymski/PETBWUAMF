@@ -15,6 +15,21 @@ void OrderPrototype::loadAsset(const nlohmann::json & assetFile)
 		else if(a.get<std::string>() == "unit")
 			_targets.push_back(OrderPrototype::TargetType::Unit_target);
 	}
+
+	if (assetFile["allowedTypes"].size() == 0)
+	{
+		_canBeUsedOnAllUnit = true;
+		return;
+	}
+
+	for (auto &a : assetFile["allowedTypes"])
+	{
+		_allowedTypes.push_back(a.get<std::string>());
+	}
+	for (auto &a : assetFile["allowedUnits"])
+	{
+		_allowedUnits.push_back(a.get<std::string>());
+	}
 }
 
 void OrderPrototype::set_canBeUsed(const std::function<bool(Unit*)>& f)

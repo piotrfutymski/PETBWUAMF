@@ -12,9 +12,9 @@ void PrototypeInitializer::initPrototypes()
 	auto p = Didax::AssetMeneger::getAsset<OrderPrototype>("attack");
 	auto g = game;
 
-	p->set_canBeUsed([](Unit * u)
+	p->set_canBeUsed([p](Unit * u)
 	{
-		if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0)
+		if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0 && PrototypeInitializer::canBeUsedOnUnit(p, u))
 			return true;
 		return false;
 	});
@@ -34,9 +34,11 @@ void PrototypeInitializer::initPrototypes()
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("move");
 
-	p->set_canBeUsed([](Unit * u)
+	p->set_canBeUsed([p](Unit * u)
 	{
-		return true;
+		if(PrototypeInitializer::canBeUsedOnUnit(p, u))
+			return true;
+		return false;
 	});
 
 	p->set_getProperTargets([](const Unit * u, int n) {
@@ -55,7 +57,7 @@ void PrototypeInitializer::initPrototypes()
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("charge");
 
-	p->set_canBeUsed([](Unit * u)
+	p->set_canBeUsed([p](Unit * u)
 	{
 		return false;
 	});
@@ -63,7 +65,7 @@ void PrototypeInitializer::initPrototypes()
 	//PREPARE
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
 
-	p->set_canBeUsed([](Unit * u)
+	p->set_canBeUsed([p](Unit * u)
 	{
 		return false;
 	});
@@ -72,7 +74,7 @@ void PrototypeInitializer::initPrototypes()
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("help");
 
-	p->set_canBeUsed([](Unit * u)
+	p->set_canBeUsed([p](Unit * u)
 	{
 		return false;
 	});
@@ -139,4 +141,16 @@ void PrototypeInitializer::attack(Unit * u, const Move & m)
 		u->rangedAttack(game->getObject<Unit>(m.units[0]));
 	else
 		u->normalAttack(game->getObject<Unit>(m.units[0]));
+}
+
+bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)
+{
+	auto uprot = u->getPrototype();
+	if (o->_canBeUsedOnAllUnit)
+		return true;
+	if (std::find(o->_allowedTypes.begin(), o->_allowedTypes.end(), uprot->_unitType) != o->_allowedTypes.end())
+		return true;
+	if (std::find(o->_allowedUnits.begin(), o->_allowedUnits.end(), uprot->getName()) != o->_allowedUnits.end())
+		return true;
+	return false;
 }

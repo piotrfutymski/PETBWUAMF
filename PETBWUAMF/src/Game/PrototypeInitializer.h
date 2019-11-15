@@ -16,4 +16,6 @@ public:
 	static void move(Unit * u, const Move & m);
 	static void attack(Unit * u, const Move & m);
 
+	static bool canBeUsedOnUnit(const OrderPrototype* o, const Unit * u);
+
 };

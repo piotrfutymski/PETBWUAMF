@@ -37,6 +37,10 @@ public:
 	std::function<std::vector<Target>(const Unit *, int)> _getProperTargets;
 	std::function<bool(Unit *, const Move &)> _execute;
 
+	bool _canBeUsedOnAllUnit;
+	std::vector <std::string> _allowedTypes;
+	std::vector <std::string> _allowedUnits;
+
 	std::vector<TargetType> _targets;
 	std::string _description;
 

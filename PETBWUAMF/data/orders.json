@@ -7,6 +7,12 @@
     "icon": "data/graphix/testImages/orders/atakIco.bmp",
     "targets": {
       "0": "unit"
+    },
+    "allowedTypes": {
+      "0": "Crossbowman"
+    },
+    "allowedUnits": {
+
     }
   },
 
@@ -18,6 +24,12 @@
     "icon": "data/graphix/testImages/orders/ruchIco.bmp",
     "targets": {
       "0": "position"
+    },
+    "allowedTypes": {
+
+    },
+    "allowedUnits": {
+
     }
   },
 
@@ -30,6 +42,12 @@
     "targets": {
       "0": "position",
       "1": "unit"
+    },
+    "allowedTypes": {
+
+    },
+    "allowedUnits": {
+
     }
 
   },
@@ -41,6 +59,12 @@
     "texture": "data/graphix/testImages/orders/ruch.bmp",
     "icon": "data/graphix/testImages/orders/ruchIco.bmp",
     "targets": {
+    },
+    "allowedTypes": {
+
+    },
+    "allowedUnits": {
+
     }
   },
 
@@ -52,6 +76,12 @@
     "icon": "data/graphix/testImages/orders/ruchIco.bmp",
     "targets": {
       "0": "unit"
+    },
+    "allowedTypes": {
+
+    },
+    "allowedUnits": {
+
     }
   }
 
