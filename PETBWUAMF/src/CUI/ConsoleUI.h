@@ -14,8 +14,8 @@ public:
 	virtual ~ConsoleUI();
 
 	void logState(const Game & game);
-	void logStateUnits(const Game & game, int owner)const;
-	void logStateOrders(const Game & game)const;
+	void logStateUnits(const Game & game, int owner);
+	void logStateOrders(const Game & game);
 
 	void  makeMove(const Game & game);
 
@@ -24,23 +24,26 @@ public:
 	void AttackMap(const Game & game, Order *order);
 
 	void MoveMap(const Game & game, Order *order);
+
+	void ChargeMap(const Game & game, Order *order, Move & res);
 	/*
 	static void setParent(Game * g)
 	{
 		_game = g;
 	};*/
-
+	void clear();
 private:
 
-
-
+	int colEnd[3];
+	int _column;
 	std::vector<std::vector<char>> _map;
 	std::vector<std::vector<char>> _colormap;
 	COORD _lastcoords;
-
+	HANDLE _hConsole;
 	char TypeUnitMap(const Game & game, const std::string type);
 	void SimUnitsMap(const Game & game);
 	void NumUnitsMap(const Game & game, Order *order);
+	void CharUnitsMap(const Game & game, Order *order, Move & res);
 	void ConUnitMap(const Game & game);
 	void SimMovMap(const Game & game, Order *order);
 	void ConstructMap();
@@ -48,7 +51,15 @@ private:
 
 	COORD GetCursorPos();
 	void SetCursorPos(COORD cords);
-	void CursorToRight();
+	void ChangeColumn(int column = 0);
 	void CursorByUp();
+
+
+	void Write(const std::string & msg);
+	void Write(const char & msg);
+	void WriteLine(const std::string & msg);
+	void WriteLine(const char & msg);
+	void endl();
+
 };
 //Game* _game = nullptr;

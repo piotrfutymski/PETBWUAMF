@@ -38,7 +38,7 @@ int Application::run()
 
 	while (!_game.isEnded())
 	{
-		_game.playMove(this->getMoveFromConsole());
+		auto gamedata = _game.playMove(this->getMoveFromConsole());
 	}
 
 	return 0;
@@ -49,7 +49,7 @@ Move Application::getMoveFromConsole()
 {
 	Move res;
 	res.unitID = _game.getActiveUnit()->getID();
-	
+	_consoleUI.clear();
 	_consoleUI.logState(_game);
 	_consoleUI.makeMove(_game);
 
@@ -89,11 +89,10 @@ Move Application::getMoveFromConsole()
 		else
 		{
 			Logger::log("------------------Choose Target ID (int)-----------------");
-			_consoleUI.AttackMap(_game, order);
-			if (_game.getActivePlayer() == 1)
-				_consoleUI.logStateUnits(_game, 0);
+			if (i == 0)
+				_consoleUI.AttackMap(_game, order);
 			else
-				_consoleUI.logStateUnits(_game, 1);
+				_consoleUI.ChargeMap(_game, order, res);
 			int id;
 			std::cin >> id;
 			res.units.push_back(id);

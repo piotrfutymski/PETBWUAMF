@@ -29,6 +29,7 @@ MoveRes Game::playMove(const Move & m)
 		this->newRound();
 	}
 	this->newTurn();
+	
 	return res;
 
 }

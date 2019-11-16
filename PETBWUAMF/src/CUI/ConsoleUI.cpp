@@ -4,69 +4,100 @@
 
 ConsoleUI::ConsoleUI()
 {
+	_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD cords;
+	cords.X = 180;
+	cords.Y = 200;
+	_SMALL_RECT rect;
+	rect.Left = 0;
+	rect.Top = 0;
+	rect.Right = 179;
+	rect.Bottom = 100;
+
+	if (!SetConsoleScreenBufferSize(_hConsole, cords))
+	{
+		GetLastError();
+	}
+
+	if (!SetConsoleWindowInfo(_hConsole, true, &rect))
+	{
+		GetLastError();
+	}
 }
 
 void ConsoleUI::logState(const Game & game)
 {
-	Logger::log("---------------------------------------------------------");
-	Logger::log("------------------------New Turn-------------------------");
-	Logger::log("---------------------------------------------------------");
+	this->ChangeColumn(0);
+	this->WriteLine("---------------------------------------------------------");
+	this->WriteLine("------------------------New Turn-------------------------");
+	this->WriteLine("---------------------------------------------------------");
 	this->logStateUnits(game, game.getActivePlayer());
 	this->logStateUnits(game, (game.getActivePlayer()+1)%2);
 	this->logStateOrders(game);
 	this->SimpleMap(game);
-	Logger::log("---------------------------------------------------------");
-	Logger::log(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
+	this->WriteLine("---------------------------------------------------------");
+	this->WriteLine(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
 }
 
-void ConsoleUI::logStateUnits(const Game & game, int owner)const
+void ConsoleUI::logStateUnits(const Game & game, int owner)
 {
-	Logger::log("---------------------------------------------------------");
-	Logger::log("---------------------Player " + std::to_string(owner) + " Units----------------------");
-	Logger::log("---------------------------------------------------------");
+	int old = this->_column;
+	ChangeColumn(1);
+	WriteLine("---------------------------------------------------------");
+	WriteLine("---------------------Player " + std::to_string(owner) + " Units----------------------");
+	WriteLine("---------------------------------------------------------");
 	for (auto &x : game.getHolder<Unit>())
 	{
 		if (x->getOwner() == owner)
 		{
-			Logger::logW("ID:" + std::to_string(x->getID()) + " Name: ");
-			x->getSimpleInfo();
-			/*Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
-			Logger::log("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
-			Logger::log("---------------------------------------------------------");*/
+			//Write("ID:" + std::to_string(x->getID()) + " Name: ");
+			//x->getSimpleInfo();
+			WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
+			WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+			WriteLine("---------------------------------------------------------");
 		}
 	}
+	ChangeColumn(old);
 }
-void ConsoleUI::logStateOrders(const Game & game)const
+void ConsoleUI::logStateOrders(const Game & game)
 {
+	int old = this->_column;
+	ChangeColumn(1);
 	auto owner = game.getActivePlayer();
-	Logger::log("---------------------------------------------------------");
-	Logger::log("--------------------Player " + std::to_string(owner) + " Orders----------------------");
-	Logger::log("---------------------------------------------------------");
+	WriteLine("---------------------------------------------------------");
+	WriteLine("--------------------Player " + std::to_string(owner) + " Orders----------------------");
+	WriteLine("---------------------------------------------------------");
 	for (auto &x : game.getHolder<Order>())
 	{
 		if (x->getOwner() == owner)
 		{
-			Logger::log(std::to_string(x->getID()) + ": " + x->getPrototype()->getName());
-			Logger::log("---------------------------------------------------------");
+			WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName());
+			WriteLine("---------------------------------------------------------");
 		}
 	}
+	ChangeColumn(old);
 }
 
 
 void  ConsoleUI::makeMove(const Game & game)
 {
-	Logger::log("---------------------------------------------------------");
-	Logger::log("----------------------Make a move------------------------");
-	Logger::log("---------------------------------------------------------");
-
-	Logger::logW("ID:" + std::to_string(game.getActiveUnit()->getID()) + " Name: ");
-	game.getActiveUnit()->getSimpleInfo();
+	int old = this->_column;
+	ChangeColumn(0);
+	WriteLine("---------------------------------------------------------");
+	WriteLine("----------------------Make a move------------------------");
+	WriteLine("---------------------------------------------------------");
+	const Unit * x = game.getActiveUnit();
+	Write("ID:" + std::to_string(x->getID()) + " Name: ");
+	WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
+	WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+	WriteLine("---------------------------------------------------------");
 	for (auto &x : game.getPossibleOrders())
 	{
-		Logger::logW(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
+		Write(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
 	}
-	Logger::log("");
-	Logger::log("---------------------------------------------------------");
+	WriteLine("");
+	WriteLine("---------------------------------------------------------");
+	ChangeColumn(old);
 }
 
 
@@ -127,41 +158,55 @@ void ConsoleUI::AttackMap(const Game & game, Order *order)
 	this->ConstructMap();
 }
 
+void ConsoleUI::ChargeMap(const Game & game, Order *order, Move & res)
+{
+	this->ClearMap();
+
+	this->SimUnitsMap(game);
+
+	this->ConUnitMap(game);
+	
+	this->_colormap[res.positions[0].x][res.positions[0].y] = 'M';
+
+	this->CharUnitsMap(game, order, res);
+
+	this->ConstructMap();
+
+}
+
 void ConsoleUI::ConstructMap()
 {
-	COORD savedcoords = GetCursorPos();
-	if (savedcoords.Y - _lastcoords.Y < Map::MAP_WIDTH + 4)
-		SetCursorPos(_lastcoords);
+	int old = this->_column;
+	ChangeColumn(2);
 	CursorByUp();
-	CursorToRight();
 	int sizeX = Map::MAP_WIDTH;
 	int sizeY = Map::MAP_HEIGHT;
-	Logger::logW("    |");
+	Write("    |");
 	for (int y = 0; y < sizeY; y++)
 	{
 		//Logger::logW(std::to_string(y));
 		if (y < 10)
-			Logger::logW(std::to_string(y));
+			Write(std::to_string(y));
 		else
-			Logger::logW(y - 10 + 'A');
-		Logger::logW("|");
+			Write(y - 10 + 'A');
+		Write("|");
 	}
-	CursorToRight();
+	WriteLine("");
 
-	Logger::logW("  |");
+	Write("  |");
 	for (int y = 0; y < sizeY+2; y++)
 	{
-		Logger::logW("X|");
+		Write("X|");
 	}
-	CursorToRight();
+	WriteLine("");
 	//Logger::log("   XXXXXXXXXXXX");
 	for (int x = 0; x < sizeX; x++)
 	{
 		if (x < 10)
-			Logger::logW(std::to_string(x) + " ");
+			Write(std::to_string(x) + " ");
 		else
-			Logger::logW(std::to_string(x));
-		Logger::logW("|X|");
+			Write(std::to_string(x));
+		Write("|X|");
 		for (int y = 0; y < sizeY; y++)
 		{
 			if (_colormap[x][y] == 'Y')
@@ -172,24 +217,24 @@ void ConsoleUI::ConstructMap()
 
 			else if (_colormap[x][y] == 'R')
 				std::cout << red;
-
+			else if (_colormap[x][y] == 'M')
+				std::cout << magenta;
 			else if (_colormap[x][y] == 'G')
 				std::cout << green;
-			Logger::logW(_map[x][y]);
+			Write(_map[x][y]);
 			std::cout << white;
-			Logger::logW("|");
+			Write("|");
 		}
-		Logger::logW("X|");
-		CursorToRight();
+		Write("X|");
+		WriteLine("");
 	}
 	//Logger::log("|X|X|X|X|X|X|X|X|X|X|X|X|");
-	Logger::logW("  |");
+	Write("  |");
 	for (int y = 0; y < sizeY + 2; y++)
 	{
-		Logger::logW("X|");
+		Write("X|");
 	}
-	SetCursorPos(savedcoords);
-	_lastcoords = savedcoords;
+	ChangeColumn(old);
 }
 
 void ConsoleUI::SimUnitsMap(const Game & game)
@@ -217,27 +262,18 @@ void ConsoleUI::NumUnitsMap(const Game & game, Order *order)
 		else
 			this->_map[x.pos.x][x.pos.y] = x.targetID - 10 + 'a';
 	}
-	/*
-	for (auto &unit : game.getHolder<Unit>())
+}
+void ConsoleUI::CharUnitsMap(const Game & game, Order *order,Move & res)
+{
+	for (auto x : order->getProperTargets(game.getActiveUnit(), 1, res))
 	{
-		if (unit->getOwner() == game.getActivePlayer())
-		{
-			this->_map[unit->getPosition().x][unit->getPosition().y] = 
-				TypeUnitMap(game, unit->getPrototype()->_unitType);
-			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'B';
-		}
-
+		this->_colormap[x.pos.x][x.pos.y] = 'G';
+		//this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
+		if (x.targetID <= 9)
+			this->_map[x.pos.x][x.pos.y] = x.targetID + '0';
 		else
-		{
-			this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
-			if (unit->getID() <= 9)
-				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() + '0';
-			else
-				this->_map[unit->getPosition().x][unit->getPosition().y] = unit->getID() - 10 + 'a';
-		}
-
+			this->_map[x.pos.x][x.pos.y] = x.targetID - 10 + 'a';
 	}
-	*/
 }
 void ConsoleUI::ConUnitMap(const Game & game)
 {
@@ -274,31 +310,120 @@ ConsoleUI::~ConsoleUI()
 {
 }
 
+
+
+
 COORD ConsoleUI::GetCursorPos()
 {
 	COORD cords;
-	CONSOLE_SCREEN_BUFFER_INFO buffer_info = CONSOLE_SCREEN_BUFFER_INFO();
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &buffer_info);
+	CONSOLE_SCREEN_BUFFER_INFO buffer_info;
+	GetConsoleScreenBufferInfo(_hConsole, &buffer_info);
 	cords = buffer_info.dwCursorPosition;
 	return cords;
 }
 
 void ConsoleUI::SetCursorPos(COORD cords)
 {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
+	SetConsoleCursorPosition(_hConsole, cords);
 }
-void ConsoleUI::CursorToRight()
+void ConsoleUI::ChangeColumn(int column)
 {
 	COORD cords;
 	cords = GetCursorPos();
+
+	colEnd[this->_column] = cords.Y;
+
+
+	_column = column;
+
+
+	cords.Y = colEnd[this->_column];
+	cords.X = column * 60;
+	SetConsoleCursorPosition(_hConsole, cords);
+}
+void ConsoleUI::endl()
+{
+	COORD cords = GetCursorPos();
+	//std::cout << std::endl;
 	cords.Y++;
-	cords.X = 60;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
+	cords.X = _column * 60;
+	SetConsoleCursorPosition(_hConsole, cords);
 }
 void ConsoleUI::CursorByUp()
 {
-	COORD cords;
-	cords = GetCursorPos();
-	cords.Y -= Map::MAP_WIDTH;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cords);
+	COORD cords = GetCursorPos();
+	cords.Y = 0;
+	SetConsoleCursorPosition(_hConsole, cords);
+}
+
+void ConsoleUI::Write(const char & msg)
+{
+	Logger::logW(msg);
+}
+void ConsoleUI::Write(const std::string & msg)
+{
+	Logger::logW(msg);
+}
+void ConsoleUI::WriteLine(const std::string & msg)
+{
+	Logger::logW(msg);
+	endl();
+}
+void ConsoleUI::WriteLine(const char & msg)
+{
+	Logger::logW(msg);
+	endl();
+}
+void ConsoleUI::clear()
+{
+	COORD coordScreen = { 0, 0 };    // home for the cursor 
+	DWORD cCharsWritten;
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	DWORD dwConSize;
+
+	// Get the number of character cells in the current buffer. 
+
+	if (!GetConsoleScreenBufferInfo(_hConsole, &csbi))
+	{
+		return;
+	}
+
+	dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+
+	// Fill the entire screen with blanks.
+
+	if (!FillConsoleOutputCharacter(_hConsole,        // Handle to console screen buffer 
+		(TCHAR) ' ',     // Character to write to the buffer
+		dwConSize,       // Number of cells to write 
+		coordScreen,     // Coordinates of first cell 
+		&cCharsWritten))// Receive number of characters written
+	{
+		return;
+	}
+
+	// Get the current text attribute.
+
+	if (!GetConsoleScreenBufferInfo(_hConsole, &csbi))
+	{
+		return;
+	}
+
+	// Set the buffer's attributes accordingly.
+
+	if (!FillConsoleOutputAttribute(_hConsole,         // Handle to console screen buffer 
+		csbi.wAttributes, // Character attributes to use
+		dwConSize,        // Number of cells to set attribute 
+		coordScreen,      // Coordinates of first cell 
+		&cCharsWritten)) // Receive number of characters written
+	{
+		return;
+	}
+
+	// Put the cursor at its home coordinates and resets all columns.
+
+	colEnd[0] = 0;
+	colEnd[1] = 0;
+	colEnd[2] = 0;
+
+	SetConsoleCursorPosition(_hConsole, coordScreen);
 }

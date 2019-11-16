@@ -174,6 +174,7 @@ void PrototypeInitializer::initOrders()
 					res.push_back({ OrderPrototype::TargetType::Unit_target,unit->getPosition(), unit->getID() });
 				}				
 			}
+			return res;
 		}
 		return std::vector<OrderPrototype::Target>();
 	});

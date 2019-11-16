@@ -12,6 +12,14 @@ inline std::ostream& blue(std::ostream &s)
 	return s;
 }
 
+inline std::ostream& magenta(std::ostream &s)
+{
+	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hStdout, FOREGROUND_BLUE
+		| FOREGROUND_RED | FOREGROUND_INTENSITY);
+	return s;
+}
+
 inline std::ostream& red(std::ostream &s)
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
