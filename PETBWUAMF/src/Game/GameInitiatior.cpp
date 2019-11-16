@@ -13,7 +13,7 @@ GameInitiator::GameInitiator()
 	this->addUnitToSecondPlayer("Light Militia", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
 	this->addUnitToSecondPlayer("Light Militia", 1, 6);
 	this->addUnitToSecondPlayer("Palace Guard", 1, 5);
-	this->addUnitToSecondPlayer("Heavy Crossbow Warden", 0, 5);
+	this->addUnitToSecondPlayer("Southern Skirmisher", 0, 5);
 
 	// I rozkazy
 

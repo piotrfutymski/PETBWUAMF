@@ -191,7 +191,7 @@ void PrototypeInitializer::initOrders()
 		g->addBuff("chargeBoost", u->getID());
 		auto a = PrototypeInitializer::move(u, m.positions[0]);
 		auto b = PrototypeInitializer::attack(u, m.units[0]);
-		return a+b;
+		return a+b+MoveRes{ {},{},{{u->getID(),Unit::UParameter::Attack, u->getChargeAttack() }},{} };
 	});
 
 

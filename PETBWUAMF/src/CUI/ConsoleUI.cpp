@@ -333,6 +333,8 @@ char ConsoleUI::TypeUnitMap(const Game & game, const std::string type)
 		return 'E';
 	if (type == "Crossbowman")
 		return 'C';
+	if (type == "Javelinman")
+		return 'J';
 	else
 		return '?';
 }
