@@ -73,15 +73,23 @@ MoveRes PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 {
 	auto enemy = game->getObject<Unit>(en);
-	auto startH = enemy->getHealth();
+	auto startE = enemy->getHealth();
+	auto startY = u->getHealth();
 	if (u->hasFlag(Unit::UFlag::Ranged))
+	{
 		u->rangedAttack(enemy);
+		return{ {},{{ u->getID(), en, enemy->getHealth() - startE}},{},{} };
+	}
 	else
+	{
 		u->normalAttack(enemy);
+		return{ {},{{ u->getID(), en, enemy->getHealth() - startE},{en,u->getID(),u->getHealth() - startY}},{},{} };
+	}
 
-	auto endH = enemy->getHealth();
 
-	return{ {},{{en, endH - startH}},{},{} };
+
+
+
 }
 
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)

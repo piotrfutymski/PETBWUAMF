@@ -25,16 +25,18 @@ ConsoleUI::ConsoleUI()
 	}
 }
 
-void ConsoleUI::logState(const Game & game)
+void ConsoleUI::logState(const Game & game, Reporter & reporter)
 {
 	this->ChangeColumn(0);
-	this->WriteLine("---------------------------------------------------------");
-	this->WriteLine("------------------------New Turn-------------------------");
-	this->WriteLine("---------------------------------------------------------");
+
 	this->logStateUnits(game, game.getActivePlayer());
 	this->logStateUnits(game, (game.getActivePlayer()+1)%2);
 	this->logStateOrders(game);
 	this->SimpleMap(game);
+	this->logStateTurn(game, reporter);
+	this->WriteLine("------------------------New Turn-------------------------");
+	this->WriteLine("---------------------------------------------------------");
+	this->WriteLine("---------------------------------------------------------");
 	this->WriteLine("---------------------------------------------------------");
 	this->WriteLine(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
 }
@@ -77,7 +79,35 @@ void ConsoleUI::logStateOrders(const Game & game)
 	}
 	ChangeColumn(old);
 }
-
+void ConsoleUI::logStateTurn(const Game & game, Reporter & reporter)
+{
+	auto info = reporter.getLastTurn();
+	WriteLine("---------------------------------------------------------");
+	for (auto moves : info._unitsMoved)
+	{
+		WriteLine(game.getObject<Unit>(moves.first)->getPrototype()->getName() 
+			+ " moved to " + std::to_string(moves.second.x) + ":" + std::to_string(moves.second.y));
+	}
+	WriteLine("---------------------------------------------------------");
+	for (auto moves : info._demageDealt)
+	{
+		WriteLine(game.getObject<Unit>(std::get<0>(moves))->getPrototype()->getName()
+			+ " has dealt " + std::to_string(-1 * std::get<2>(moves)) + " casualties to " + game.getObject<Unit>(std::get<1>(moves))->getPrototype()->getName());
+	}
+	WriteLine("---------------------------------------------------------");
+	for (auto moves : info._buffs)
+	{
+		WriteLine(game.getObject<Unit>(std::get<0>(moves))->getPrototype()->getName()
+			+ "'s "+ "something increased by " + std::to_string(std::get<2>(moves)));
+	}
+	WriteLine("---------------------------------------------------------");
+	for (auto moves : info._deBuffs)
+	{
+		WriteLine(game.getObject<Unit>(std::get<0>(moves))->getPrototype()->getName()
+			+ "'s " + "something decreased by " + std::to_string(std::get<2>(moves)));
+	}
+	WriteLine("---------------------------------------------------------");
+}
 
 void  ConsoleUI::makeMove(const Game & game)
 {

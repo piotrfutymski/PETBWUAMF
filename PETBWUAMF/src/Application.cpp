@@ -39,6 +39,7 @@ int Application::run()
 	while (!_game.isEnded())
 	{
 		auto gamedata = _game.playMove(this->getMoveFromConsole());
+		_reporter.SaveTurn(gamedata);
 	}
 
 	return 0;
@@ -50,7 +51,7 @@ Move Application::getMoveFromConsole()
 	Move res;
 	res.unitID = _game.getActiveUnit()->getID();
 	_consoleUI.clear();
-	_consoleUI.logState(_game);
+	_consoleUI.logState(_game,_reporter);
 	_consoleUI.makeMove(_game);
 
 	Order * order = nullptr;
