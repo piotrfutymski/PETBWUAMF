@@ -6,9 +6,7 @@ Game::Game()
 
 void Game::init(const GameInitiator & i)
 {
-	Logger::log("---------------------------------------------------------");
-	Logger::log("---------------Game initialization started---------------");
-	Logger::log("---------------------------------------------------------");
+
 
 	this->createObjects(i);
 	this->newRound();

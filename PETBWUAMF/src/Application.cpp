@@ -8,6 +8,10 @@ Application::Application()
 
 void Application::init(std::string settingFilePath)
 {
+	Logger::log("---------------------------------------------------------");
+	Logger::log("---------------Game initialization started---------------");
+	Logger::log("---------------------------------------------------------");
+
 	srand(time(NULL));
 
 	std::ifstream stream(settingFilePath);
@@ -109,7 +113,6 @@ Move Application::getMoveFromConsole()
 					rest = 1;
 					break;
 				}
-
 				res.positions.push_back({ x,y });
 				Logger::log("---------------------------------------------------------");
 			}

@@ -14,6 +14,8 @@ public:
 	void logStateOrders(const Game & game);
 	void logStateTurn(const Game & game, Reporter & reporter);
 	void  makeMove(const Game & game);
+	void  logActiveUnit(const Game & game);
+
 
 	void SimpleMap(const Game & game);
 

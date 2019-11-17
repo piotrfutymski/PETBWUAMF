@@ -54,7 +54,9 @@ MoveRes PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 		if (neight->getOwner() != u->getOwner())
 			neight->removeInFightWith(u->getID());
 	}
-	game->getMap().moveUnitFromPosition(u->getPosition(), pos);
+	//Small try to minimize the dmg bugtester can do
+	if (!game->getMap().moveUnitFromPosition(u->getPosition(), pos))
+		return { {},{},{},{}, };
 	u->setPosition(pos);
 	auto neights = std::vector<size_t>();
 	for (auto neight : game->getNeightbours(u))

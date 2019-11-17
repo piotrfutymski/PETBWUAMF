@@ -38,17 +38,18 @@ void Map::removeUnitFromPosition(const sf::Vector2i & pos)
 	_mapData[pos.x][pos.y] = {-1, 0};
 }
 
-void Map::moveUnitFromPosition(const sf::Vector2i & start, const sf::Vector2i & end)
+bool Map::moveUnitFromPosition(const sf::Vector2i & start, const sf::Vector2i & end)
 {
 	if (_mapData[end.x][end.y].first != -1)
 	{
 		Logger::log("Can't move unit to place with another unit");
-		return;
+		return false;
 	}
 
 	auto u = _mapData[start.x][start.y];
 	this->removeUnitFromPosition(start);
 	this->setUnitPosition(u.first, u.second, end);
+	return true;
 }
 
 std::vector<size_t> Map::getNeightbours(size_t u)const

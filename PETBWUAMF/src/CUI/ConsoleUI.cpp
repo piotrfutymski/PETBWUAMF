@@ -33,6 +33,7 @@ void ConsoleUI::logState(const Game & game, Reporter & reporter)
 	this->logStateUnits(game, (game.getActivePlayer()+1)%2);
 	this->logStateOrders(game);
 	this->SimpleMap(game);
+	this->logActiveUnit(game);
 	this->logStateTurn(game, reporter);
 	this->WriteLine("------------------------New Turn-------------------------");
 	this->WriteLine("---------------------------------------------------------");
@@ -130,7 +131,33 @@ void  ConsoleUI::makeMove(const Game & game)
 	ChangeColumn(old);
 }
 
+void  ConsoleUI::logActiveUnit(const Game & game)
+{
+	int old = this->_column;
+	ChangeColumn(2);
+	WriteLine("---------------------------------------------------------");
+	WriteLine("----------------------Unit Card--------------------------");
+	WriteLine("---------------------------------------------------------");
+	const Unit * x = game.getActiveUnit();
+	//Write("ID:" + std::to_string(x->getID()) + " Name: ");
+	WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
+	WriteLine("---------------------------------------------------------");
+	WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+	WriteLine("---------------------------------------------------------");
+	WriteLine("Armor: " + std::to_string(x->getArmor()) + " Defence: " + std::to_string(x->getDefence()) + " Formation: " + std::to_string(x->getPrototype()->_formationSize).substr(0,4));
+	WriteLine("---------------------------------------------------------");
+	WriteLine("ChargeAttack: " + std::to_string(x->getChargeAttack()) + " ChargeDefence: " + std::to_string(x->getChargeDefence()));
+	WriteLine("---------------------------------------------------------");
+	if (x->getRangedAttack() != 0)
+	{
+		WriteLine("RangedAttack: " + std::to_string(x->getRangedAttack()) + " Range: " + std::to_string(x->getRangedRange()));
+		WriteLine("---------------------------------------------------------");
+	}
 
+	WriteLine("Move: " + std::to_string(x->getPrototype()->_move) + " Morale: " + std::to_string(x->getPrototype()->_morale));
+	WriteLine("---------------------------------------------------------");
+	ChangeColumn(old);
+}
 
 void ConsoleUI::ClearMap()
 {
@@ -264,6 +291,7 @@ void ConsoleUI::ConstructMap()
 	{
 		Write("X|");
 	}
+	WriteLine("");
 	ChangeColumn(old);
 }
 

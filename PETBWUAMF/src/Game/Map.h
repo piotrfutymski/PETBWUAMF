@@ -19,7 +19,7 @@ public:
 
 	void setUnitPosition(size_t u, int o, const sf::Vector2i & pos);
 	void removeUnitFromPosition(const sf::Vector2i & pos);
-	void moveUnitFromPosition(const sf::Vector2i & start, const sf::Vector2i & end);
+	bool moveUnitFromPosition(const sf::Vector2i & start, const sf::Vector2i & end);
 
 	std::vector<size_t> getNeightbours(size_t u)const;
 	std::vector< std::pair<size_t, int>> getNeightboursOfPos(const sf::Vector2i & pos)const;
