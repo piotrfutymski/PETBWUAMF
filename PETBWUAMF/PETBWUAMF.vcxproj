@@ -151,6 +151,7 @@
     <ClCompile Include="src\GUI\Window\Window.cpp" />
     <ClCompile Include="src\GUI\Window\WindowConfig.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
+    <ClCompile Include="src\Utility\Reporter.cpp" />
     <ClCompile Include="src\Utility\StringConversion.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\GUI\Window\Window.h" />
     <ClInclude Include="src\GUI\Window\WindowConfig.h" />
     <ClInclude Include="src\Utility\Logger.h" />
+    <ClInclude Include="src\Utility\Reporter.h" />
     <ClInclude Include="src\Utility\StringConversion.h" />
     <ClInclude Include="src\Utility\UniqueID.h" />
     <ClInclude Include="src\Game\Game.h" />

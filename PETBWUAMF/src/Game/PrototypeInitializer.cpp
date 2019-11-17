@@ -29,7 +29,7 @@ std::vector<OrderPrototype::Target> PrototypeInitializer::getPossibleFightTarget
 {
 	auto res = std::vector<OrderPrototype::Target>();
 	auto& units = game->getHolder<Unit>();
-	if (u->hasFlag(Unit::UFlag::Ranged))
+	if (u->hasFlag(Unit::UFlag::Ranged) && !u->isInFight())
 	{
 		for (size_t i = 0; i < units.size(); i++)
 		{
@@ -73,15 +73,23 @@ MoveRes PrototypeInitializer::move(Unit * u, const sf::Vector2i & pos)
 MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 {
 	auto enemy = game->getObject<Unit>(en);
-	auto startH = enemy->getHealth();
-	if (u->hasFlag(Unit::UFlag::Ranged))
+	auto startE = enemy->getHealth();
+	auto startY = u->getHealth();
+	if (u->hasFlag(Unit::UFlag::Ranged) && !u->isInFight())
+	{
 		u->rangedAttack(enemy);
+		return{ {},{{ u->getID(), en, enemy->getHealth() - startE}},{},{} };
+	}
 	else
+	{
 		u->normalAttack(enemy);
+		return{ {},{{ u->getID(), en, enemy->getHealth() - startE},{en,u->getID(),u->getHealth() - startY}},{},{} };
+	}
 
-	auto endH = enemy->getHealth();
 
-	return{ {},{{en, endH - startH}},{},{} };
+
+
+
 }
 
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)
@@ -146,7 +154,9 @@ void PrototypeInitializer::initOrders()
 
 	p->set_canBeUsed([=](Unit * u)
 	{
-		if (u->hasFlag(Unit::UFlag::Ranged))
+		//if (u->hasFlag(Unit::UFlag::Ranged))
+			//return false;
+		if (u->isInFight())
 			return false;
 		if (g->getMap().posInFightAfterMove(u->getID(), u->getMove()).size() != 0)
 			return true;
@@ -183,7 +193,7 @@ void PrototypeInitializer::initOrders()
 		g->addBuff("chargeBoost", u->getID());
 		auto a = PrototypeInitializer::move(u, m.positions[0]);
 		auto b = PrototypeInitializer::attack(u, m.units[0]);
-		return a+b;
+		return a+b+MoveRes{ {},{},{{u->getID(),Unit::UParameter::Attack, u->getChargeAttack() }},{} };
 	});
 
 

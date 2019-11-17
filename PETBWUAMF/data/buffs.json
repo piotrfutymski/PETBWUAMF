@@ -2,7 +2,7 @@
   "0": {
     "type": "buff",
     "name": "prepareBoost",
-    "time": 1,
+    "time": 2,
     "firstValue": 0,
     "secondValue": 0
   },

@@ -1,11 +1,7 @@
 #pragma once
-#include <memory>
-#include <vector>
-#include <algorithm> 
-#include <functional>
-#include <type_traits>
 #include "../Game/Game.h"
 #include "ConsoleColor.h"
+#include "../Utility/Reporter.h"
 
 class ConsoleUI
 {
@@ -13,10 +9,10 @@ public:
 	ConsoleUI();
 	virtual ~ConsoleUI();
 
-	void logState(const Game & game);
+	void logState(const Game & game, Reporter & reporter);
 	void logStateUnits(const Game & game, int owner);
 	void logStateOrders(const Game & game);
-
+	void logStateTurn(const Game & game, Reporter & reporter);
 	void  makeMove(const Game & game);
 
 	void SimpleMap(const Game & game);

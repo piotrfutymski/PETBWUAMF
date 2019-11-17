@@ -9,9 +9,9 @@
 #include "Game/Game.h"
 #include "Game/PrototypeInitializer.h"
 #include "Assets/AssetMeneger.h"
+#include "Utility/Reporter.h"
 #include "CUI/ConsoleUI.h"
 #include "GUI/Engine.h"
-
 
 class Application
 {
@@ -36,7 +36,10 @@ private:
 
 	Game _game;
 
+	Reporter _reporter;
+
 	ConsoleUI _consoleUI;
+
 
 	nlohmann::json _settings;
 

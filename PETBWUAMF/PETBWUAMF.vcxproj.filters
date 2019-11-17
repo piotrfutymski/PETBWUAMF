@@ -90,6 +90,7 @@
     <ClCompile Include="src\GUI\Inupt\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\GUI\Widgets\Widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,6 +101,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\Widgets\TextArea.cpp">
+=======
+    <ClCompile Include="src\Utility\Reporter.cpp">
+>>>>>>> origin/UIWork
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,6 +195,7 @@
     <ClInclude Include="src\GUI\Inupt\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="src\GUI\Widgets\Widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -204,6 +209,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\Widgets\TextArea.h">
+=======
+    <ClInclude Include="src\Utility\Reporter.h">
+>>>>>>> origin/UIWork
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

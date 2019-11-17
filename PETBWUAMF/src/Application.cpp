@@ -39,6 +39,7 @@ int Application::run()
 	while (!_game.isEnded())
 	{
 		auto gamedata = _game.playMove(this->getMoveFromConsole());
+		_reporter.SaveTurn(gamedata);
 	}
 
 	return 0;
@@ -47,59 +48,93 @@ int Application::run()
 
 Move Application::getMoveFromConsole()
 {
-	Move res;
-	res.unitID = _game.getActiveUnit()->getID();
-	_consoleUI.clear();
-	_consoleUI.logState(_game);
-	_consoleUI.makeMove(_game);
 
-	Order * order = nullptr;
-	int oID;
-	while (1)
+
+	bool reset = true;
+
+	//petla cala
+	while (reset)
 	{
-		Logger::log("----------------------Pick order id----------------------");
-		std::cin >> oID;
-		order = _game.getObject<Order>(oID);
-		if (order == nullptr)
+		Move res;
+		res.unitID = _game.getActiveUnit()->getID();
+		_consoleUI.clear();
+		_consoleUI.logState(_game, _reporter);
+		_consoleUI.makeMove(_game);
+		Order * order = nullptr;
+		int oID, x, y, id, rest=0;
+		//petla wyboru rozkazu 
+		while (1)
 		{
-			Logger::log("-------------------Order doesn't exist-------------------");
+			Logger::log("----------------------Pick order id----------------------");
+			std::cin >> oID;
+			if (oID == -1)
+			{
+				rest = 1;
+				break;
+			}
+
+			order = _game.getObject<Order>(oID);
+			if (order == nullptr)
+			{
+				Logger::log("-------------------Order doesn't exist-------------------");
+				continue;
+			}
+			if (order->canBeUsed(_game.getActiveUnit()))
+			{
+				Logger::log("----------------------Choosed order: " + std::to_string(oID) + "-------------------");
+				break;
+			}
+			Logger::log("-------------------Order can't be used-------------------");
+		}
+		if (rest)
 			continue;
-		}
-		if (order->canBeUsed(_game.getActiveUnit()))
+		//do tad bylo fajnie, ale chce dac  mozliwosc wycofania sie z rozkazu
+		res.orderID = oID;
+		Logger::log("---------------------------------------------------------");
+		for (size_t i = 0; i < order->getTargetsCount(); i++)
 		{
-			Logger::log("----------------------Choosed order: " + std::to_string(oID) + "-------------------");
-			break;
-		}
-		Logger::log("-------------------Order can't be used-------------------");
-	}
-	res.orderID = oID;
-	Logger::log("---------------------------------------------------------");
-	for (size_t i = 0; i < order->getTargetsCount(); i++)
-	{
-		if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
-		{
-			_consoleUI.MoveMap(_game, order);
-			Logger::log("----------------------Choose Position (int) (int)--------");
-			int x, y;
-			std::cin >> x;
-			std::cin >> y;
-			res.positions.push_back({ x,y });
-			Logger::log("---------------------------------------------------------");
-		}
-		else
-		{
-			Logger::log("------------------Choose Target ID (int)-----------------");
-			if (i == 0)
-				_consoleUI.AttackMap(_game, order);
-			else
-				_consoleUI.ChargeMap(_game, order, res);
-			int id;
-			std::cin >> id;
-			res.units.push_back(id);
-			Logger::log("---------------------------------------------------------");
-		}
-	}
-	return res;
+			if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
+			{
+				_consoleUI.MoveMap(_game, order);
+				Logger::log("----------------------Choose Position (int) (int)--------");
+				std::cin >> x;
+				if (x == -1)
+				{
+					rest = 1;
+					break;
+				}
+				std::cin >> y;
+				if (y == -1)
+				{
+					rest = 1;
+					break;
+				}
 
+				res.positions.push_back({ x,y });
+				Logger::log("---------------------------------------------------------");
+			}
+			else
+			{
+				Logger::log("------------------Choose Target ID (int)-----------------");
+				if (i == 0)
+					_consoleUI.AttackMap(_game, order);
+				else
+					_consoleUI.ChargeMap(_game, order, res);
+				std::cin >> id;
+				if (id == -1)
+				{
+					rest = 1;
+					break;
+				}
+
+				res.units.push_back(id);
+				Logger::log("---------------------------------------------------------");
+			}
+		}
+		if (rest)
+			continue;
+		return res;
+	}
+	
 }
 

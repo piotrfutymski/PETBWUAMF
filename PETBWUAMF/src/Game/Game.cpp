@@ -116,7 +116,7 @@ void Game::createObjects(const GameInitiator & i)
 	{
 		auto unit = this->createObject<Unit>(u.first);
 		unit->setPosition(u.second);
-		if (u.second.x < 2)
+		if (u.second.x < 8)
 			unit->setOwner(0);
 		else
 			unit->setOwner(1);
