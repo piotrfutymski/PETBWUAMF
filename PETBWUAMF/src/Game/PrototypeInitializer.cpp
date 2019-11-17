@@ -29,7 +29,7 @@ std::vector<OrderPrototype::Target> PrototypeInitializer::getPossibleFightTarget
 {
 	auto res = std::vector<OrderPrototype::Target>();
 	auto& units = game->getHolder<Unit>();
-	if (u->hasFlag(Unit::UFlag::Ranged))
+	if (u->hasFlag(Unit::UFlag::Ranged) && !u->isInFight())
 	{
 		for (size_t i = 0; i < units.size(); i++)
 		{
@@ -75,7 +75,7 @@ MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 	auto enemy = game->getObject<Unit>(en);
 	auto startE = enemy->getHealth();
 	auto startY = u->getHealth();
-	if (u->hasFlag(Unit::UFlag::Ranged))
+	if (u->hasFlag(Unit::UFlag::Ranged) && !u->isInFight())
 	{
 		u->rangedAttack(enemy);
 		return{ {},{{ u->getID(), en, enemy->getHealth() - startE}},{},{} };
@@ -154,7 +154,9 @@ void PrototypeInitializer::initOrders()
 
 	p->set_canBeUsed([=](Unit * u)
 	{
-		if (u->hasFlag(Unit::UFlag::Ranged))
+		//if (u->hasFlag(Unit::UFlag::Ranged))
+			//return false;
+		if (u->isInFight())
 			return false;
 		if (g->getMap().posInFightAfterMove(u->getID(), u->getMove()).size() != 0)
 			return true;
