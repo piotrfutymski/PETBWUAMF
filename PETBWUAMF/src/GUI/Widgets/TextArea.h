@@ -62,7 +62,7 @@ private:
 	sf::Color _backgroundColor{0,0,0,0};
 
 	int _characterSize{ 30 };
-	int _lineSpacing{ 5 };
+	int _lineSpacing{ 15 };
 	sf::Vector2f _margin{ 5,5 };
 	Alaign _alaign{ Alaign::Left };
 

@@ -39,6 +39,7 @@ void Application::init(std::string settingFilePath)
 
 int Application::run()
 {
+	_engine.run();
 
 	while (!_game.isEnded())
 	{

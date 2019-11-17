@@ -1,245 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="src\Assets\AssetMeneger.cpp" />
+    <ClCompile Include="src\Assets\Asset.cpp" />
+    <ClCompile Include="src\Assets\BuffPrototype.cpp" />
+    <ClCompile Include="src\Assets\FontAsset.cpp" />
+    <ClCompile Include="src\Assets\OrderPrototype.cpp" />
+    <ClCompile Include="src\Assets\TextureAsset.cpp" />
+    <ClCompile Include="src\Assets\UnitPrototype.cpp" />
+    <ClCompile Include="src\Assets\GUIElementPrototype.cpp" />
+    <ClCompile Include="src\Game\Buff.cpp" />
+    <ClCompile Include="src\CUI\ConsoleUI.cpp" />
+    <ClCompile Include="src\Game\GameInitiatior.cpp" />
+    <ClCompile Include="src\Game\Map.cpp" />
+    <ClCompile Include="src\Game\Order.cpp" />
+    <ClCompile Include="src\Game\PathFinder.cpp" />
+    <ClCompile Include="src\Game\PrototypeInitializer.cpp" />
+    <ClCompile Include="src\Game\Unit.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\GUI\Engine.cpp" />
+    <ClCompile Include="src\GUI\Inupt\Input.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Button.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Canvas.cpp" />
+    <ClCompile Include="src\GUI\Widgets\TextArea.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Widget.cpp" />
+    <ClCompile Include="src\GUI\Window\Window.cpp" />
+    <ClCompile Include="src\GUI\Window\WindowConfig.cpp" />
+    <ClCompile Include="src\Utility\Logger.cpp" />
+    <ClCompile Include="src\Utility\Reporter.cpp" />
+    <ClCompile Include="src\Utility\StringConversion.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\GUIElement.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\BoardGUI.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\UnitRepresentation.cpp" />
+    <ClCompile Include="src\GUI\Widgets\HPbar.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\OrderRepresentation.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\InfoGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\Asset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\AssetMeneger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\FontAsset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\GUIElementPrototype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\OrderPrototype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\TextureAsset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\UnitPrototype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Utility\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Utility\StringConversion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Unit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Buff.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Order.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\GameInitiatior.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Assets\BuffPrototype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\PathFinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CUI\ConsoleUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\PrototypeInitializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Window\WindowConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Inupt\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="src\GUI\Widgets\Widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Widgets\Canvas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Widgets\Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GUI\Widgets\TextArea.cpp">
-=======
-    <ClCompile Include="src\Utility\Reporter.cpp">
->>>>>>> origin/UIWork
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\Assets\AssetMeneger.h" />
+    <ClInclude Include="src\Assets\Asset.h" />
+    <ClInclude Include="src\Assets\BuffPrototype.h" />
+    <ClInclude Include="src\Assets\FontAsset.h" />
+    <ClInclude Include="src\Assets\OrderPrototype.h" />
+    <ClInclude Include="src\Assets\TextureAsset.h" />
+    <ClInclude Include="src\Assets\UnitPrototype.h" />
+    <ClInclude Include="src\Assets\GUIElementPrototype.h" />
+    <ClInclude Include="src\Game\Buff.h" />
+    <ClInclude Include="src\CUI\ConsoleColor.h" />
+    <ClInclude Include="src\CUI\ConsoleUI.h" />
+    <ClInclude Include="src\Game\GameInitiatior.h" />
+    <ClInclude Include="src\Game\GameObject.h" />
+    <ClInclude Include="src\Game\Map.h" />
+    <ClInclude Include="src\Game\Move.h" />
+    <ClInclude Include="src\Game\MoveRes.h" />
+    <ClInclude Include="src\Game\Order.h" />
+    <ClInclude Include="src\Game\PathFinder.h" />
+    <ClInclude Include="src\Game\PrototypeInitializer.h" />
+    <ClInclude Include="src\Game\Unit.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\GUI\Engine.h" />
+    <ClInclude Include="src\GUI\Inupt\Input.h" />
+    <ClInclude Include="src\GUI\Widgets\Canvas.h" />
+    <ClInclude Include="src\GUI\Widgets\TextArea.h" />
+    <ClInclude Include="src\GUI\Widgets\Widget.h" />
+    <ClInclude Include="src\GUI\Widgets\Button.h" />
+    <ClInclude Include="src\GUI\Widgets\Widgets.h" />
+    <ClInclude Include="src\GUI\Window\Window.h" />
+    <ClInclude Include="src\GUI\Window\WindowConfig.h" />
+    <ClInclude Include="src\Utility\Logger.h" />
+    <ClInclude Include="src\Utility\Reporter.h" />
+    <ClInclude Include="src\Utility\StringConversion.h" />
+    <ClInclude Include="src\Utility\UniqueID.h" />
+    <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\GUI\GUIElements\GUIElement.h" />
+    <ClInclude Include="src\GUI\GUIElements\BoardGUI.h" />
+    <ClInclude Include="src\GUI\GUIElements\GuiElements.h" />
+    <ClInclude Include="src\GUI\GUIElements\UnitRepresentation.h" />
+    <ClInclude Include="src\GUI\Widgets\HPbar.h" />
+    <ClInclude Include="src\GUI\GUIElements\OrderRepresentation.h" />
+    <ClInclude Include="src\GUI\GUIElements\InfoGUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\Asset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\AssetMeneger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\FontAsset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\GUIElementPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\OrderPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\TextureAsset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\UnitPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Utility\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Utility\StringConversion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Utility\UniqueID.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\GameInitiatior.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Move.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Unit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Order.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Buff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Assets\BuffPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\PathFinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CUI\ConsoleUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CUI\ConsoleColor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\PrototypeInitializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\MoveRes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Window\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Window\WindowConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Inupt\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="src\GUI\Widgets\Widget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Widgets\Canvas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Widgets\Widgets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Widgets\Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GUI\Widgets\TextArea.h">
-=======
-    <ClInclude Include="src\Utility\Reporter.h">
->>>>>>> origin/UIWork
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="data\settings.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\assets.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\fonts.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\board.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\gui.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\orders.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\textures.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="data\units.json">
-      <Filter>Resource Files</Filter>
-    </None>
+    <None Include="data\assets.json" />
+    <None Include="data\board.json" />
     <None Include="data\buffs.json" />
+    <None Include="data\fonts.json" />
+    <None Include="data\gui.json" />
+    <None Include="data\orders.json" />
+    <None Include="data\settings.json" />
+    <None Include="data\textures.json" />
+    <None Include="data\units.json" />
   </ItemGroup>
 </Project>
