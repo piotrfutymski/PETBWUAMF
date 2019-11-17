@@ -22,7 +22,7 @@ public:
 
 	//Application interface
 
-	bool init(const nlohmann::json & settings, Game * g, std::mutex * gM);
+	bool init(const nlohmann::json & settings, Game * g);
 
 	void run();
 
@@ -39,8 +39,6 @@ private:
 	sf::Clock _clock;
 
 	Window _window;
-
-	std::mutex* gameMutex;
 
 private:
 

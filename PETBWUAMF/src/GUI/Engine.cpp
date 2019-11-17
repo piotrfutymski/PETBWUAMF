@@ -12,9 +12,8 @@ Engine::~Engine()
 {
 }
 
-bool Engine::init(const nlohmann::json & settings, Game * g, std::mutex* gM)
+bool Engine::init(const nlohmann::json & settings, Game * g)
 {
-	gameMutex = gM;
 	_window.init(Didax::WindowConfig{ settings });
 	_clock.restart();
 	Input::setWindow(&_window.getWindow());

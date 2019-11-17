@@ -13,7 +13,6 @@
 
 namespace Didax
 {
-
 class Widget :public sf::Drawable
 {
 public:
@@ -29,6 +28,7 @@ public:
 	//constructors
 
 	Widget();
+	~Widget();
 
 	// public functions
 
@@ -59,9 +59,6 @@ public:
 	Widget * getParent();
 	const Widget * getParent()const;
 
-	void setPadding(const sf::Vector2f & pad);
-	sf::Vector2f getPadding()const;
-
 	bool isHovered()const;
 	bool isPressed()const;
 
@@ -73,6 +70,8 @@ public:
 
 	int getPriority()const;
 	void setPrority(int p);
+
+	bool isInterable()const;
 
 	const std::vector <Widget *> & getChildren()const;
 	std::vector <Widget *> & getChildren();
@@ -93,25 +92,22 @@ public:
 
 	sf::Vector2f mouseRelativePos()const;
 
+	bool addChild(Widget * child);
+	void removeChild(Widget * child);
+
 protected:
 
 	// pure virtual
 
 	virtual void _update(float deltaT)=0;
 	virtual bool _input(const sf::Event & event, bool inArea = true) = 0;
-	virtual bool _inputBeforeAll(const sf::Event & event, bool inArea = true) { return false; };
 	virtual void _draw(sf::RenderTarget & target, sf::RenderStates states)const = 0;
-	virtual void _drawAfterAll(sf::RenderTarget & target, sf::RenderStates states)const {};
 	virtual void updatePosition() = 0;
 	virtual void updateSize() = 0;
 	virtual void updateColor() = 0;
 
 	// help functions 
 
-	
-
-	bool _addChild(Widget * child);
-	void _removeChild(Widget * child);
 	void setParent(Widget * parent);
 
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states)const;
@@ -126,13 +122,15 @@ protected:
 	sf::Vector2f _relativePos{ 0,0 };
 	sf::Vector2f _size{ 0,0 };
 	sf::Color _color{ sf::Color::White };
-	sf::Vector2f _padding{ 0,0 };
 
 	bool _isHovered{ false };
 	bool _isPressed{ false };
 
 	bool _isVisible{ true };
 	bool _isActive{ true };
+	bool _isInterable{ false };
+
+	bool _interableFlag{ false };
 
 	int _priority{ 0 };
 

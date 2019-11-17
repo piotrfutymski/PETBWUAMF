@@ -144,6 +144,10 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\GUI\Engine.cpp" />
     <ClCompile Include="src\GUI\Inupt\Input.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Button.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Canvas.cpp" />
+    <ClCompile Include="src\GUI\Widgets\TextArea.cpp" />
+    <ClCompile Include="src\GUI\Widgets\Widget.cpp" />
     <ClCompile Include="src\GUI\Window\Window.cpp" />
     <ClCompile Include="src\GUI\Window\WindowConfig.cpp" />
     <ClCompile Include="src\Utility\Logger.cpp" />
@@ -175,6 +179,11 @@
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\GUI\Engine.h" />
     <ClInclude Include="src\GUI\Inupt\Input.h" />
+    <ClInclude Include="src\GUI\Widgets\Canvas.h" />
+    <ClInclude Include="src\GUI\Widgets\TextArea.h" />
+    <ClInclude Include="src\GUI\Widgets\Widget.h" />
+    <ClInclude Include="src\GUI\Widgets\Button.h" />
+    <ClInclude Include="src\GUI\Widgets\Widgets.h" />
     <ClInclude Include="src\GUI\Window\Window.h" />
     <ClInclude Include="src\GUI\Window\WindowConfig.h" />
     <ClInclude Include="src\Utility\Logger.h" />

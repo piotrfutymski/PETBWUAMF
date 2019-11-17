@@ -27,7 +27,7 @@ void Application::init(std::string settingFilePath)
 
 	Didax::AssetMeneger::loadAllAssets(_settings);
 	_game.init({});
-	_engine.init(_settings, &_game, &gameMutex);
+	_engine.init(_settings, &_game);
 	PrototypeInitializer::initGame(&_game);
 	PrototypeInitializer::initPrototypes();
 

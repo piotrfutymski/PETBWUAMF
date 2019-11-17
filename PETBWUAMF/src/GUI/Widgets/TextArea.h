@@ -1,6 +1,9 @@
 #pragma once
 #include "Widget.h"
 #include <sstream>
+#include <locale>
+#include <codecvt>
+#include <string>
 
 namespace Didax
 {
@@ -55,8 +58,8 @@ private:
 	std::vector<sf::Text> _textLines;
 	sf::RectangleShape _background;
 	sf::Font * _font;
-	sf::Color _fontColor;
-	sf::Color _backgroundColor;
+	sf::Color _fontColor{0,0,0,255};
+	sf::Color _backgroundColor{0,0,0,0};
 
 	int _characterSize{ 30 };
 	int _lineSpacing{ 5 };

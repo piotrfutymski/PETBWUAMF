@@ -1,14 +1,12 @@
 #include "TextArea.h"
-#include <locale>
-#include <codecvt>
-#include <string>
+
 
 namespace Didax
 {
 
 TextArea::TextArea()
 {
-	_background.setFillColor(sf::Color::White);
+	_background.setFillColor(_backgroundColor);
 }
 
 TextArea::TextArea(const std::string & s)

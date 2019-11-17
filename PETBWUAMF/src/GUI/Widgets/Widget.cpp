@@ -6,14 +6,10 @@ namespace Didax{
 
 Widget::Widget()
 {
-	_widgetEvent[CallbackType::onHold] = nullptr;
-	_widgetEvent[CallbackType::onHover] = nullptr;
-	_widgetEvent[CallbackType::onHoverIn] = nullptr;
-	_widgetEvent[CallbackType::onHoverOut] = nullptr;
-	_widgetEvent[CallbackType::onPress] = nullptr;
-	_widgetEvent[CallbackType::onRelease] = nullptr;
-	_widgetEvent[CallbackType::onPressRight] = nullptr;
+}
 
+Widget::~Widget()
+{
 }
 
 //public functions
@@ -24,11 +20,15 @@ void Widget::update(float deltaT)
 		return;
 	
 	this->actualizeInTime(deltaT);
-	this->updateEvents();
-	this->updateCallbacks(deltaT);
-	if (_onUpdate != nullptr)
-		_onUpdate(this, deltaT);
+	if (_isInterable)
+	{
+		this->updateEvents();
+		this->updateCallbacks(deltaT);
+		if (_onUpdate != nullptr)
+			_onUpdate(this, deltaT);
+	}	
 	this->_update(deltaT);
+	_callbacks.clear();
 	for (auto x : _children)
 	{
 		x->update(deltaT);
@@ -37,17 +37,14 @@ void Widget::update(float deltaT)
 
 bool Widget::input(const sf::Event & event, bool inArea)
 {
-	if (!_isActive)
+	if (!_isActive || !_isInterable)
 		return false;
 
 	auto a = this->getAbsolutePosition();
 	if (_isSetArea && !this->isPointInArea((sf::Vector2f)(Input::getMousePosition()), _borderArea[0] +a, _borderArea[1] - _borderArea[0] + a))
 		inArea = false;
 
-	bool endHere = this->_inputBeforeAll(event, inArea);
-	if (endHere)
-		return endHere;
-		
+	bool endHere = false;		
 	int i = _children.size() - 1;
 	while (i != -1)
 	{
@@ -66,7 +63,6 @@ bool Widget::input(const sf::Event & event, bool inArea)
 	endHere |= this->_input(event, inArea);
 	if (endHere)
 		return endHere;
-
 	while (i !=  - 1)
 	{
 		endHere |= _children[i]->input(event, inArea);
@@ -196,17 +192,6 @@ const Widget * Widget::getParent() const
 	return _parent;
 }
 
-void Widget::setPadding(const sf::Vector2f & pad)
-{
-	_padding = pad;
-	this->updatePosition();
-}
-
-sf::Vector2f Widget::getPadding() const
-{
-	return _padding;
-}
-
 bool Widget::isHovered() const
 {
 	return _isHovered;
@@ -246,6 +231,11 @@ void Widget::setPrority(int p)
 	_priority = p;
 	if (_parent != nullptr)
 		_parent->recalculatePriority();
+}
+
+bool Widget::isInterable() const
+{
+	return _isInterable;
 }
 
 const std::vector<Widget*> & Widget::getChildren() const
@@ -295,21 +285,27 @@ void Widget::resetLimitArea()
 void Widget::setWidgetEvent(CallbackType t, const std::function<void(Widget*, float)>& func)
 {
 	_widgetEvent[t] = func;
+	_isInterable = true;
 }
 
 void Widget::resetWidgetEvent(CallbackType t)
 {
-	_widgetEvent[t] = nullptr;
+	_widgetEvent.erase(t);
+	if (_widgetEvent.empty() && _onUpdate == nullptr && !_interableFlag)
+		_isInterable = false;
 }
 
 void Widget::onUpdate(const std::function<void(Widget*, float)>& func)
 {
 	_onUpdate = func;
+	_isInterable = true;
 }
 
 void Widget::resetOnUpdate()
 {
 	_onUpdate = nullptr;
+	if (_widgetEvent.empty() && !_interableFlag)
+		_isInterable = false;
 }
 
 //help functions
@@ -319,7 +315,7 @@ sf::Vector2f Widget::getAbsolutePosition()const
 	if (_parent == nullptr)
 		return _relativePos;
 	else
-		return _parent->getAbsolutePosition() + _parent->getPadding() + this->_relativePos;
+		return _parent->getAbsolutePosition() + this->_relativePos;
 }
 
 sf::Vector2f Widget::mouseRelativePos() const
@@ -339,7 +335,7 @@ bool Widget::isMoseIn()const
 	return false;
 }
 
-bool Widget::_addChild(Widget * child)
+bool Widget::addChild(Widget * child)
 {
 	if (child->getParent() == this)
 		return false;
@@ -350,7 +346,7 @@ bool Widget::_addChild(Widget * child)
 	return true;
 }
 
-void Widget::_removeChild(Widget * child)
+void Widget::removeChild(Widget * child)
 {
 	_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
 }
@@ -423,7 +419,6 @@ void Widget::updateCallbacks(float deltaT)
 	{
 		_widgetEvent[*it](this, deltaT);
 	}
-	_callbacks.clear();
 }
 
 bool Widget::poolEvents(const sf::Event & e)
@@ -433,22 +428,19 @@ bool Widget::poolEvents(const sf::Event & e)
 	{
 		res = true;
 		_isPressed = true;
-		if (_widgetEvent[CallbackType::onPress] != nullptr)
-			_callbacks.push_back(CallbackType::onPress);
+		_callbacks.push_back(CallbackType::onPress);
 	}		
 
 	if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Button::Right && isMoseIn())
 	{
 		res = true;
-		if (_widgetEvent[CallbackType::onPressRight] != nullptr)
-			_callbacks.push_back(CallbackType::onPressRight);
+		_callbacks.push_back(CallbackType::onPressRight);
 	}
 				
 	if (e.type == sf::Event::MouseButtonReleased && e.mouseButton.button == sf::Mouse::Button::Left && _isPressed)
 	{
 		_isPressed = false;
-		if (_widgetEvent[CallbackType::onRelease] != nullptr)
-			_callbacks.push_back(CallbackType::onRelease);
+		_callbacks.push_back(CallbackType::onRelease);
 	}
 		
 	return res;
@@ -468,25 +460,21 @@ void Widget::updateEvents()
 		{
 			t = CallbackType::onHover;
 		}
-		if (_widgetEvent[t] != nullptr)
-			_callbacks.push_back(t);
+		_callbacks.push_back(t);
 
 	}
 	else if (!isMoseIn() && _isHovered == true)
 	{
 		_isHovered = false;
-		if (_widgetEvent[CallbackType::onHoverOut] != nullptr)
-			_callbacks.push_back(CallbackType::onHoverOut);
+		_callbacks.push_back(CallbackType::onHoverOut);
 	}
 	if (_isPressed)
 	{
-		if (_widgetEvent[CallbackType::onHold] != nullptr)
-			_callbacks.push_back(CallbackType::onHold);
+		_callbacks.push_back(CallbackType::onHold);
 		if (!isMoseIn())
 		{
 			_isPressed = false;
-			if (_widgetEvent[CallbackType::onRelease] != nullptr)
-				_callbacks.push_back(CallbackType::onRelease);
+			_callbacks.push_back(CallbackType::onRelease);
 		}
 	}
 }
@@ -513,9 +501,7 @@ void Widget::drawOnly(sf::RenderTarget & target, sf::RenderStates states) const
 		(*it)->draw(target, states);
 		it++;
 	}
-	_drawAfterAll(target, states);
 }
-
 
 }
 

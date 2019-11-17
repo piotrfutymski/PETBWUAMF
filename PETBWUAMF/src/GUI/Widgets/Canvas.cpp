@@ -6,35 +6,6 @@ Canvas::Canvas():Widget()
 {
 }
 
-bool Canvas::addChild(Widget * widget)
-{
-	return this->_addChild(widget);
-}
-
-void Canvas::removeChild(Widget * widget)
-{
-	this->_removeChild(widget);
-}
-
-sf::Color Canvas::getBackgroundColor() const
-{
-	return _backgroundColor;
-}
-
-void Canvas::setBackgroundColor(sf::Color c)
-{
-	_backgroundColor = c;
-	if (_bType == BackgroundType::Rect)
-		_backgroundRect->setFillColor(c*_color);
-	else if (_bType == BackgroundType::Image)
-		_backgroundSprite->setColor(c* _color);
-}
-
-void Canvas::setBackgroundColor(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a)
-{
-	this->setBackgroundColor(sf::Color{ r,g,b,a });
-}
-
 void Canvas::setTexture(const sf::Texture * t)
 {
 	if (_bType == BackgroundType::Rect)
@@ -77,9 +48,9 @@ bool Canvas::_input(const sf::Event & event, bool inArea)
 void Canvas::_draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	if (_bType == BackgroundType::Image)
-		target.draw(*_backgroundSprite);
+		target.draw(*_backgroundSprite, states);
 	else if (_bType == BackgroundType::Rect)
-		target.draw(*_backgroundRect);
+		target.draw(*_backgroundRect, states);
 }
 
 void Canvas::updatePosition()
@@ -103,7 +74,10 @@ void Canvas::updateSize()
 
 void Canvas::updateColor()
 {
-	this->setBackgroundColor(_backgroundColor);
+	if (_bType == BackgroundType::Rect)
+		_backgroundRect->setFillColor(_color);
+	else if (_bType == BackgroundType::Image)
+		_backgroundSprite->setColor(_color);
 }
 
 }

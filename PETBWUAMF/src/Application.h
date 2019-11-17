@@ -40,8 +40,6 @@ private:
 
 	nlohmann::json _settings;
 
-	std::mutex gameMutex;
-
 	Didax::Engine _engine;
 };
 
