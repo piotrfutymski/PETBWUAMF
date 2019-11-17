@@ -41,7 +41,14 @@ void Didax::Button::_update(float deltaT)
 		if (c == Widget::CallbackType::onHoverIn || c == Widget::CallbackType::onHoverOut ||
 			c == Widget::CallbackType::onPress || c == Widget::CallbackType::onRelease)
 		{
-			this->updateColor();
+			sf::Color mask;
+			if (_isPressed)
+				mask = _clickedColorMask;
+			else if (_isHovered)
+				mask = _hoverColorMask;
+			else
+				mask = sf::Color::White;
+			this->setColor(mask*this->getColor());
 			break;
 		}
 	}
@@ -70,10 +77,5 @@ void Didax::Button::updateSize()
 
 void Didax::Button::updateColor()
 {
-	if (_isPressed)
-		_sprite.setColor(_color * _clickedColorMask);
-	else if (_isHovered)
-		_sprite.setColor(_color * _hoverColorMask);
-	else
 		_sprite.setColor(_color);
 }
