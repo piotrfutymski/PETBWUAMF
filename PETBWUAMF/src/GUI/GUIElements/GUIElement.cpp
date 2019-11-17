@@ -1,8 +1,9 @@
 #include "GUIElement.h"
 
-Didax::GUIElement::GUIElement(GUIElementPrototype * prototype)
+Didax::GUIElement::GUIElement(GUIElementPrototype * prototype, Game * game)
 {
 	_prototype = prototype;
+	_game = game;
 }
 
 Didax::GUIElement::~GUIElement()

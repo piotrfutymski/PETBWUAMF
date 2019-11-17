@@ -18,11 +18,13 @@ bool Engine::init(const nlohmann::json & settings, Game * g)
 	_clock.restart();
 	Input::setWindow(&_window.getWindow());
 	_window.getWindow().setActive(false);
+	_game = g;
 
-	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI")));
+	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI"), g));
 	_board = static_cast<BoardGUI *>(_elements.begin()->get());
 
 	_board->open(&_updater);
+	this->initGame();
 
 	return true;
 }
@@ -84,6 +86,23 @@ void Engine::input()
 
 		_updater.input(event);
 	}
+}
+
+void Engine::reloadGame()
+{
+}
+
+void Engine::initGame()
+{
+	for (auto & x : _game->getHolder<Unit>())
+	{
+		_elements.push_back(std::make_unique<UnitRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("UnitRepresentation"), _game));
+		auto ptr = static_cast<UnitRepresentation *>((_elements.end() - 1)->get());
+		_units.push_back(ptr);
+		ptr->open(_board->getRoot());
+		ptr->setUnit(x->getID());
+	}
+
 }
 
 

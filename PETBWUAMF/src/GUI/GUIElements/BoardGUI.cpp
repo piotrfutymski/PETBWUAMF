@@ -76,18 +76,18 @@ sf::Color Didax::BoardGUI::colorFromState(PositionState s)
 	if (s == PositionState::Movable)
 		return sf::Color{ 239,228,176 };
 	if (s == PositionState::ActiveUnit)
-		return sf::Color{ 200,172,40 };
+		return sf::Color{ 200,172,40 ,120};
 	if (s == PositionState::Allay)
-		return sf::Color{ 60,170,13 };
+		return sf::Color{ 60,170,13 ,120};
 	if (s == PositionState::ChoosableUnit)
-		return sf::Color{ 78,223,239 };
+		return sf::Color{ 78,223,239 ,120};
 	if (s == PositionState::Choosed)
 		return sf::Color{ 180,155,129 };
 	else
-		return sf::Color{ 255,102,102 };
+		return sf::Color{ 255,102,102 ,120};
 }
 
-Didax::BoardGUI::BoardGUI(GUIElementPrototype * prototype):GUIElement(prototype)
+Didax::BoardGUI::BoardGUI(GUIElementPrototype * prototype, Game * game):GUIElement(prototype, game)
 {
 }
 

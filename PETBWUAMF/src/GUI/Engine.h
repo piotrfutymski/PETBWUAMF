@@ -39,6 +39,7 @@ private:
 
 	GUIElemtntHolder_t _elements;
 	BoardGUI * _board;
+	std::vector<UnitRepresentation *> _units;
 
 	Canvas _updater;
 
@@ -53,6 +54,9 @@ private:
 	void update();
 	void render();
 	void input();
+
+	void reloadGame();
+	void initGame();
 
 };
 

@@ -28,7 +28,7 @@ public:
 
 	using Buttons_t = std::array<std::array<PositionWidget, MAP_HEIGHT>, MAP_WIDTH>;
 
-	BoardGUI(GUIElementPrototype * prototype);
+	BoardGUI(GUIElementPrototype * prototype, Game * game);
 	~BoardGUI();
 
 

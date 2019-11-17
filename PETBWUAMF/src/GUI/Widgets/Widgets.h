@@ -5,3 +5,4 @@
 #include "TextArea.h"
 //#include "TextInputArea.h"
 #include "Button.h"
+#include "HPbar.h"

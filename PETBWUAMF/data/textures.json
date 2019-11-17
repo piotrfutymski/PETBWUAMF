@@ -17,7 +17,7 @@
 
   "3": {
     "type": "texture",
-    "name": "data/graphix/testImages/units/testowywojownik.bmp"
+    "name": "data/graphix/testImages/units/testwarrior.bmp"
   },
 
   "4": {
@@ -48,6 +48,11 @@
   "9": {
     "type": "texture",
     "name": "data/graphix/testImages/orders/ruch.bmp"
+  },
+
+  "10": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/background.bmp"
   }
 
 }

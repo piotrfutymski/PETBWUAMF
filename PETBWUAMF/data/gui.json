@@ -30,24 +30,19 @@
     "type": "gui",
     "name": "UnitRepresentation",
     "strings": {
-      "font": "data/fonts/arial.ttf",
-      "orderSpot":  "data/graphix/testImages/units/orderSpot.bmp"
+      "background":  "data/graphix/testImages/units/background.bmp"
     },
     "values": {
-      "widthR": 100,
-      "heightR": 144,
-      "xPosA": 0,
-      "yPosA": 100,
-      "xPosH": 35,
-      "yPosH": 100,
-      "xPosD": 70,
-      "yposD": 100,
-      "xPosOS": 0,
-      "yposOS": 144,
-      "xPosOSD": 26,
-      "xposO": 3,
-      "xPosOD": 26,
-      "yposO": 147
+      "size": 80,
+      "Padd": 4,
+      "hpBarx": 1,
+      "hpBary": 1,
+      "hpBarW": 78,
+      "hpBarH": 3,
+      "unitx": 1,
+      "unity": 5,
+      "unitW": 78,
+      "unitH": 74
     }
   },
   "2": {

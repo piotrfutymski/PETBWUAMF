@@ -7,43 +7,35 @@ namespace Didax
 class UnitRepresentation:  public GUIElement
 {
 public:
-	enum class ParameterColor {
-		green, white, red
-	};
 
-	UnitRepresentation(GUIElementPrototype * prototype);
+	UnitRepresentation(GUIElementPrototype * prototype, Game * game);
 	~UnitRepresentation();
 
-	void setUnit(const std::string & name, AssetMeneger * assets);
+	void setUnit(size_t u);
 	void resetUnit();
-	void setOrderToUnit(const std::string & name, AssetMeneger * assets, int nr);
 
-	void setAttack(const ParameterColor & p, int v);
-	void setDefence(const ParameterColor & p, int v);
-	void setHealth(const ParameterColor & p, int v);
-
-	void setPosition(int pos);
+	void reloadHealth();
+	void reloadPosition();
 
 
 private:
 
-	TextArea * _attack;
-	TextArea * _health;
-	TextArea * _defence;
+	Button * _unit;
+	HPbar * _bar;
 
-	std::array<ImageWidget *, 4> _orderSpots;
-	std::array<ImageWidget *, 4> _orders;
+	int _unitSize;
+	int _padding;
 
+	size_t _unitID;
 
 
 private:
 	// Inherited via GUIElement
-	virtual void _init(AssetMeneger * assets) override;
+	virtual void _init() override;
 
 	// Inherited via GUIElement
-	virtual void _initLogic( AssetMeneger * assets) override;
+	virtual void _initLogic( ) override;
 
-	sf::Color getColorFromPC(const ParameterColor & p);
 
 };
 

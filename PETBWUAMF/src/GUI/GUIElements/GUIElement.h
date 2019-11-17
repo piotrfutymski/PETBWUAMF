@@ -18,7 +18,7 @@ public:
 
 	using WidgetHolder_t = std::vector<std::unique_ptr<Widget>>;
 
-	GUIElement(GUIElementPrototype * prototype);
+	GUIElement(GUIElementPrototype * prototype, Game * game);
 	~GUIElement(); 
 
 	const Canvas * getRoot()const;
@@ -37,6 +37,8 @@ public:
 protected:
 
 	GUIElementPrototype * _prototype;
+
+	Game * _game;
 
 	// widgets
 
