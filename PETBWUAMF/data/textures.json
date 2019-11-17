@@ -63,8 +63,14 @@
   "12": {
     "type": "texture",
     "name": "data/graphix/testImages/background.bmp"
+  },
+  "13": {
+    "type": "texture",
+    "name": "data/graphix/testImages/orders/prepare.png"
+  },
+  "14": {
+    "type": "texture",
+    "name": "data/graphix/testImages/orders/atak2.png"
   }
-
-
 
 }

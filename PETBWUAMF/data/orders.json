@@ -3,7 +3,7 @@
     "type": "order",
     "name": "attack",
     "description": "Attack.",
-    "texture": "data/graphix/testImages/orders/atak.bmp",
+    "texture": "data/graphix/testImages/orders/atak2.png",
     "icon": "data/graphix/testImages/orders/atakIco.bmp",
     "targets": {
       "0": "unit"
@@ -55,7 +55,7 @@
     "type": "order",
     "name": "prepare",
     "description": "Preperation.",
-    "texture": "data/graphix/testImages/orders/ruch.bmp",
+    "texture": "data/graphix/testImages/orders/prepare.png",
     "icon": "data/graphix/testImages/orders/ruchIco.bmp",
     "targets": {
     },
@@ -71,7 +71,7 @@
     "type": "order",
     "name": "help",
     "description": "Wzmacnia sojusznicza jednostke",
-    "texture": "data/graphix/testImages/orders/ruch.bmp",
+    "texture": "data/graphix/testImages/orders/prepare.png",
     "icon": "data/graphix/testImages/orders/ruchIco.bmp",
     "targets": {
       "0": "unit"
