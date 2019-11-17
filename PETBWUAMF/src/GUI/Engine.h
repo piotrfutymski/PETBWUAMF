@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Game/Game.h"
+#include"GUIElements/GuiElements.h"
 #include "Window/Window.h"
 #include "Inupt/Input.h"
 #include "nlohmann/json.hpp"
@@ -13,6 +14,8 @@ class Engine
 {
 
 public:
+
+	using GUIElemtntHolder_t = std::vector<std::unique_ptr<GUIElement>>;
 
 	//constructor
 
@@ -33,6 +36,11 @@ public:
 
 
 private:
+
+	GUIElemtntHolder_t _elements;
+	BoardGUI * _board;
+
+	Canvas _updater;
 
 	Game * _game;
 

@@ -19,6 +19,11 @@ bool Engine::init(const nlohmann::json & settings, Game * g)
 	Input::setWindow(&_window.getWindow());
 	_window.getWindow().setActive(false);
 
+	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI")));
+	_board = static_cast<BoardGUI *>(_elements.begin()->get());
+
+	_board->open(&_updater);
+
 	return true;
 }
 
@@ -49,6 +54,8 @@ void Engine::update()
 	float deltaT = time.asSeconds();
 
 	// updating
+
+	_updater.update(deltaT);
 }
 	
 void Engine::render()
@@ -56,6 +63,8 @@ void Engine::render()
 	_window.getWindow().clear(sf::Color{ 0,0,0,255 });
 
 	//rendering
+
+	_window.getWindow().draw(_updater);
 
 	//
 
@@ -70,8 +79,10 @@ void Engine::input()
 	{
 		_window.processEvent(event);
 
-		if (event.type == sf::Event::EventType::KeyPressed && event.KeyPressed == sf::Keyboard::Escape)
+		if (event.type == sf::Event::EventType::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			_window.getWindow().close();
+
+		_updater.input(event);
 	}
 }
 

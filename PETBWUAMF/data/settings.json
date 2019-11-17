@@ -1,8 +1,8 @@
 {
   "windowSettings": {
-    "videoModeWidth": 600,
-    "videoModeHeight": 400,
-    "windowStyle": 4,
+    "videoModeWidth": 1920,
+    "videoModeHeight": 1080,
+    "windowStyle": 8,
     "framerateLimit": 1000
   },
   "assetsFileNames": {

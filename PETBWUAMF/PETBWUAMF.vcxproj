@@ -143,6 +143,8 @@
     <ClCompile Include="src\Game\Unit.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\GUI\Engine.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\BoardGUI.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\GUIElement.cpp" />
     <ClCompile Include="src\GUI\Inupt\Input.cpp" />
     <ClCompile Include="src\GUI\Widgets\Button.cpp" />
     <ClCompile Include="src\GUI\Widgets\Canvas.cpp" />
@@ -179,6 +181,9 @@
     <ClInclude Include="src\Game\Unit.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\GUI\Engine.h" />
+    <ClInclude Include="src\GUI\GUIElements\BoardGUI.h" />
+    <ClInclude Include="src\GUI\GUIElements\GUIElement.h" />
+    <ClInclude Include="src\GUI\GUIElements\GuiElements.h" />
     <ClInclude Include="src\GUI\Inupt\Input.h" />
     <ClInclude Include="src\GUI\Widgets\Canvas.h" />
     <ClInclude Include="src\GUI\Widgets\TextArea.h" />

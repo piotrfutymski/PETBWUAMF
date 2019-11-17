@@ -70,6 +70,7 @@ public:
 
 	int getPriority()const;
 	void setPrority(int p);
+	void setProrityRecoursive(int p);
 
 	bool isInterable()const;
 

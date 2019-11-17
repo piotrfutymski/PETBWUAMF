@@ -37,7 +37,7 @@ void Widget::update(float deltaT)
 
 bool Widget::input(const sf::Event & event, bool inArea)
 {
-	if (!_isActive || !_isInterable)
+	if (!_isActive)
 		return false;
 
 	auto a = this->getAbsolutePosition();
@@ -233,6 +233,15 @@ void Widget::setPrority(int p)
 		_parent->recalculatePriority();
 }
 
+void Widget::setProrityRecoursive(int p)
+{
+	this->setPrority(p);
+	for (auto &x : _children)
+	{
+		this->setProrityRecoursive(p);
+	}
+}
+
 bool Widget::isInterable() const
 {
 	return _isInterable;
@@ -417,7 +426,8 @@ void Widget::updateCallbacks(float deltaT)
 {
 	for (auto it = _callbacks.begin(); it != _callbacks.end(); it++)
 	{
-		_widgetEvent[*it](this, deltaT);
+		if(_widgetEvent.find(*it) != _widgetEvent.end())
+			_widgetEvent[*it](this, deltaT);
 	}
 }
 

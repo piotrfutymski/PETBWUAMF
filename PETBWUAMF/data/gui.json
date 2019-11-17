@@ -54,14 +54,16 @@
     "type": "gui",
     "name": "BoardGUI",
     "strings": {
-      "border0": "data/graphix/testImages/board/granica.bmp",
-      "border1": "data/graphix/testImages/board/granica1.bmp",
-      "border2": "data/graphix/testImages/board/granica2.bmp",
+      "border": "data/graphix/testImages/board/granica.bmp",
       "background": "data/graphix/testImages/board/mainGuiBackground.bmp"
     },
     "values": {
-      "widthR": 1490,
-      "heightR": 1080
+      "xPos": 20,
+      "yPos": 20,
+      "Padd": 4,
+      "PosSize": 80,
+      "widthR": 1340,
+      "heightR": 840
     }
   },
   "3": {
