@@ -195,6 +195,7 @@ void TextArea::recalculateLines()
 		_textLines.back().setString(wsTmp);
 		_textLines.back().setPosition(0, 0);
 		_textLines.back().setFont(*_font);
+		_textLines.back().setCharacterSize(_characterSize);
 	}
 	this->recalculateLinesPositions();
 	this->recalculateColor();

@@ -35,6 +35,8 @@
     <ClCompile Include="src\GUI\GUIElements\BoardGUI.cpp" />
     <ClCompile Include="src\GUI\GUIElements\UnitRepresentation.cpp" />
     <ClCompile Include="src\GUI\Widgets\HPbar.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\OrderRepresentation.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\InfoGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Assets\AssetMeneger.h" />
@@ -77,6 +79,8 @@
     <ClInclude Include="src\GUI\GUIElements\GuiElements.h" />
     <ClInclude Include="src\GUI\GUIElements\UnitRepresentation.h" />
     <ClInclude Include="src\GUI\Widgets\HPbar.h" />
+    <ClInclude Include="src\GUI\GUIElements\OrderRepresentation.h" />
+    <ClInclude Include="src\GUI\GUIElements\InfoGUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\assets.json" />

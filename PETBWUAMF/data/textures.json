@@ -53,6 +53,18 @@
   "10": {
     "type": "texture",
     "name": "data/graphix/testImages/units/background.bmp"
+  },
+
+  "11": {
+    "type": "texture",
+    "name": "data/graphix/testImages/orders/background.bmp"
+  },
+
+  "12": {
+    "type": "texture",
+    "name": "data/graphix/testImages/background.bmp"
   }
+
+
 
 }

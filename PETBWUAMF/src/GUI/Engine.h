@@ -39,7 +39,9 @@ private:
 
 	GUIElemtntHolder_t _elements;
 	BoardGUI * _board;
+	InfoGUI * _info;
 	std::vector<UnitRepresentation *> _units;
+	std::vector<OrderRepresentation *> _orders;
 
 	Canvas _updater;
 

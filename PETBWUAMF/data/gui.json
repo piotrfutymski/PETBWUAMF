@@ -30,7 +30,7 @@
     "type": "gui",
     "name": "UnitRepresentation",
     "strings": {
-      "background":  "data/graphix/testImages/units/background.bmp"
+      "background": "data/graphix/testImages/units/background.bmp"
     },
     "values": {
       "size": 80,
@@ -65,11 +65,25 @@
     "type": "gui",
     "name": "OrderRepresentation",
     "strings": {
-      "choosed": "data/graphix/testImages/orders/choosed.bmp"
+      "background": "data/graphix/testImages/orders/background.bmp"
+    },
+    "values": {
+      "widthR": 140,
+      "heightR": 220
+    }
+  },
+
+  "4": {
+    "type": "gui",
+    "name": "InfoGUI",
+    "strings": {
+      "background": "data/graphix/testImages/background.bmp"
     },
     "values": {
       "widthR": 140,
       "heightR": 220
     }
   }
+
+ 
 }

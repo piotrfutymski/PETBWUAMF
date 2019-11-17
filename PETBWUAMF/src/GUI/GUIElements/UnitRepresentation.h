@@ -17,6 +17,9 @@ public:
 	void reloadHealth();
 	void reloadPosition();
 
+	void set_onHoverIn(const std::function<void()> & f);
+	void set_onHoverOut(const std::function<void()> & f);
+
 
 private:
 

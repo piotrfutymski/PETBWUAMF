@@ -22,8 +22,12 @@ bool Engine::init(const nlohmann::json & settings, Game * g)
 
 	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI"), g));
 	_board = static_cast<BoardGUI *>(_elements.begin()->get());
-
 	_board->open(&_updater);
+
+	_elements.push_back(std::make_unique<InfoGUI>(AssetMeneger::getAsset<GUIElementPrototype>("InfoGUI"), g));
+	_info = static_cast<InfoGUI *>((_elements.begin()+1)->get());
+	_info->open(&_updater);
+
 	this->initGame();
 
 	return true;
@@ -101,6 +105,30 @@ void Engine::initGame()
 		_units.push_back(ptr);
 		ptr->open(_board->getRoot());
 		ptr->setUnit(x->getID());
+		ptr->set_onHoverIn([=, &x] {
+			_info->setUnitInfo(x->getID());
+		});
+
+		ptr->set_onHoverOut([=] {
+			_info->clearInfo();
+		});
+	}
+
+	int i = 0;
+	for (auto & x : _game->getHolder<Order>())
+	{
+		_elements.push_back(std::make_unique<OrderRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("OrderRepresentation"), _game));
+		auto ptr = static_cast<OrderRepresentation *>((_elements.end() - 1)->get());
+		_orders.push_back(ptr);
+		ptr->open(&_updater);
+		ptr->setOrder(x->getID());
+		ptr->setPosition(i++);
+		ptr->set_onHoverIn([=, &x] {
+			_info->setOrderInfo(x->getID());
+		});
+		ptr->set_onHoverOut([=] {
+			_info->clearInfo();
+		});
 	}
 
 }

@@ -145,6 +145,8 @@
     <ClCompile Include="src\GUI\Engine.cpp" />
     <ClCompile Include="src\GUI\GUIElements\BoardGUI.cpp" />
     <ClCompile Include="src\GUI\GUIElements\GUIElement.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\InfoGUI.cpp" />
+    <ClCompile Include="src\GUI\GUIElements\OrderRepresentation.cpp" />
     <ClCompile Include="src\GUI\GUIElements\UnitRepresentation.cpp" />
     <ClCompile Include="src\GUI\Inupt\Input.cpp" />
     <ClCompile Include="src\GUI\Widgets\Button.cpp" />
@@ -186,6 +188,8 @@
     <ClInclude Include="src\GUI\GUIElements\BoardGUI.h" />
     <ClInclude Include="src\GUI\GUIElements\GUIElement.h" />
     <ClInclude Include="src\GUI\GUIElements\GuiElements.h" />
+    <ClInclude Include="src\GUI\GUIElements\InfoGUI.h" />
+    <ClInclude Include="src\GUI\GUIElements\OrderRepresentation.h" />
     <ClInclude Include="src\GUI\GUIElements\UnitRepresentation.h" />
     <ClInclude Include="src\GUI\Inupt\Input.h" />
     <ClInclude Include="src\GUI\Widgets\Canvas.h" />

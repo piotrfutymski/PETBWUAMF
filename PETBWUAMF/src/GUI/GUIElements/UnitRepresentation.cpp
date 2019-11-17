@@ -78,3 +78,17 @@ void Didax::UnitRepresentation::reloadPosition()
 
 }
 
+void Didax::UnitRepresentation::set_onHoverIn(const std::function<void()>& f)
+{
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
+		f();
+	});
+}
+
+void Didax::UnitRepresentation::set_onHoverOut(const std::function<void()>& f)
+{
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
+		f();
+	});
+}
+
