@@ -12,11 +12,20 @@ public:
 	~OrderRepresentation();
 
 	void setOrder(size_t o);
+	size_t getOrderId();
 	void setPosition(int p);
+	int getPosition()const;
 	void resetOrder();
+	void setChoosable(bool c);
+	bool isChoosable()const;
+	void hide();
+	void show();
 
-	void set_onHoverIn(const std::function<void()> & f);
-	void set_onHoverOut(const std::function<void()> & f);
+	static std::function<void(OrderRepresentation *)> onHoverIn;
+	static std::function<void(OrderRepresentation *)> onHoverInIfChoosabe;
+	static std::function<void(OrderRepresentation *)> onHoverOut;
+	static std::function<void(OrderRepresentation *)> onHoverOutIfChoosabe;
+	static std::function<void(OrderRepresentation *)> onReleaseIfChoosabe;
 
 
 private:
@@ -26,10 +35,10 @@ private:
 	sf::Vector2f _orderSize{132, 170};
 	sf::Vector2f _offset{ 20, 910 };
 	float _padding{ 4 };
-	size_t _orderID;
+	size_t _orderID{ (size_t)-1 };
 
 	int _position;
-	bool isChoosable{ true };
+	bool _isChoosable{ true };
 
 
 private:

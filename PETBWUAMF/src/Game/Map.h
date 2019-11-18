@@ -26,6 +26,8 @@ public:
 	std::vector<sf::Vector2i> getPaths(size_t u, int move)const;
 	std::vector<sf::Vector2i> posInFightAfterMove(size_t u, int move)const;
 
+	size_t getDataFromPos(const sf::Vector2i & pos)const;
+
 	sf::Vector2i findUnitPosition(size_t u)const;
 	std::pair<sf::Vector2i, int> findUnit(size_t u)const;
 

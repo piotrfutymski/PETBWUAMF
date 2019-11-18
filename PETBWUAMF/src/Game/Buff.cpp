@@ -28,20 +28,20 @@ int Buff::getRestTime() const
 bool Buff::onTurnEnd()
 {
 	this->getPrototype()->_onTurnEnd(_unit, this);
-	_restTime--;
 	if (_restTime <= 0)
 	{
 		this->getPrototype()->_onEnd(_unit, this);
 		return true;
 	}
+	_restTime--;
 	return false;
 }
-void Buff::setBoostValue(int v)
+void Buff::setBoostValue(float v)
 {
 	_boostValue = v;
 }
 
-int Buff::getBoostValue() const
+float Buff::getBoostValue() const
 {
 	return _boostValue;
 }

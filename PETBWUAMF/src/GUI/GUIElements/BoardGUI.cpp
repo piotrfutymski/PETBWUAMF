@@ -33,7 +33,7 @@ void Didax::BoardGUI::_init()
 			_positions[i][j].button->setPosition(i*(padd + p_size), j*(padd + p_size));
 			_positions[i][j].button->setSize({ p_size, p_size });
 			_positions[i][j].button->setTexture(&text->_texture);
-			this->setPositionInState(PositionState::Movable, { (int)i,(int)j });
+			this->setPositionInState(PositionState::Inactive, { (int)i,(int)j });
 		}
 	}
 
@@ -97,6 +97,33 @@ Didax::BoardGUI::~BoardGUI()
 
 void Didax::BoardGUI::setTargets(const std::vector<OrderPrototype::Target>& targets)
 {
+}
+
+void Didax::BoardGUI::reloadFromGame()
+{
+	for (size_t i = 0; i < MAP_WIDTH; i++)
+	{
+		for (size_t j = 0; j < MAP_HEIGHT; j++)
+		{
+			if(_game->getMap().getDataFromPos({ (int)i,(int)j}) == -1)
+				this->setPositionInState(PositionState::Inactive, { (int)i,(int)j });
+			else
+			{
+				auto uid = _game->getMap().getDataFromPos({ (int)i,(int)j });
+				auto u = _game->getObject<Unit>(uid);
+				auto owner = u->getOwner();
+				if(owner != _game->getActivePlayer())
+					this->setPositionInState(PositionState::Enemy, { (int)i,(int)j },uid,owner);
+				else
+				{
+					if(uid != _game->getActiveUnit()->getID())
+						this->setPositionInState(PositionState::Allay, { (int)i,(int)j }, uid, owner);
+					else
+						this->setPositionInState(PositionState::ActiveUnit, { (int)i,(int)j }, uid, owner);
+				}
+			}
+		}
+	}
 }
 
 sf::Vector2i Didax::BoardGUI::getLastChoosed() const
