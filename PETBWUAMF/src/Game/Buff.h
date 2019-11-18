@@ -12,14 +12,14 @@ public:
 	int getRestTime() const;
 	bool onTurnEnd();
 
-	void setBoostValue(int v);
-	int getBoostValue()const;
+	void setBoostValue(float v);
+	float getBoostValue()const;
 
 private:
 	
 	size_t _unit;
 	int _restTime;
-	int _boostValue;
+	float _boostValue;
 
 
 };

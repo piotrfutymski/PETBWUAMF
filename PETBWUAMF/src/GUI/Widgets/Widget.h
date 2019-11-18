@@ -165,6 +165,8 @@ private:
 	void recalculatePriority();
 
 	void drawOnly(sf::RenderTarget & target, sf::RenderStates states) const;
+	void setPositionDontStop(sf::Vector2f pos);
+	void moveDontStop(sf::Vector2f deltaS);
 };
 
 }

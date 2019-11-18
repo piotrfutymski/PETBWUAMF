@@ -88,10 +88,6 @@ MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 		return{ {},{{ u->getID(), en, enemy->getHealth() - startE},{en,u->getID(),u->getHealth() - startY}},{},{} };
 	}
 
-
-
-
-
 }
 
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)

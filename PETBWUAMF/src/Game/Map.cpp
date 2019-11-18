@@ -120,6 +120,11 @@ std::vector<sf::Vector2i> Map::posInFightAfterMove(size_t u, int move) const
 	return res;
 }
 
+size_t Map::getDataFromPos(const sf::Vector2i & pos) const
+{
+	return _mapData[pos.x][pos.y].first;
+}
+
 
 sf::Vector2i Map::findUnitPosition(size_t u)const
 {

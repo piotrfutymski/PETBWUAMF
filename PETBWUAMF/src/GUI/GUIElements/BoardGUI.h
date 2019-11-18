@@ -35,7 +35,7 @@ public:
 
 	void setTargets(const std::vector<OrderPrototype::Target> & targets);
 
-
+	void reloadFromGame();
 
 	sf::Vector2i getLastChoosed()const;
 
@@ -44,8 +44,6 @@ private:
 	Buttons_t _positions;
 
 	sf::Vector2i _lastChoosed{ -1,-1 };
-
-	int playrTurn;
 
 
 private:

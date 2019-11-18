@@ -33,7 +33,8 @@ public:
 
 	void setMoveRes(const MoveRes & moveRes);
 
-
+	void startTurn();
+	void orderChoosed(size_t orderID);
 
 private:
 
@@ -42,6 +43,8 @@ private:
 	InfoGUI * _info;
 	std::vector<UnitRepresentation *> _units;
 	std::vector<OrderRepresentation *> _orders;
+
+	size_t _choosedOrder{ (size_t)-1 };
 
 	Canvas _updater;
 
@@ -57,7 +60,7 @@ private:
 	void render();
 	void input();
 
-	void reloadGame();
+
 	void initGame();
 
 };

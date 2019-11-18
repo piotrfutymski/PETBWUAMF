@@ -29,6 +29,7 @@ bool Engine::init(const nlohmann::json & settings, Game * g)
 	_info->open(&_updater);
 
 	this->initGame();
+	this->startTurn();
 
 	return true;
 }
@@ -92,8 +93,47 @@ void Engine::input()
 	}
 }
 
-void Engine::reloadGame()
+void Engine::startTurn()
 {
+	_board->reloadFromGame();
+	auto orCH = _game->getPossibleOrders();
+
+	std::vector<size_t> choosable;
+	std::vector<size_t> showable;
+
+	for (auto & ord : orCH)
+	{
+		choosable.push_back(ord->getID());
+	}
+
+	for (auto & ord : _game->getHolder<Order>())
+	{
+		if (ord->getOwner() == _game->getActivePlayer())
+			showable.push_back(ord->getID());
+	}
+
+	for (auto & ord : _orders)
+	{
+		if (std::find(choosable.begin(), choosable.end(), ord->getOrderId()) != choosable.end())
+		{
+			ord->show();
+			ord->setChoosable(true);
+		}
+		else if (std::find(showable.begin(), showable.end(), ord->getOrderId()) != showable.end())
+		{
+			ord->show();
+			ord->setChoosable(false);
+		}
+		else
+		{
+			ord->hide();
+		}
+	}
+}
+
+void Engine::orderChoosed(size_t orderID)
+{
+	_choosedOrder = orderID;
 }
 
 void Engine::initGame()
@@ -115,6 +155,7 @@ void Engine::initGame()
 	}
 
 	int i = 0;
+	int j = 0;
 	for (auto & x : _game->getHolder<Order>())
 	{
 		_elements.push_back(std::make_unique<OrderRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("OrderRepresentation"), _game));
@@ -122,15 +163,23 @@ void Engine::initGame()
 		_orders.push_back(ptr);
 		ptr->open(&_updater);
 		ptr->setOrder(x->getID());
-		ptr->setPosition(i++);
-		ptr->set_onHoverIn([=, &x] {
-			_info->setOrderInfo(x->getID());
-		});
-		ptr->set_onHoverOut([=] {
-			_info->clearInfo();
-		});
+		if(x->getOwner() == 0)
+			ptr->setPosition(i++);
+		else
+			ptr->setPosition(j++);
 	}
 
+	OrderRepresentation::onHoverIn = ([=](OrderRepresentation * o) {
+		_info->setOrderInfo(o->getOrderId());
+	});
+
+	OrderRepresentation::onHoverOut = ([=](OrderRepresentation * o) {
+		_info->clearInfo();
+	});
+
+	OrderRepresentation::onReleaseIfChoosabe = ([=](OrderRepresentation * o) {
+		this->orderChoosed(o->getOrderId());
+	});
 }
 
 

@@ -84,17 +84,9 @@ bool Widget::isInGivenArea(sf::Vector2f a, sf::Vector2f b)
 
 void Widget::setPosition(sf::Vector2f pos)
 {
-	auto delta = pos - _relativePos;
-	_relativePos = pos;
-	this->updatePosition();
-	for (auto x : _children)
-	{
-		x->updatePosition();
-	}
-	if (_isSetArea)
-	{
-		this->setLimitArea(_borderArea[0] + delta, _borderArea[1] + delta);
-	}
+	if(_movingInTime)
+		_movingInTime = false;
+	this->setPositionDontStop(pos);
 }
 
 void Widget::setPosition(float x, float y)
@@ -397,12 +389,12 @@ void Widget::actualizeInTime(float deltaT)
 {
 	if (_movingInTime)
 	{
-		move({ (deltaT *_velocity.x), (deltaT * _velocity.y) });
+		moveDontStop({ (deltaT *_velocity.x), (deltaT * _velocity.y) });
 		_timeToMove -= deltaT;
 		if (_timeToMove <= 0)
 		{
 			_movingInTime = false;
-			setPosition(_nextPos);
+			setPositionDontStop(_nextPos);
 		}
 	}
 	if (_changingColor)
@@ -511,6 +503,26 @@ void Widget::drawOnly(sf::RenderTarget & target, sf::RenderStates states) const
 		(*it)->draw(target, states);
 		it++;
 	}
+}
+
+void Widget::setPositionDontStop(sf::Vector2f pos)
+{
+	auto delta = pos - _relativePos;
+	_relativePos = pos;
+	this->updatePosition();
+	for (auto x : _children)
+	{
+		x->updatePosition();
+	}
+	if (_isSetArea)
+	{
+		this->setLimitArea(_borderArea[0] + delta, _borderArea[1] + delta);
+	}
+}
+
+void Widget::moveDontStop(sf::Vector2f deltaS)
+{
+	this->setPositionDontStop({ deltaS.x + _relativePos.x, deltaS.y + _relativePos.y });
 }
 
 }
