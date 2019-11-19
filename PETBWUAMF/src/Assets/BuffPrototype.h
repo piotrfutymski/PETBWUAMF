@@ -21,5 +21,7 @@ public:
 	int _time;				// -1 = always
 	int _Fvalue;
 	float _Svalue;
+	std::string _buffingParameter;
+	std::string _buffedParameter;
 
 };

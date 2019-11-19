@@ -90,6 +90,15 @@ MoveRes PrototypeInitializer::attack(Unit * u, size_t en)
 
 }
 
+MoveRes PrototypeInitializer::chargeAttack(Unit * u, size_t en)
+{
+	auto enemy = game->getObject<Unit>(en);
+	auto startE = enemy->getHealth();
+	auto startY = u->getHealth();
+	u->chargeAttack(enemy);
+	return{ {},{{ u->getID(), en, enemy->getHealth() - startE},{en,u->getID(),u->getHealth() - startY}},{},{} };
+
+}
 bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit * u)
 {
 	auto uprot = u->getPrototype();
@@ -188,10 +197,10 @@ void PrototypeInitializer::initOrders()
 	});
 
 	p->set_execute([=](Unit * u, const Move & m) {
-		g->addBuff("chargeBoost", u->getID());
+		//g->addBuff("chargeBoost", u->getID());
 		auto a = PrototypeInitializer::move(u, m.positions[0]);
-		auto b = PrototypeInitializer::attack(u, m.units[0]);
-		return a+b+MoveRes{ {},{},{{u->getID(),Unit::UParameter::Attack, u->getChargeAttack() }},{} };
+		auto b = PrototypeInitializer::chargeAttack(u, m.units[0]);
+		return a+b;
 	});
 
 

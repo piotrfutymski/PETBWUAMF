@@ -16,6 +16,7 @@ public:
 
 	static MoveRes move(Unit * u, const sf::Vector2i & pos);
 	static MoveRes attack(Unit * u, size_t en);
+	static MoveRes chargeAttack(Unit * u, size_t en);
 
 	static bool canBeUsedOnUnit(const OrderPrototype* o, const Unit * u);
 

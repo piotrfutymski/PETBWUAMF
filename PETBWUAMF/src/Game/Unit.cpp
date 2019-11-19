@@ -194,49 +194,72 @@ float Unit::getDistanceTo(const Unit *enemy)const
 
 void Unit::normalAttack(Unit *enemy)
 {
-	//
 	Logger::log("-------------------Attack in progress--------------------");
+	bool end = 0;
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
-		if (!this->sideFight(enemy))
-		{
-			Logger::log("Attacking unit destroyed.");
-			break;
-		}
-		if (!enemy->sideFight(this))
+		std::pair<int, int> chances = normalChance(this);
+		int casualty = enemy->normalRound(this, chances);
+		chances = normalChance(enemy);
+		int casualtyEnemy = this->normalRound(enemy, chances);
+		if (enemy->casualties(casualtyEnemy))
 		{
 			Logger::log("Defending unit destroyed.");
-			break;
+			end = 1;
 		}
+		if (this->casualties(casualty))
+		{
+			Logger::log("Attacking unit destroyed.");
+			end = 1;
+		}
+		if (end)
+			break;
 	}
 	Logger::log("---------------------Attack finished---------------------");
-	Logger::log("----------------Press something to continue--------------");
-	std::getchar();
-	//Is fight prawdopodobnie bêdzie ustawiane gdy jednostka dotknie innej
-	/*this->_isInFight = true;
-	enemy->_isInFight = true;
-	return;*/
-
 }
+void Unit::chargeAttack(Unit *enemy)
+{
+	Logger::log("-------------------Attack in progress--------------------");
+	bool end = 0;
+	for (int round = 1; round <= ROUND_SIZE; round++)
+	{
+		std::pair<int, int> chances = normalChance(this);
+		int casualty = enemy->normalRound(this, chances, 2);
+		chances = chargeChance(enemy);
+		int casualtyEnemy = this->normalRound(enemy, chances, 2);
+		if (enemy->casualties(casualtyEnemy))
+		{
+			Logger::log("Defending unit destroyed.");
+			end = 1;
+		}
+		if (this->casualties(casualty))
+		{
+			Logger::log("Attacking unit destroyed.");
+			end = 1;
+		}
+		if (end)
+			break;
+	}
+	Logger::log("---------------------Attack finished---------------------");
+}
+
 void Unit::rangedAttack(Unit *target)
 {
 	Logger::log("---------------Ranged Attack in progress-----------------");
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
 
-		target->casualties(this->rangedRound(target));
-		if (!target->_isAlive)
+		if (target->casualties(this->rangedRound(target)))
 		{
 			Logger::log("Defending unit destroyed.");
 			break;
 		}
 	}
 	Logger::log("----------------Ranged Attack finished-------------------");
-	Logger::log("----------------Press something to continue--------------");
-	std::getchar();
 	return;
 }
-bool Unit::sideFight(Unit *enemy)
+/*
+bool Unit::sideFight(Unit *enemy, chances)
 {
 	this->casualties(enemy->normalRound(this));
 
@@ -245,17 +268,17 @@ bool Unit::sideFight(Unit *enemy)
 	else
 		return 0;
 }
-
-int Unit::normalRound(Unit *enemy)
+*/
+int Unit::normalRound(Unit *enemy, std::pair<int,int> chances, int ferocity)
 {
 	int front = this->refill();
 	int killcount = 0;
 	bool temp = false;
-	std::pair<int, int> chances = normalChance(enemy);
+	//std::pair<int, int> chances = normalChance(enemy);
 	Logger::log(this->getPrototype()->getName() + " has chances: " +
 		std::to_string(chances.first / 10) + "% " + std::to_string(chances.second / 10) + "% " +
 		std::to_string(chances.first*chances.second / 10000) + "%");
-	for (int unit = 1; unit <= front; unit++)
+	for (int unit = 1; unit <= front * ferocity; unit++)
 	{
 		if ((rand() % 1000 + 1) < chances.first)
 		{
@@ -279,8 +302,8 @@ int Unit::normalRound(Unit *enemy)
 	return killcount;
 }
 
-
-void Unit::casualties(int casualties)
+//Liczy straty, zwraca true jezeli jednostka ginie
+bool Unit::casualties(int casualties)
 {
 	this->_health -= casualties;
 	Logger::log(this->getPrototype()->getName() + " has suffered " + std::to_string(casualties) + " casualties");
@@ -288,7 +311,10 @@ void Unit::casualties(int casualties)
 	{
 		this->_health = 0;
 		this->_isAlive = false;
+		return true;
 	}
+	else
+		return false;;
 }
 
 int Unit::refill()
@@ -320,6 +346,23 @@ std::pair<int, int> Unit::normalChance(Unit *enemy)
 
 }
 
+std::pair<int, int> Unit::chargeChance(Unit *enemy)
+{
+	int pairing = (enemy->_attack + enemy->_defence) / 2;
+
+	int fullDefence = enemy->_defence + enemy->_armor;
+
+	float sumAttack = this->_attack + this->_chargeAttack;
+
+	int sumPairing = sumAttack + pairing;
+	int sumDefence = sumAttack + fullDefence;
+
+	int chance = ( (sumAttack + _chargeAttack) / sumPairing) * 1000;
+	int chance2 = (sumAttack / sumDefence) * 1000;
+
+	return std::pair<int, int>(chance, chance2);
+
+}
 
 int Unit::rangedChance(Unit *target)
 {

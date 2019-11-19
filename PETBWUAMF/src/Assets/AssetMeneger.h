@@ -32,6 +32,7 @@ public:
 
 	static bool loadAssetsFromFile(const std::string & filename);
 
+
 	template<typename T>
 	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * createAsset(const std::string name)
 	{
@@ -46,6 +47,22 @@ public:
 			return nullptr;
 		else
 			return static_cast<T*> (_assets[name].get());
+	}
+
+
+//Get All Assets of Type
+
+	template <typename T>
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, std::vector<T *>>::type getAllAssets()
+	{
+		std::vector<T*> res;
+		for (auto & asset_ptr : _assets)
+		{
+			auto cast = dynamic_cast<T*> (asset_ptr.second.get());
+			if (cast != nullptr)
+				res.push_back(cast);
+		}
+		return res;
 	}
 
 private:

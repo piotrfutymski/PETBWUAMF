@@ -74,6 +74,7 @@ public:
 
 	void normalAttack(Unit *enemy);
 	void rangedAttack(Unit *enemy);
+	void chargeAttack(Unit *enemy);
 
 	// LOG
 
@@ -114,11 +115,12 @@ private:
 
 private:
 
-	bool sideFight(Unit *enemy);
-	void casualties(int casualties);
-	int normalRound(Unit *enemy);
+	//bool sideFight(Unit *enemy);
+	bool casualties(int casualties);
+	int normalRound(Unit *enemy, std::pair<int, int> chances, int ferocity=1);
 	int refill();
 	std::pair<int, int> normalChance(Unit *enemy);
+	std::pair<int, int> chargeChance(Unit *enemy);
 	int rangedChance(Unit *target);
 	int rangedRound(Unit *target);
 
