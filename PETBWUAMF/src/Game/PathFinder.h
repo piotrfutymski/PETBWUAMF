@@ -9,12 +9,12 @@ public:
 	PathFinder(int x, int y);
 	~PathFinder();
 
-	void addAllay(const sf::Vector2i & pos);
-	void addEnemy(const sf::Vector2i & pos);
+	void addAllay(const sf::Vector2i & pos);															//sets this position as used by allaye
+	void addEnemy(const sf::Vector2i & pos);															//sets this position as used by enymy
 
-	bool isInArea(const sf::Vector2i & pos);
+	bool isInArea(const sf::Vector2i & pos);				
 
-	std::vector<sf::Vector2i> getGoodPositions(const sf::Vector2i & start, int move);
+	std::vector<sf::Vector2i> getGoodPositions(const sf::Vector2i & start, int move);					//get positions in range of move of unit on start position
 
 private:
 	int _xSize;

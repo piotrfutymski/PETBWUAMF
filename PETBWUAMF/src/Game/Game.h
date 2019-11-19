@@ -55,13 +55,12 @@ public:
 
 	const Unit * getActiveUnit()const;
 	Unit * getActiveUnit();
+
 	int getActivePlayer()const;
 
 	std::vector<Order *> getPossibleOrders();
 	const std::vector<Order *> getPossibleOrders()const;
 
-	std::vector<Unit*> getNeightbours(Unit * u);
-	const std::vector<Unit*> getNeightbours(Unit * u)const;
 
 	const Map & getMap()const;
 	Map & getMap();
