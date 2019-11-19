@@ -41,9 +41,12 @@ public:
 	bool _canBeUsedOnAllUnit;
 	std::vector <std::string> _allowedTypes;
 	std::vector <std::string> _allowedUnits;
+	std::vector <std::string> _allowedFactions;
 
 	std::vector<TargetType> _targets;
 	std::string _description;
+	std::string _orderType;
+	std::vector<std::string> _buffs;
 
 	std::string _texture;
 	std::string _icon;

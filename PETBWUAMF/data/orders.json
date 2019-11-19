@@ -1,6 +1,7 @@
 {
   "0": {
     "type": "order",
+    "orderType": "attack",
     "name": "attack",
     "description": "Attack.",
     "texture": "data/graphix/testImages/orders/atak2.png",
@@ -12,11 +13,15 @@
     },
     "allowedUnits": {
 
+    },
+    "buffs": {
+
     }
   },
 
   "1": {
     "type": "order",
+    "orderType": "move",
     "name": "move",
     "description": "Move.",
     "texture": "data/graphix/testImages/orders/ruch.bmp",
@@ -29,11 +34,15 @@
     },
     "allowedUnits": {
 
+    },
+    "buffs": {
+
     }
   },
 
   "2": {
     "type": "order",
+    "orderType": "charge",
     "name": "charge",
     "description": "Charge.",
     "texture": "data/graphix/testImages/orders/atak.bmp",
@@ -47,12 +56,15 @@
     },
     "allowedUnits": {
 
-    }
+    },
+    "buffs": {
 
+    }
   },
 
   "3": {
     "type": "order",
+    "orderType": "buff",
     "name": "prepare",
     "description": "Preperation.",
     "texture": "data/graphix/testImages/orders/prepare.png",
@@ -64,11 +76,15 @@
     },
     "allowedUnits": {
 
+    },
+    "buffs": {
+      "0": "prepareBoost"
     }
   },
 
   "4": {
     "type": "order",
+    "orderType": "support",
     "name": "help",
     "description": "Wzmacnia sojusznicza jednostke",
     "texture": "data/graphix/testImages/orders/prepare.png",
@@ -80,6 +96,9 @@
 
     },
     "allowedUnits": {
+
+    },
+    "buffs": {
 
     }
   }

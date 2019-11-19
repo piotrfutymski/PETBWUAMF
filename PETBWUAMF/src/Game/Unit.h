@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "Buff.h"
 #include "Map.h"
-
 class Unit : public GameObject<UnitPrototype>
 {
 public:
@@ -57,6 +56,7 @@ public:
 	int getMove()const;
 
 	int getParameter(UParameter p)const;
+	UParameter getUParameter(std::string p) const;
 	void setParameter(UParameter p, int value);
 	void upgradeParameter(UParameter p, float value);
 	void upgradeParameter(UParameter p, int value);

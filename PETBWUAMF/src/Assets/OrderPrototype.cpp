@@ -7,6 +7,7 @@ void OrderPrototype::loadAsset(const nlohmann::json & assetFile)
 
 	_texture = assetFile["texture"].get<std::string>();
 	_icon = assetFile["icon"].get <std::string>();
+	_orderType = assetFile["orderType"].get<std::string>();
 
 	for ( auto &a : assetFile["targets"])
 	{
@@ -15,7 +16,10 @@ void OrderPrototype::loadAsset(const nlohmann::json & assetFile)
 		else if(a.get<std::string>() == "unit")
 			_targets.push_back(OrderPrototype::TargetType::Unit_target);
 	}
-
+	for (auto &a : assetFile["buffs"])
+	{
+		_buffs.push_back(a.get<std::string>());
+	}
 	if (assetFile["allowedTypes"].size() == 0)
 	{
 		_canBeUsedOnAllUnit = true;

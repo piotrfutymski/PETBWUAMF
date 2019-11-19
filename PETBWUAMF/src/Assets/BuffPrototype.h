@@ -1,5 +1,6 @@
 #pragma once
 #include "Asset.h"
+#include <utility>
 
 class Buff;
 
@@ -14,14 +15,16 @@ public:
 
 public:
 
+	std::pair<std::string, std::string >_begin;
+	std::pair<std::string, std::string >_turnEnd;
+	std::pair<std::string, std::string >_end;
+	bool beginFlag{ false };
+	bool turnFlag{ false };
+	bool endFlag{ false };
 	std::function<void(size_t, Buff *)> _onBegin;
 	std::function<void(size_t, Buff *)> _onTurnEnd;
 	std::function<void(size_t, Buff *)> _onEnd;
 
 	int _time;				// -1 = always
-	int _Fvalue;
-	float _Svalue;
-	std::string _buffingParameter;
-	std::string _buffedParameter;
 
 };

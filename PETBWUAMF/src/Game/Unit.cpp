@@ -134,6 +134,32 @@ int Unit::getParameter(UParameter p) const
 
 	return 0;
 }
+Unit::UParameter Unit::getUParameter(std::string p) const
+{
+	if (p == "Protection")
+		return Unit::UParameter::Protection;
+	else if (p == "Morale")
+		return Unit::UParameter::Morale;
+	else if (p == "Armor")
+		return Unit::UParameter::Armor;
+	else if (p == "Attack")
+		return Unit::UParameter::Attack;
+	else if (p == "ChargeAttack")
+		return Unit::UParameter::ChargeAttack;
+	else if (p == "ChargeDefence")
+		return Unit::UParameter::ChargeDeffence;
+	else if (p == "Defence")
+		return Unit::UParameter::Defence;
+	else if (p == "Health")
+		return Unit::UParameter::Health;
+	else if (p == "Move")
+		return Unit::UParameter::Move;
+	else if (p == "Range")
+		return Unit::UParameter::Range;
+	else if (p == "RangedAttack")
+		return Unit::UParameter::RangedAttack;
+	else return Unit::UParameter::Health;
+}
 void Unit::setParameter(UParameter p, int value)
 {
 	this->parameterFromEnum(p) = value;

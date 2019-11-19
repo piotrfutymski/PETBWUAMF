@@ -3,15 +3,37 @@
     "type": "buff",
     "name": "prepareBoost",
     "time": 2,
-    "firstValue": 0,
-    "secondValue": 0
+    "begin": {
+      "value": "ChargeDefence",
+      "target": "Armor"
+    },
+    "turnEnd": {
+
+    },
+    "end": {
+      "value": "ChargeDefence",
+      "target": "Armor"
+    },
+    "flags": {
+
+    }
   },
 
   "1": {
     "type": "buff",
     "name": "chargeBoost",
     "time": 0,
-    "firstValue": 0,
-    "secondValue": 0
+    "begin": {
+
+    },
+    "turnEnd": {
+
+    },
+    "end": {
+
+    },
+    "flags": {
+
+    }
   }
 }

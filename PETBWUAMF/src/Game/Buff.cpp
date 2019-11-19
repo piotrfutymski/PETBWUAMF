@@ -36,12 +36,12 @@ bool Buff::onTurnEnd()
 	_restTime--;
 	return false;
 }
-void Buff::setBoostValue(float v)
+void Buff::setBoostValue(int v)
 {
 	_boostValue = v;
 }
 
-float Buff::getBoostValue() const
+int Buff::getBoostValue() const
 {
 	return _boostValue;
 }

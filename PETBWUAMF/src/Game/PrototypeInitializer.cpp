@@ -1,5 +1,4 @@
 #include "PrototypeInitializer.h"
-
 Game * PrototypeInitializer::game = nullptr;
 
 void PrototypeInitializer::initGame(Game * g)
@@ -113,179 +112,188 @@ bool PrototypeInitializer::canBeUsedOnUnit(const OrderPrototype * o, const Unit 
 
 void PrototypeInitializer::initOrders()
 {
-	auto p = Didax::AssetMeneger::getAsset<OrderPrototype>("attack");
 	auto g = game;
-
-	p->set_canBeUsed([p](Unit * u)
+	for (auto p : Didax::AssetMeneger::getAllAssets<OrderPrototype>())
 	{
-		if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0 && PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-
-	p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
-		if (n != 0)
-			return std::vector<OrderPrototype::Target>();
-		return std::move(PrototypeInitializer::getPossibleFightTargets(u));
-	});
-
-	p->set_execute([](Unit * u, const Move & m) {
-		return PrototypeInitializer::attack(u, m.units[0]);
-	});
-
-	//MOVE
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("move");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-
-	p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
-		if (n != 0)
-			return std::vector<OrderPrototype::Target>();
-		return std::move(PrototypeInitializer::getPosibleMoves(u));
-	});
-
-	p->set_execute([](Unit * u, const Move & m) {
-		return PrototypeInitializer::move(u, m.positions[0]);
-	});
-
-
-	//CHARGE
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("charge");
-
-	p->set_canBeUsed([=](Unit * u)
-	{
-		//if (u->hasFlag(Unit::UFlag::Ranged))
-			//return false;
-		if (u->isInFight())
-			return false;
-		if (g->getMap().posInFightAfterMove(u->getID(), u->getMove()).size() != 0)
-			return true;
-		return false;
-	});
-	p->set_getProperTargets([=](const Unit * u, int n, const Move & m) {
-		auto res = std::vector<OrderPrototype::Target>();
-		if (n == 0)
+		if (p->_orderType == "attack")
 		{
-			auto pos = g->getMap().posInFightAfterMove(u->getID(), u->getMove());
-			for (auto & x: pos)
+
+			p->set_canBeUsed([p](Unit * u)
 			{
-				res.push_back({ OrderPrototype::TargetType::Position_target,x, 0 });
-			}
-			return res;
+				if (PrototypeInitializer::getPossibleFightTargets(u).size() != 0 && PrototypeInitializer::canBeUsedOnUnit(p, u))
+					return true;
+				return false;
+			});
+
+			p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
+				if (n != 0)
+					return std::vector<OrderPrototype::Target>();
+				return std::move(PrototypeInitializer::getPossibleFightTargets(u));
+			});
+
+			p->set_execute([=](Unit * u, const Move & m) {
+				for (std::string buff : p->_buffs)
+					g->addBuff(buff, u->getID());
+				return PrototypeInitializer::attack(u, m.units[0]);
+			});
+
 		}
-		else if (n == 1)
+		else if (p->_orderType == "move")
 		{
-			auto nei = g->getMap().getNeightboursOfPos(m.positions[0]);
-			for (auto & x : nei)
+
+			p->set_canBeUsed([p](Unit * u)
 			{
-				if (x.second != u->getOwner())
+				if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+					return true;
+				return false;
+			});
+
+			p->set_getProperTargets([](const Unit * u, int n, const Move & m) {
+				if (n != 0)
+					return std::vector<OrderPrototype::Target>();
+				return std::move(PrototypeInitializer::getPosibleMoves(u));
+			});
+
+			p->set_execute([=](Unit * u, const Move & m) {
+				for (std::string buff : p->_buffs)
+					g->addBuff(buff, u->getID());
+				return PrototypeInitializer::move(u, m.positions[0]);
+			});
+
+		}
+		else if (p->_orderType == "charge")
+		{
+
+			p->set_canBeUsed([=](Unit * u)
+			{
+				//if (u->hasFlag(Unit::UFlag::Ranged))
+					//return false;
+				if (u->isInFight())
+					return false;
+				if (g->getMap().posInFightAfterMove(u->getID(), u->getMove()).size() != 0)
+					return true;
+				return false;
+			});
+			p->set_getProperTargets([=](const Unit * u, int n, const Move & m) {
+				auto res = std::vector<OrderPrototype::Target>();
+				if (n == 0)
 				{
-					auto unit = g->getObject<Unit>(x.first);
-					res.push_back({ OrderPrototype::TargetType::Unit_target,unit->getPosition(), unit->getID() });
-				}				
-			}
-			return res;
+					auto pos = g->getMap().posInFightAfterMove(u->getID(), u->getMove());
+					for (auto & x : pos)
+					{
+						res.push_back({ OrderPrototype::TargetType::Position_target,x, 0 });
+					}
+					return res;
+				}
+				else if (n == 1)
+				{
+					auto nei = g->getMap().getNeightboursOfPos(m.positions[0]);
+					for (auto & x : nei)
+					{
+						if (x.second != u->getOwner())
+						{
+							auto unit = g->getObject<Unit>(x.first);
+							res.push_back({ OrderPrototype::TargetType::Unit_target,unit->getPosition(), unit->getID() });
+						}
+					}
+					return res;
+				}
+				return std::vector<OrderPrototype::Target>();
+			});
+
+			p->set_execute([=](Unit * u, const Move & m) {
+				for (std::string buff : p->_buffs)
+					g->addBuff(buff, u->getID());
+				//g->addBuff("chargeBoost", u->getID());
+				auto a = PrototypeInitializer::move(u, m.positions[0]);
+				auto b = PrototypeInitializer::chargeAttack(u, m.units[0]);
+				return a + b;
+			});
 		}
-		return std::vector<OrderPrototype::Target>();
-	});
-
-	p->set_execute([=](Unit * u, const Move & m) {
-		//g->addBuff("chargeBoost", u->getID());
-		auto a = PrototypeInitializer::move(u, m.positions[0]);
-		auto b = PrototypeInitializer::chargeAttack(u, m.units[0]);
-		return a+b;
-	});
-
-
-	//PREPARE
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-	p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
-	{
-		return std::vector<OrderPrototype::Target>();
-	});
-	p->set_execute([=](Unit * u, const Move & m) {
-		g->addBuff("prepareBoost", u->getID());
-		return (MoveRes{ {},{},{{u->getID(),Unit::UParameter::Armor, u->getChargeDefence() }},{} });
-	});
-
-	//HELP
-
-	p = Didax::AssetMeneger::getAsset<OrderPrototype>("help");
-
-	p->set_canBeUsed([p](Unit * u)
-	{
-		if (PrototypeInitializer::canBeUsedOnUnit(p, u))
-			return true;
-		return false;
-	});
-	p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
-	{
-		auto res = std::vector<OrderPrototype::Target>();
-		if (n != 0)
-			return res;
-		for (auto & x : g->getHolder<Unit>())
+		else if (p->_orderType == "support")
 		{
-			if (x->getOwner() == u->getOwner() && x.get()!=u)
-				res.push_back({ OrderPrototype::TargetType::Unit_target,u->getPosition(), u->getID() });
+
+			p->set_canBeUsed([p](Unit * u)
+			{
+				if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+					return true;
+				return false;
+			});
+			p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
+			{
+				auto res = std::vector<OrderPrototype::Target>();
+				if (n != 0)
+					return res;
+				for (auto & x : g->getHolder<Unit>())
+				{
+					if (x->getOwner() == u->getOwner() && x.get() != u)
+						res.push_back({ OrderPrototype::TargetType::Unit_target,u->getPosition(), u->getID() });
+
+				}
+				return res;
+			});
+			p->set_execute([=](Unit * u, const Move & m) {
+				for (std::string buff : p->_buffs)
+					g->addBuff(buff, m.units[0]);
+				return (MoveRes{ {},{},{{u->getID(), Unit::UParameter::Health, 5 }},{} });
+			});
 
 		}
-		return res;
-	});
-	p->set_execute([=](Unit * u, const Move & m) {
-		g->getObject<Unit>(m.units[0])->upgradeParameter(Unit::UParameter::Health, 5);
-		return (MoveRes{ {},{},{{u->getID(), Unit::UParameter::Health, 5 }},{} });
-	});
+		else
+		{
+			p->set_canBeUsed([p](Unit * u)
+			{
+				if (PrototypeInitializer::canBeUsedOnUnit(p, u))
+					return true;
+				return false;
+			});
+
+			p->set_getProperTargets([=](const Unit * u, int n, const Move & m)
+			{
+				return std::vector<OrderPrototype::Target>();
+			});				
+			
+			p->set_execute([=](Unit * u, const Move & m) {
+				for (std::string buff : p->_buffs)
+					g->addBuff(buff, u->getID());
+				return (MoveRes{ {},{},{{u->getID(),Unit::UParameter::Armor, u->getChargeDefence() }},{} });
+			});
+
+		}
+	}
+
 }
 
 void PrototypeInitializer::initBuffs()
 {
-	auto p = Didax::AssetMeneger::getAsset<BuffPrototype>("prepareBoost");
 	auto g = game;
-
-	//Prepare
-
-	p->_onBegin = [=](size_t u, Buff * buff)
+	for (auto p : Didax::AssetMeneger::getAllAssets<BuffPrototype>())
 	{
-		auto unit = g->getObject<Unit>(u);
-		buff->setBoostValue(unit->getChargeDefence());
-		unit->upgradeParameter(Unit::UParameter::Armor, unit->getChargeDefence());
-	};
+		p->_onBegin = [=](size_t u, Buff * buff)
+		{
+			if (!p->beginFlag)
+				return;
+			auto unit = g->getObject<Unit>(u);
+			buff->setBoostValue(unit->getParameter(unit->getUParameter(p->_begin.first)));
+			unit->upgradeParameter(unit->getUParameter(p->_begin.second), buff->getBoostValue());
+		};
 
-	p->_onTurnEnd = [=](size_t u, Buff * buff) {};
-	p->_onEnd = [=](size_t u, Buff * buff)
-	{
-		auto unit = g->getObject<Unit>(u);
-		unit->upgradeParameter(Unit::UParameter::Armor, -buff->getBoostValue());
-	};
+		p->_onTurnEnd = [=](size_t u, Buff * buff)
+		{
+			if (!p->turnFlag)
+				return;
+			auto unit = g->getObject<Unit>(u);
+			buff->setBoostValue(unit->getParameter(unit->getUParameter(p->_turnEnd.first)));
+			unit->upgradeParameter(unit->getUParameter(p->_turnEnd.second), buff->getBoostValue());
+		};
 
-	//Charge
-
-	p = Didax::AssetMeneger::getAsset<BuffPrototype>("chargeBoost");
-	p->_onBegin = [=](size_t u, Buff * buff)
-	{
-		auto unit = g->getObject<Unit>(u);
-		buff->setBoostValue(unit->getChargeAttack());
-		unit->upgradeParameter(Unit::UParameter::Attack, unit->getChargeAttack());
-	};
-	p->_onTurnEnd = [=](size_t u, Buff * buff) {};
-	p->_onEnd = [=](size_t u, Buff * buff)
-	{
-		auto unit = g->getObject<Unit>(u);
-		unit->upgradeParameter(Unit::UParameter::Attack, -buff->getBoostValue());
-	};
-	
+		p->_onEnd = [=](size_t u, Buff * buff)
+		{
+			if (!p->endFlag)
+				return;
+			auto unit = g->getObject<Unit>(u);
+			buff->setBoostValue(unit->getParameter(unit->getUParameter(p->_end.first)));
+			unit->upgradeParameter(unit->getUParameter(p->_end.second), -buff->getBoostValue());
+		};
+	}
 }
