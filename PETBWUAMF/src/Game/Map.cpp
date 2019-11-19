@@ -49,6 +49,7 @@ void Map::destroyUnit(Unit * u)
 	}
 
 	this->resetZoneForUnit(u);
+	u->clearInFightWith();
 }
 
 void Map::moveUnit(Unit * u, const sf::Vector2i & newPosition)
@@ -97,6 +98,14 @@ void Map::setZoneForUnit(Unit * u)
 				if (_mapData[i][j].content == enZoneType)
 					_mapData[i][j].content = SpotContent::DuoControlZone;
 			}
+			else if(this->inArea({i,j}))
+			{
+				if (_mapData[i][j].unit->getOwner() != u->getOwner())
+				{
+					u->addInFightWith(_mapData[i][j].unit);
+					_mapData[i][j].unit->addInFightWith(u);
+				}
+			}
 		}
 	}
 }
@@ -131,13 +140,17 @@ void Map::resetZoneForUnit(Unit * u)
 						break;
 					}
 				}
+				for (auto x : neights)
+				{
+					x->removeInFightWith(u);
+				}
 			}
 		}
 	}
 
 }
 
-std::vector<Map::Spot> Map::getPositionsWihtContent(const SpotContent & content) const
+const std::vector<Map::Spot> Map::getPositionsWihtContent(const SpotContent & content) const
 {
 	auto res = std::vector<Spot>();
 
@@ -204,7 +217,7 @@ const Map::Spot Map::operator[](const sf::Vector2i & pos) const
 	return _mapData[pos.x][pos.y];
 }
 
-std::vector<Map::Spot> Map::getPaths(Unit * u) const
+const std::vector<Map::Spot> Map::getPaths(Unit * u) const
 {
 	auto res = std::vector<Spot>{};
 
@@ -225,14 +238,14 @@ std::vector<Map::Spot> Map::getPaths(Unit * u) const
 		}
 	}
 
-	for (auto & x : pathFinder.getGoodPositions(u->getPosition(), u->getMove()))
+	for (auto & x : pathFinder.getGoodPositions(u->getPosition(), (*u)[Unit::UParameter::Move]))
 	{
 		res.push_back(_mapData[x.x][x.y]);
 	}
 	return res;
 }
 
-std::vector<Map::Spot> Map::getPathsEndingInZoneOfControle(Unit * u) const
+const std::vector<Map::Spot> Map::getPathsEndingInZoneOfControle(Unit * u) const
 {
 	auto res = this->getPaths(u);
 	auto owner = u->getOwner();
@@ -251,7 +264,7 @@ std::vector<Map::Spot> Map::getPathsEndingInZoneOfControle(Unit * u) const
 	return res;
 }
 
-std::vector<Map::Spot> Map::getPositionsInZoneOfControle(int player) const
+const std::vector<Map::Spot> Map::getPositionsInZoneOfControle(int player) const
 {
 	auto duo = this->getPositionsWihtContent(SpotContent::DuoControlZone);
 	std::vector<Map::Spot> single;
@@ -264,7 +277,7 @@ std::vector<Map::Spot> Map::getPositionsInZoneOfControle(int player) const
 	return single;
 }
 
-std::vector<Map::Spot> Map::getPositionsWithUnit() const
+const std::vector<Map::Spot> Map::getPositionsWithUnit() const
 {
 	return this->getPositionsWihtContent(SpotContent::Unit);
 }

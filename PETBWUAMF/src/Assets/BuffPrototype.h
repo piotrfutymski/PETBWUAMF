@@ -14,12 +14,21 @@ public:
 
 public:
 
-	std::function<void(size_t, Buff *)> _onBegin;
-	std::function<void(size_t, Buff *)> _onTurnEnd;
-	std::function<void(size_t, Buff *)> _onEnd;
 
-	int _time;				// -1 = always
-	int _Fvalue;
-	float _Svalue;
+	bool _forAlways;
+
+	int _attack;
+	int _health;
+	int _armor;
+	int _defence;
+
+	int _rangedAttack;
+	int _range;
+	int _chargeAttack;
+	int _chargeDefence;
+
+	int _move;
+	int _morale;
+	float _formationSize{ 0 };
 
 };

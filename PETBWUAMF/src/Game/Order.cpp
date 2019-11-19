@@ -1,9 +1,11 @@
 #include "Order.h"
 
-Order::Order(const std::string & name)
+Order::Order(const std::string & name, int owner)
 	:GameObject<OrderPrototype>(name)
 {
+	_owner = owner;
 
+	cost = this->getPrototype().
 }
 
 int Order::getTargetsCount() const

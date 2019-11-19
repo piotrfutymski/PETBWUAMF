@@ -9,21 +9,24 @@ class Unit;
 class Order : public GameObject<OrderPrototype>
 {
 public:
-	Order(const std::string & name);
+	Order(const std::string & name, int owner);
 	~Order() {};
 
 	enum class Location
 	{
-		InDeck, InHand, Used
+		InDeck, InHand
 	};
 
-	void setOwner(int player);
-	int getOwner()const;
+	enum class Target
+	{
+		size_t
+	};
 
+	int getOwner()const;
 	bool canBeUsed(Unit * u)const;
-	OrderPrototype::TargetType getTargetType(int n)const;
+
 	int getTargetsCount()const;
-	std::vector<OrderPrototype::Target> getProperTargets(const Unit *u, int n, const Move & m)const;
+
 	MoveRes execute(Unit *u, const Move & m);
 
 private:
@@ -31,5 +34,9 @@ private:
 	Location _location{ Location::InHand };
 
 	int _owner{ 0 };
+
+	int _cost;
+	int _useNum;
+
 
 };

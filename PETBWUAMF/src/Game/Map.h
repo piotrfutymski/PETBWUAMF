@@ -47,10 +47,10 @@ public:
 	std::vector<Unit *> getNeightbours(const sf::Vector2i & pos)const;			// get neightbours of given position
 
 	const Spot operator[](const sf::Vector2i & pos)const;						// get some map info about position
-	std::vector<Spot> getPaths(Unit * u)const;									// get possible positions for unit move
-	std::vector<Spot> getPathsEndingInZoneOfControle(Unit * u)const;			// get posiible postions for unit move where unit end in enymy zone of controle 
-	std::vector<Spot> getPositionsInZoneOfControle(int player)const;			// get all spot in given player control zone
-	std::vector<Spot> getPositionsWithUnit()const;								// get all positions contatining unit
+	const std::vector<Spot> getPaths(Unit * u)const;							// get possible positions for unit move
+	const std::vector<Spot> getPathsEndingInZoneOfControle(Unit * u)const;		// get posiible postions for unit move where unit end in enymy zone of controle 
+	const std::vector<Spot> getPositionsInZoneOfControle(int player)const;		// get all spot in given player control zone
+	const std::vector<Spot> getPositionsWithUnit()const;						// get all positions contatining unit
 
 private:
 
@@ -63,6 +63,6 @@ private:
 	void setZoneForUnit(Unit * u);
 	void resetZoneForUnit(Unit * u);
 
-	std::vector<Spot> getPositionsWihtContent(const SpotContent & content)const;
+	const std::vector<Spot> getPositionsWihtContent(const SpotContent & content)const;
 
 };

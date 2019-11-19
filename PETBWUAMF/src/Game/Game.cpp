@@ -121,7 +121,7 @@ void Game::createObjects(const GameInitiator & i)
 		else
 			unit->setOwner(1);
 
-		_map.setUnitPosition(unit->getID(), unit->getOwner(), unit->getPosition());
+		_map.setNewUnit(unit->getID(), unit->getOwner(), unit->getPosition());
 	}
 
 	for (auto &o : i._fPlayerOrders)
@@ -174,7 +174,7 @@ void Game::endTurn()
 			auto itt = std::find(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get());
 			if(itt != _unitsInMoraleOrder.end())
 				_unitsInMoraleOrder.erase(std::remove(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get()));
-			_map.removeUnitFromPosition((*it)->getPosition());
+			_map.destroyUnit((*it)->getPosition());
 			it = _units.erase(it);
 		}
 		else

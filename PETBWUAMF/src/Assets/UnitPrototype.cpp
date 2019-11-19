@@ -10,9 +10,9 @@ void UnitPrototype::loadAsset(const nlohmann::json & assetFile)
 
 	_rangedAttack = assetFile["rangedAttack"];
 	if (_rangedAttack != 0)
-		_rangedRange = assetFile["rangedRange"];
+		_range = assetFile["rangedRange"];
 	else
-		_rangedRange = 0;
+		_range = 0;
 	_chargeAttack = assetFile["chargeAttack"];
 	_chargeDefence = assetFile["chargeDefence"];
 
