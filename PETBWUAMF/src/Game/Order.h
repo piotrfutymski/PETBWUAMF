@@ -17,15 +17,13 @@ public:
 		InDeck, InHand
 	};
 
-	enum class Target
-	{
-		size_t
-	};
-
 	int getOwner()const;
-	bool canBeUsed(Unit * u)const;
-
+	int getCost()const;
+	int getRestUses()const;
 	int getTargetsCount()const;
+	Location getLocation()const;
+
+	void changeLocation();
 
 	MoveRes execute(Unit *u, const Move & m);
 

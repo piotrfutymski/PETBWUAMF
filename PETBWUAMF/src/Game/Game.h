@@ -48,7 +48,7 @@ public:
 
 	//Application Layer functions:
 	MoveRes playTurn(const Move & m);
-	Order * swapOrder(size_t orderToSwap);
+	size_t swapOrder(size_t orderToSwap);
 
 	//Application Layer getters:
 	bool isGameEnded()const;
@@ -56,18 +56,21 @@ public:
 	int getActivePlayer()const;
 	int getCommandPoints(int owner)const;
 
-	std::vector<size_t> getPossibleOrders()const;
-	std::vector<size_t> getSwapableOrders()const;
-	std::vector<Move> getPossibleMoves(size_t order)const;
+	std::vector<size_t> getOrdersInHand(int player)const;
+	std::vector<size_t> getOrdersInDeck(int player)const;
+	std::vector<size_t> getPossibleOrders(int player)const;
+	std::vector<size_t> getSwapableOrders(int player)const;
+	std::vector<Target> getPossibleTargets(size_t order)const;
+	int getTargetCount(size_t)const;
 
 	const Map & getMap()const;
 
 	//Order functions:
 
-	MoveRes moveUnit(size_t unitId, sf::Vector2i pos);
+	MoveRes moveUnit(size_t unitId, const sf::Vector2i & pos);
 	MoveRes fight(size_t aggresor, size_t victim, const AttackType & t);
-	MoveRes buff(const std::string buffName, size_t buffTarget);
-	MoveRes createUnit(const std::string unitName, sf::Vector2i pos);
+	MoveRes buff(const std::string & buffName, size_t buffTarget);
+	MoveRes createUnit(const std::string & unitName, const sf::Vector2i  &pos);
 
 
 private:
@@ -94,6 +97,18 @@ private:
 	void newTurn();
 	MoveRes executeOrder(const Move & m);
 	MoveRes endTurn();
+
+	bool canBeUsed(Order * o)const;
+	bool canBeSwaped(Order * o)const;
+
+	std::vector<Target> getPossibleMoveTargets()const;
+	std::vector<Target> getPossibleAttackTargets()const;
+	std::vector<Target> getPossibleChargeTargets()const;
+	std::vector<Target> getPossilbeBuffAllayTargets()const;
+	std::vector<Target> getPossibleBuffEnemyTargets()const;
+	std::vector<Target> getPossibleCreateTargets()const;
+
+
 
 private:
 	//templates

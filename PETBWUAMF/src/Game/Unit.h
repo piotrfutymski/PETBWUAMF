@@ -66,7 +66,7 @@ public:
 
 	void addBleeding(float bl);
 
-	void addBuff(const std::string & name);
+	Buff * addBuff(const std::string & name);
 	void removeBuff(const std::string & name);
 	void removeAllBuffs();
 	void endTurn();

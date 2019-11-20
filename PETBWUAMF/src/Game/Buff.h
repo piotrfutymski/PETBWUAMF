@@ -5,21 +5,23 @@ class Buff : public GameObject<BuffPrototype>
 {
 public:
 
+	enum class BuffType{
+
+	};
+
 	Buff(const std::string & name, size_t u);
 	~Buff();
 
-	size_t getOwner()const;
-	int getRestTime() const;
-	bool onTurnEnd();
+	bool isGood()const;
+	bool isInstant()const;
 
-	void setBoostValue(float v);
-	float getBoostValue()const;
 
 private:
 	
-	size_t _unit;
-	int _restTime;
-	float _boostValue;
+	size_t owner;
+
+	bool isInstant;
+	bool isToNextTurn;
 
 
 };
