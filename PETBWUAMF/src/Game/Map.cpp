@@ -58,7 +58,7 @@ void Map::moveUnit(Unit * u, const sf::Vector2i & newPosition)
 	this->setNewUnit(u, newPosition);
 }
 
-std::vector<Unit *> Map::getNeightbours(Unit * u)const
+const std::vector<Unit *> Map::getNeightbours(Unit * u)const
 {
 	return this->getNeightbours(u->getPosition());
 }
@@ -166,7 +166,7 @@ const std::vector<Map::Spot> Map::getPositionsWihtContent(const SpotContent & co
 	return res;
 }
 
-std::vector<Unit*> Map::getAllayedNeightbours(Unit * u) const
+const std::vector<Unit*> Map::getAllayedNeightbours(Unit * u) const
 {
 	auto res = this->getNeightbours(u);
 	auto it = res.begin();
@@ -181,7 +181,7 @@ std::vector<Unit*> Map::getAllayedNeightbours(Unit * u) const
 	return res;
 }
 
-std::vector<Unit*> Map::getEnymeNeightbours(Unit * u) const
+const std::vector<Unit*> Map::getEnymeNeightbours(Unit * u) const
 {
 	auto res = this->getNeightbours(u);
 	auto it = res.begin();
@@ -196,7 +196,7 @@ std::vector<Unit*> Map::getEnymeNeightbours(Unit * u) const
 	return res;
 }
 
-std::vector<Unit *> Map::getNeightbours(const sf::Vector2i & pos) const
+const std::vector<Unit *> Map::getNeightbours(const sf::Vector2i & pos) const
 {
 	auto res = std::vector<Unit *>();
 	for (int i = pos.x - 1; i <= pos.x + 1; i++)

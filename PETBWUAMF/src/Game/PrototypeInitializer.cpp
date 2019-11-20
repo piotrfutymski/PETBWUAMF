@@ -33,7 +33,7 @@ std::vector<OrderPrototype::Target> PrototypeInitializer::getPossibleFightTarget
 	{
 		for (size_t i = 0; i < units.size(); i++)
 		{
-			if (u->getOwner() != units[i]->getOwner() && u->getDistanceTo(units[i].get()) <= u->getRangedRange())
+			if (u->getOwner() != units[i]->getOwner() && u->getDistanceTo(units[i].get()) <= u->getRange())
 				res.push_back({ OrderPrototype::TargetType::Unit_target, units[i]->getPosition(), units[i]->getID() });
 		}
 	}

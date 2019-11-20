@@ -16,20 +16,22 @@
 class Game
 {
 
-
 private:
 	template <typename T>
 	struct isGameType : public std::conditional_t<
-		std::is_same<T, Unit>::value || std::is_same<T, Order>::value || std::is_same<T, Buff>::value,
+		std::is_same<T, Unit>::value || std::is_same<T, Order>::value,
 		std::true_type,
 		std::false_type>
 	{};
 
 public:
 
+	enum AttackType{
+		Normal, Charge, Ocassional
+	};
+
 	using OrderHolder_t = std::vector<std::unique_ptr<Order>>;
 	using UnitHolder_t = std::vector<std::unique_ptr<Unit>>;
-	using BuffHolder_t = std::vector<std::unique_ptr<Buff>>;
 
 	//constructing
 
@@ -42,60 +44,56 @@ public:
 	Game operator=(const Game &) = delete;
 
 	//inits
-
 	void init(const GameInitiator & i);
 
-	//Application Layer
+	//Application Layer functions:
+	MoveRes playTurn(const Move & m);
+	Order * swapOrder(size_t orderToSwap);
 
-	MoveRes playMove(const Move & m);
-
-	//getters
-
-	bool isEnded()const;
-
-	const Unit * getActiveUnit()const;
-	Unit * getActiveUnit();
-
+	//Application Layer getters:
+	bool isGameEnded()const;
+	size_t getActiveUnitID()const;
 	int getActivePlayer()const;
+	int getCommandPoints(int owner)const;
 
-	std::vector<Order *> getPossibleOrders();
-	const std::vector<Order *> getPossibleOrders()const;
-
+	std::vector<size_t> getPossibleOrders()const;
+	std::vector<size_t> getSwapableOrders()const;
+	std::vector<Move> getPossibleMoves(size_t order)const;
 
 	const Map & getMap()const;
-	Map & getMap();
 
-	Buff * addBuff(const std::string & s, size_t unit);
+	//Order functions:
+
+	MoveRes moveUnit(size_t unitId, sf::Vector2i pos);
+	MoveRes fight(size_t aggresor, size_t victim, const AttackType & t);
+	MoveRes buff(const std::string buffName, size_t buffTarget);
+	MoveRes createUnit(const std::string unitName, sf::Vector2i pos);
 
 
 private:
 
 	OrderHolder_t _orders;			// all orders in game
 	UnitHolder_t _units;			// all units in game
-	BuffHolder_t _buffs;			//all buffs in game
 
 	Map _map;						// map
 
 	//game parameters
 
 	bool _isEnded{ false };
-
 	std::vector<Unit *> _unitsInMoraleOrder;
-
 	Unit * _activeUnit;
-
 	int _activePlayer;
-
 	int _player0CommandPoints;
 	int _player1CommandPoints;
 
 private:
 
 	void createObjects(const GameInitiator & i);
+
 	void newRound();
 	void newTurn();
 	MoveRes executeOrder(const Move & m);
-	void endTurn();
+	MoveRes endTurn();
 
 private:
 	//templates
@@ -117,9 +115,6 @@ private:
 		});
 	}
 
-public:
-	//templates
-
 	template <typename T, typename... Args>
 	typename  std::enable_if<Game::isGameType<T>::value, T>::type * createObject(const std::string & prototypeName, Args&&... args)
 	{
@@ -130,7 +125,7 @@ public:
 	}
 
 	template <typename T>
-	 void destroyObject(typename std::enable_if<Game::isGameType<T>::value, T>::type * obj)
+	void destroyObject(typename std::enable_if<Game::isGameType<T>::value, T>::type * obj)
 	{
 		auto& holder = getHolder<T>();
 		holder.erase(_find<T>(obj->getID()));
@@ -145,6 +140,18 @@ public:
 	}
 
 	template <typename T>
+	std::vector<std::unique_ptr< typename std::enable_if<Game::isGameType<T>::value, T>::type>> & getHolder()
+	{
+		if constexpr (std::is_same<T, Order>::value)
+			return _orders;
+		else if constexpr (std::is_same<T, Unit>::value)
+			return _units;
+	}
+
+public:
+	//templates
+
+	template <typename T>
 	const typename std::enable_if<Game::isGameType<T>::value, T>::type * getObject(size_t id)const
 	{
 		if (auto it = _find<T>(id); it != getHolder<T>().end())
@@ -152,16 +159,7 @@ public:
 		return nullptr;
 	}
 
-	template <typename T>
-	std::vector<std::unique_ptr< typename std::enable_if<Game::isGameType<T>::value, T>::type>> & getHolder() // MÓJ MAJESTAT KU*WA
-	{
-		if constexpr (std::is_same<T, Order>::value)
-			return _orders;
-		else if constexpr (std::is_same<T, Unit>::value)
-			return _units;
-		else if constexpr (std::is_same<T, Buff>::value)
-			return _buffs;
-	}
+	
 
 	template <typename T>
 	const std::vector<std::unique_ptr< typename std::enable_if<Game::isGameType<T>::value, T>::type>> & getHolder()const
@@ -170,11 +168,7 @@ public:
 			return _orders;
 		else if constexpr (std::is_same<T, Unit>::value)
 			return _units;
-		else if constexpr (std::is_same<T, Buff>::value)
-			return _buffs;
 	}
-
-
 
 
 };

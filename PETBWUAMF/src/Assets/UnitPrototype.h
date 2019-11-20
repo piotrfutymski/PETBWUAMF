@@ -19,7 +19,7 @@ public:
 	int _defence;
 
 	int _rangedAttack;
-	int _rangedRange;
+	int _range;
 	int _chargeAttack;
 	int _chargeDefence;
 

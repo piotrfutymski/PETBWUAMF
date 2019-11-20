@@ -39,12 +39,12 @@ public:
 	void destroyUnit(Unit * u);													// destroy unit from map
 	void moveUnit(Unit * u, const sf::Vector2i & newPosition);					// move unit to new position
 
-	//geting Info
+	//getting Info
 
-	std::vector<Unit *> getNeightbours(Unit * u)const;							// get units in neightbourhood of given unit
-	std::vector<Unit *> getAllayedNeightbours(Unit * u)const;					// get only allayed neightbours
-	std::vector<Unit *> getEnymeNeightbours(Unit * u)const;						// get only enymy neightbours
-	std::vector<Unit *> getNeightbours(const sf::Vector2i & pos)const;			// get neightbours of given position
+	const std::vector<Unit *> getNeightbours(Unit * u)const;							// get units in neightbourhood of given unit
+	const std::vector<Unit *> getAllayedNeightbours(Unit * u)const;					// get only allayed neightbours
+	const std::vector<Unit *> getEnymeNeightbours(Unit * u)const;						// get only enymy neightbours
+	const std::vector<Unit *> getNeightbours(const sf::Vector2i & pos)const;			// get neightbours of given position
 
 	const Spot operator[](const sf::Vector2i & pos)const;						// get some map info about position
 	const std::vector<Spot> getPaths(Unit * u)const;							// get possible positions for unit move

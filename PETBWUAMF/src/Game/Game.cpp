@@ -19,11 +19,11 @@ void Game::init(const GameInitiator & i)
 	Logger::log("---------------------------------------------------------");
 }
 
-MoveRes Game::playMove(const Move & m)
+MoveRes Game::playTurn(const Move & m)
 {
 	//Jednostka wykonuje rozkaz
 	auto res = this->executeOrder(m);
-	this->endTurn();
+	res = res + this->endTurn();
 	if (_unitsInMoraleOrder.size() == 0)
 	{
 		this->newRound();
@@ -31,12 +31,21 @@ MoveRes Game::playMove(const Move & m)
 	this->newTurn();
 	
 	return res;
-
 }
 
-bool Game::isEnded() const
+Order * Game::swapOrder(size_t orderToSwap)
+{
+	return nullptr;
+}
+
+bool Game::isGameEnded() const
 {
 	return _isEnded;
+}
+
+size_t Game::getActiveUnitID() const
+{
+	return size_t();
 }
 
 
@@ -66,6 +75,16 @@ const std::vector<Order*> Game::getPossibleOrders() const
 	return res;
 }
 
+std::vector<size_t> Game::getSwapableOrders() const
+{
+	return std::vector<size_t>();
+}
+
+std::vector<Move> Game::getPossibleMoves(size_t order) const
+{
+	return std::vector<Move>();
+}
+
 std::vector<Unit*> Game::getNeightbours(Unit * u)
 {
 	auto res = std::vector<Unit*>();
@@ -89,6 +108,26 @@ const std::vector<Unit*> Game::getNeightbours(Unit * u) const
 const Map & Game::getMap() const
 {
 	return _map;
+}
+
+MoveRes Game::moveUnit(size_t unitId, sf::Vector2i pos)
+{
+	return MoveRes();
+}
+
+MoveRes Game::fight(size_t aggresor, size_t victim, const AttackType & t)
+{
+	return MoveRes();
+}
+
+MoveRes Game::buff(const std::string buffName, size_t buffTarget)
+{
+	return MoveRes();
+}
+
+MoveRes Game::createUnit(const std::string unitName, sf::Vector2i pos)
+{
+	return MoveRes();
 }
 
 Map & Game::getMap()
@@ -163,7 +202,7 @@ MoveRes Game::executeOrder(const Move & m)
 	return o->execute(_activeUnit, m);
 }
 
-void Game::endTurn()
+MoveRes Game::endTurn()
 {
 	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
 	auto it = _units.begin();
@@ -209,5 +248,10 @@ Unit * Game::getActiveUnit()
 int Game::getActivePlayer()const
 {
 	return _activePlayer;
+}
+
+int Game::getCommandPoints(int owner) const
+{
+	return 0;
 }
 
