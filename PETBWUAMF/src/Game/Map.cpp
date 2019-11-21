@@ -217,7 +217,7 @@ const Map::Spot Map::operator[](const sf::Vector2i & pos) const
 	return _mapData[pos.x][pos.y];
 }
 
-const std::vector<Map::Spot> Map::getPaths(Unit * u) const
+const std::vector<Map::Spot> Map::getPaths(Unit * u, float move) const
 {
 	auto res = std::vector<Spot>{};
 
@@ -238,7 +238,10 @@ const std::vector<Map::Spot> Map::getPaths(Unit * u) const
 		}
 	}
 
-	for (auto & x : pathFinder.getGoodPositions(u->getPosition(), (*u)[Unit::UParameter::Move]))
+	if (move == 0)
+		move = u->getMove();
+
+	for (auto & x : pathFinder.getGoodPositions(u->getPosition(), move))
 	{
 		res.push_back(_mapData[x.x][x.y]);
 	}

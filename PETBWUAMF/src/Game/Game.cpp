@@ -48,6 +48,7 @@ size_t Game::swapOrder(size_t orderToSwap)
 		toSwap->changeLocation();
 
 	this->getObject<Order>(res)->changeLocation();
+	this->substractCommandPoints(_activePlayer, 2);
 	return res;
 }
 
@@ -105,7 +106,7 @@ std::vector<size_t> Game::getPossibleOrders(int player) const
 	for (auto & o : _orders)
 	{
 		auto prot = o->getPrototype();
-		if (o->getOwner() == player && this->canBeUsed(o.get()))
+		if (o->getOwner() == player && o->getLocation() != Order::Location::InHand && this->canBeUsed(o.get()))
 			res.push_back(o->getID());
 	}
 	return res;
@@ -117,7 +118,7 @@ std::vector<size_t> Game::getSwapableOrders(int player) const
 	for (auto & o : _orders)
 	{
 		auto prot = o->getPrototype();
-		if (o->getOwner() == player && this->canBeSwaped(o.get()))
+		if (o->getOwner() == player && o->getLocation() != Order::Location::InHand && this->canBeSwaped(o.get()))
 			res.push_back(o->getID());
 	}
 	return res;
@@ -258,46 +259,25 @@ MoveRes Game::createUnit(const std::string & unitName, const sf::Vector2i & pos)
 	return res;
 }
 
-
-
-Buff * Game::addBuff(const std::string & s, size_t unit)
-{
-	auto b = this->createObject<Buff>(s, unit);
-	if (b == nullptr)
-		return b;
-	if (b->getRestTime() == -1)
-	{
-		this->destroyObject<Buff>(b);
-		return nullptr;
-	}
-	return b;
-}
-
 void Game::createObjects(const GameInitiator & i)
 {
 
 	for (auto &u : i._units)
 	{
-		auto unit = this->createObject<Unit>(u.first);
-		unit->setPosition(u.second);
+		Unit * unit;
 		if (u.second.x < 8)
-			unit->setOwner(0);
+			unit = this->createObject<Unit>(u.first, 0);
 		else
-			unit->setOwner(1);
+			unit = this->createObject<Unit>(u.first, 0);
 
-		_map.setNewUnit(unit->getID(), unit->getOwner(), unit->getPosition());
+		_map.setNewUnit(unit, u.second);
 	}
 
 	for (auto &o : i._fPlayerOrders)
-	{
-		auto order = this->createObject<Order>(o);
-		order->setOwner(0);
-	}
+		auto order = this->createObject<Order>(o, 0);
+
 	for (auto &o : i._sPlayerOrders)
-	{
-		auto order = this->createObject<Order>(o);
-		order->setOwner(1);
-	}
+		auto order = this->createObject<Order>(o, 1);
 }
 
 void Game::newRound()
@@ -306,6 +286,9 @@ void Game::newRound()
 	{
 		_unitsInMoraleOrder.push_back(u.get());
 	}
+
+	_player0CommandPoints = 16;
+	_player1CommandPoints = 16;
 
 }
 
@@ -325,10 +308,15 @@ MoveRes Game::executeOrder(const Move & m)
 {
 	auto o = this->getObject<Order>(m.orderID);
 	return o->execute(_activeUnit, m);
+	this->substractCommandPoints(_activePlayer, o->getCost());
 }
 
 MoveRes Game::endTurn()
 {
+	MoveRes::MoveEvent evnt;
+
+	auto res = _activeUnit->endTurn();
+
 	_unitsInMoraleOrder.erase(_unitsInMoraleOrder.begin());
 	auto it = _units.begin();
 	while (it != _units.end())
@@ -338,43 +326,130 @@ MoveRes Game::endTurn()
 			auto itt = std::find(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get());
 			if(itt != _unitsInMoraleOrder.end())
 				_unitsInMoraleOrder.erase(std::remove(_unitsInMoraleOrder.begin(), _unitsInMoraleOrder.end(), it->get()));
-			_map.destroyUnit((*it)->getPosition());
+			_map.destroyUnit((*it).get());
+			
+			evnt.time = 30;
+			evnt.type = MoveRes::EventType::UnitDestroyed;
+			evnt.unit = evnt.unit = (*it)->getID();
+			res.events.push_back(std::move(evnt));
 			it = _units.erase(it);
 		}
 		else
 			it++;
 	}
-	auto bt = _buffs.begin();
-	while (bt != _buffs.end())
+	return res;
+}
+
+bool Game::canBeUsed(Order * o) const
+{
+	int cP = _player0CommandPoints;
+	if (_activePlayer == 1)
+		cP = _player1CommandPoints;
+
+	if (o->getCost() > cP || this->getPossibleTargets(o->getID).empty())
+		return false;
+	return o->canBeUsed(_activeUnit->getPrototype()->getName(), _activeUnit->getPrototype()->_unitType);
+}
+
+bool Game::canBeSwaped(Order * o) const
+{
+	int cP = _player0CommandPoints;
+	if (_activePlayer == 1)
+		cP = _player1CommandPoints;
+
+	if (2 > cP || this->getOrdersInDeck(_activePlayer).empty())
+		return false;
+	return true;
+}
+
+std::vector<Target> Game::getPossibleMoveTargets() const
+{
+	auto res = std::vector<Target>();
+
+	for (auto & spot : _map.getPaths(_activeUnit))
 	{
-		if ((*bt)->getOwner() == _activeUnit->getID())
-		{
-			if ((*bt)->onTurnEnd())
-				bt = _buffs.erase(bt);
-			else
-				bt++;
-		}
-		else
-			bt++;
+		res.push_back({ {}, spot.position });
 	}
+
+	return res;
 }
 
-
-const Unit * Game::getActiveUnit() const
+std::vector<Target> Game::getPossibleAttackTargets() const
 {
-	return _activeUnit;
+	auto res = std::vector<Target>();
+	if (_activeUnit->hasFlag(Unit::UFlag::Ranged) && _activeUnit->isInFight() == false)
+	{
+		for (auto & unit : _units)
+		{
+			if (unit->getOwner() != _activeUnit->getOwner() && _activeUnit->getDistanceTo(unit.get()) <= _activeUnit->getRange())
+				res.push_back({ unit->getID(), {} });
+		}
+	}
+	else
+	{
+		for (auto & unit : _activeUnit->getEnemyInFightWhith())
+			res.push_back({ unit->getID(), {} });
+	}
+
 }
 
-Unit * Game::getActiveUnit()
+std::vector<Target> Game::getPossibleChargeTargets() const
 {
-	return _activeUnit;
+	auto res = std::vector<Target>();
+	if (_activeUnit->isInFight())
+		return res;
+
+	for (auto & spot : _map.getPathsEndingInZoneOfControle(_activeUnit))
+	{
+		for (auto & unit : _map.getNeightbours(spot.position))
+		{
+			if(unit->getOwner() != _activeUnit->getOwner())
+				res.push_back({ unit->getID(), spot.position });
+		}		
+	}
+
+	return res;
+
 }
 
-
-
-int Game::getCommandPoints(int owner) const
+std::vector<Target> Game::getPossilbeBuffAllayTargets() const
 {
-	return 0;
+	auto res = std::vector<Target>();
+	for (auto & unit : _units)
+	{
+		if (unit->getOwner() == _activeUnit->getOwner())
+			res.push_back({ unit->getID(), {} });
+	}
+	return res;
 }
 
+std::vector<Target> Game::getPossibleBuffEnemyTargets() const
+{
+	auto res = std::vector<Target>();
+	for (auto & unit : _units)
+	{
+		if (unit->getOwner() != _activeUnit->getOwner())
+			res.push_back({ unit->getID(), {} });
+	}
+	return res;
+}
 
+std::vector<Target> Game::getPossibleCreateTargets() const
+{
+	auto res = std::vector<Target>();
+
+	for (auto & spot : _map.getPaths(_activeUnit, 1.5))
+	{
+		res.push_back({ {}, spot.position });
+	}
+
+	return res;
+}
+
+void Game::substractCommandPoints(int player, int count)
+{
+	if (player == 0)
+		_player0CommandPoints -= count;
+	else
+		_player1CommandPoints -= count;
+}

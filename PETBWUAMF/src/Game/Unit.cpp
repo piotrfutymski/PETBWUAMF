@@ -24,13 +24,9 @@ Unit::Unit(const std::string & name, int owner)
 	//
 	_formationSize = this->getPrototype()->_formationSize;
 
-	_bleeding = 0;
-	_bleedingModificator = 1;
 
 	_owner = owner;
-
 	_flags = UFlag::None;
-
 	if (_rangedAttack > 0)
 		_flags = UFlag::Ranged;
 }
@@ -46,7 +42,10 @@ sf::Vector2i Unit::getPosition() const
 	return _position;
 }
 
-
+int Unit::getOwner() const
+{
+	return _owner;
+}
 
 bool Unit::isInFight() const
 {
@@ -61,11 +60,6 @@ bool Unit::isInFightWith(const Unit * u) const
 			return true;
 	}
 	return false;
-}
-
-int Unit::getOwner() const
-{
-	return _owner;
 }
 
 const std::vector<Unit *>& Unit::getEnemyInFightWhith() const
@@ -104,25 +98,75 @@ void Unit::clearInFightWith()
 	_isInFight = false;
 }
 
-const float & Unit::operator[](const UParameter & p) const
-{
-	return this->parameterFromEnum(p);
-}
-
-float & Unit::operator[](const UParameter & p)
-{
-	return this->parameterFromEnum(p);
-}
-
 void Unit::upgradeParameter(const UParameter & p, float value)
 {
 	this->parameterFromEnum(p) += value;
+}
+
+int Unit::getMorale() const
+{
+	return _morale;
+}
+
+int Unit::getHealth() const
+{
+	return _health;
+}
+
+int Unit::getAttack() const
+{
+	return _attack;
+}
+
+int Unit::getArmor() const
+{
+	return _armor;
+}
+
+int Unit::getDefence() const
+{
+	return _defence;
+}
+
+int Unit::getRangedAttack() const
+{
+	return _rangedAttack;
+}
+
+int Unit::getChargeDefence() const
+{
+	return _chargeDefence;
+}
+
+int Unit::getChargeAttack() const
+{
+	return _chargeAttack;
+}
+
+int Unit::getRange() const
+{
+	return _range;
+}
+
+int Unit::getMove() const
+{
+	return _move;
 }
 
 
 bool Unit::hasFlag(UFlag f) const
 {
 	return (bool)(f & _flags);
+}
+
+void Unit::addFlag(UFlag f)
+{
+	_flags = _flags | f;
+}
+
+void Unit::removeFlag(UFlag f)
+{
+	_flags = _flags & ~f;
 }
 
 bool Unit::isDead() const
@@ -139,17 +183,26 @@ float Unit::getDistanceTo(const Unit *enemy)const
 	return std::sqrt(x * x + y * y);
 }
 
-void Unit::addBleeding(float bl)
+Buff * Unit::addBuff(const std::string & name)
 {
-	_bleeding += bl;
-	if (_bleeding >= 0.5)
-		_flags = _flags | UFlag::Bleeding;
-	else
+	auto buff = std::make_unique<Buff>(name, this->getID());
+	for (auto & act : buff->getActions())
 	{
-		_bleeding = 0;
-		_flags = _flags & ~(UFlag::Bleeding);
+		this->upgradeParameter(this->buffTypeToParameter(act.type), act.value);
 	}
+
+	if(!buff->isInstant())
+		_buffs.push_back(std::move(buff));
 }
+
+
+//TO DO///////////////////////////////////////////////////////////
+
+bool Unit::hasBuff(const std::string & name)
+{
+	
+}
+
 
 void Unit::getSimpleInfo() const
 {
@@ -159,13 +212,7 @@ void Unit::getSimpleInfo() const
 }
 
 
-void Unit::addBuff(const std::string & name)
-{
-	if(std::find_if(_buffs.begin(), _buffs.end(), [&name](const std::unique_ptr<Buff> & b) {
-		b->getPrototype()->getName() == name;
-	}) == _buffs.end())
-	_buffs.push_back(std::make_unique<Buff>(name));
-}
+
 
 void Unit::removeBuff(const std::string & name)
 {

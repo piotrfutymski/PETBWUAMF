@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Buff.h"
+#include "Move.h"
 
 
 class Unit : public GameObject<UnitPrototype>
@@ -9,7 +10,7 @@ public:
 
 	enum class UParameter
 	{
-		Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move, BleedingModificator
+		None, Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move
 	};
 
 	enum class UFlag : unsigned long long
@@ -21,7 +22,6 @@ public:
 		Bleeding = 8,
 		Fleeing = 16,
 		Overheald = 32
-
 	};
 
 
@@ -50,26 +50,35 @@ public:
 
 	//Parameters
 
-	const float & operator[](const UParameter & p)const;
-	float & operator[](const UParameter & p);
-
 	void upgradeParameter(const UParameter & p, float value);
+
+	int getMorale()const;
+	int getHealth()const;
+	int getAttack()const;
+	int getArmor() const;
+	int getDefence() const;
+	int getRangedAttack() const;
+	int getChargeDefence() const;
+	int getChargeAttack() const;
+	int getRange() const;
+	int getMove()const;
 
 	// flags
 	
 	bool hasFlag(UFlag f)const;
+	void addFlag(UFlag f);
+	void removeFlag(UFlag f);
 
 	// functions
 
 	bool isDead()const;
 	float getDistanceTo(const Unit *enemy)const;
 
-	void addBleeding(float bl);
-
 	Buff * addBuff(const std::string & name);
+	bool hasBuff(const std::string & name);
 	void removeBuff(const std::string & name);
 	void removeAllBuffs();
-	void endTurn();
+	MoveRes endTurn();
 
 	//attacking
 
@@ -91,18 +100,16 @@ private:
 
 	// Unit statistic at this point
 
-	float _attack;
-	float _health;
-	float _armor;
-	float _defence;
-	float _rangedAttack;
-	float _range;
-	float _chargeAttack;
-	float _chargeDefence;
-	float _move;
-	float _morale;
-	float _bleedingModificator;
-	//
+	int _attack;
+	int _health;
+	int _armor;
+	int _defence;
+	int _rangedAttack;
+	int _range;
+	int _chargeAttack;
+	int _chargeDefence;
+	int _move;
+	int _morale;
 
 	//
 	float _formationSize;
@@ -125,8 +132,6 @@ private:
 
 	int _owner{ 0 };
 
-	float _bleeding;
-
 	//statics
 
 	static int FRONT_SIZE;
@@ -142,10 +147,11 @@ private:
 	int rangedChance(Unit *target);
 	int rangedRound(Unit *target);
 	const float& parameterFromEnum(const UParameter & p)const;
-	float& parameterFromEnum(const UParameter & p);
+	int& parameterFromEnum(const UParameter & p);
 
 	void bleeding();
 	float attack(Unit * enemy, float attack, float defence);
+	UParameter buffTypeToParameter(BuffType t);
 
 public:
 

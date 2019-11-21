@@ -178,7 +178,6 @@
     <ClInclude Include="src\Game\GameObject.h" />
     <ClInclude Include="src\Game\Map.h" />
     <ClInclude Include="src\Game\Move.h" />
-    <ClInclude Include="src\Game\MoveRes.h" />
     <ClInclude Include="src\Game\Order.h" />
     <ClInclude Include="src\Game\PathFinder.h" />
     <ClInclude Include="src\Game\PrototypeInitializer.h" />

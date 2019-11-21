@@ -8,7 +8,6 @@
 #include "Move.h"
 #include "Map.h"
 #include "Order.h"
-#include "MoveRes.h"
 #include "PathFinder.h"
 
 
@@ -107,6 +106,8 @@ private:
 	std::vector<Target> getPossilbeBuffAllayTargets()const;
 	std::vector<Target> getPossibleBuffEnemyTargets()const;
 	std::vector<Target> getPossibleCreateTargets()const;
+
+	void substractCommandPoints(int player, int count);
 
 
 

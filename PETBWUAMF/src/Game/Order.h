@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Move.h"
-#include "MoveRes.h"
 
 class Unit;
 
@@ -26,6 +25,7 @@ public:
 	void changeLocation();
 
 	MoveRes execute(Unit *u, const Move & m);
+	bool canBeUsed(const std::string &  unitName, const std::string & unitType);
 
 private:
 

@@ -24,9 +24,9 @@ public:
 
 	void playGame()
 	{
-		while (!_game.isEnded())
+		while (!_game.isGameEnded())
 		{
-			_game.playMove(this->getMoveFromConsole());
+			_game.playTurn(this->getMoveFromConsole());
 		}
 	}
 

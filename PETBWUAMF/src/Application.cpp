@@ -37,9 +37,9 @@ int Application::run()
 {
 	_engine.run();
 
-	while (!_game.isEnded())
+	while (!_game.isGameEnded())
 	{
-		auto gamedata = _game.playMove(this->getMoveFromConsole());
+		auto gamedata = _game.playTurn(this->getMoveFromConsole());
 		_reporter.SaveTurn(gamedata);
 	}
 

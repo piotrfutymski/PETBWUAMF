@@ -21,7 +21,7 @@ struct MoveRes
 {
 
 	enum class EventType {
-		Moved, Attacking, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated
+		Moved, Attacking, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated, UnitDestroyed
 	};
 
 	struct MoveEvent
