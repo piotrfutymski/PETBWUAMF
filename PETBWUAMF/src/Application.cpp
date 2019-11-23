@@ -72,6 +72,14 @@ Move Application::getMoveFromConsole()
 		{
 			Logger::log("----------------------Pick order id----------------------");
 			std::cin >> oID;
+			if (std::cin.fail())
+			{
+				Logger::log("Application Error: Value was incorrect.");
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				rest = 1;
+				break;
+			}
 			if (oID == -1)
 			{
 				rest = 1;
@@ -114,6 +122,14 @@ Move Application::getMoveFromConsole()
 					rest = 1;
 					break;
 				}
+				if (std::cin.fail())
+				{
+					Logger::log("Application Error: Value was incorrect.");
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					rest = 1;
+					break;
+				}
 				res.positions.push_back({ x,y });
 				Logger::log("---------------------------------------------------------");
 			}
@@ -130,7 +146,14 @@ Move Application::getMoveFromConsole()
 					rest = 1;
 					break;
 				}
-
+				if (std::cin.fail())
+				{
+					Logger::log("Application Error: Value was incorrect.");
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					rest = 1;
+					break;
+				}
 				res.units.push_back(id);
 				Logger::log("---------------------------------------------------------");
 			}
@@ -141,4 +164,3 @@ Move Application::getMoveFromConsole()
 	}
 	
 }
-

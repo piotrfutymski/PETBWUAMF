@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-inline std::ostream& blue(std::ostream &s)
+inline std::ostream& blue(std::ostream &s) /* Sets console text color to blue*/
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout, FOREGROUND_BLUE
@@ -10,7 +10,7 @@ inline std::ostream& blue(std::ostream &s)
 	return s;
 }
 
-inline std::ostream& magenta(std::ostream &s)
+inline std::ostream& magenta(std::ostream &s) /* Sets console text color to magenta*/
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout, FOREGROUND_BLUE
@@ -18,7 +18,7 @@ inline std::ostream& magenta(std::ostream &s)
 	return s;
 }
 
-inline std::ostream& red(std::ostream &s)
+inline std::ostream& red(std::ostream &s) /* Sets console text color to red*/
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout,
@@ -26,7 +26,7 @@ inline std::ostream& red(std::ostream &s)
 	return s;
 }
 
-inline std::ostream& green(std::ostream &s)
+inline std::ostream& green(std::ostream &s) /* Sets console text color to green */
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout,
@@ -34,7 +34,7 @@ inline std::ostream& green(std::ostream &s)
 	return s;
 }
 
-inline std::ostream& yellow(std::ostream &s)
+inline std::ostream& yellow(std::ostream &s)/* Sets console text color to yellow*/
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout,
@@ -42,7 +42,7 @@ inline std::ostream& yellow(std::ostream &s)
 	return s;
 }
 
-inline std::ostream& white(std::ostream &s)
+inline std::ostream& white(std::ostream &s)/* Sets console text color to white*/
 {
 	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdout,
@@ -63,7 +63,5 @@ operator<<(std::basic_ostream<_Elem, _Traits>& i, const color& c)
 	SetConsoleTextAttribute(hStdout, c.m_color);
 	return i;
 }
-
-// Copyleft Vincent Godin
 
 //Kopiuj, wklej <3

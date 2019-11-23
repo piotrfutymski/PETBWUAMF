@@ -11,7 +11,7 @@ public:
 	~BuffPrototype() {};
 	// Inherited via Asset
 
-	virtual void loadAsset(const nlohmann::json & assetFile) override;
+	virtual void loadAsset(const nlohmann::json & assetFile) override; /* Loads data from asset file*/
 
 public:
 

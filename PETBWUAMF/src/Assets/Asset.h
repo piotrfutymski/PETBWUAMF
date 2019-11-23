@@ -14,7 +14,7 @@ public:
 	~Asset();
 
 
-	virtual void loadAsset(const nlohmann::json & assetFile) = 0;
+	virtual void loadAsset(const nlohmann::json & assetFile) = 0; /*Virtual function, loads data from json*/
 
 	const std::string & getName()const;
 

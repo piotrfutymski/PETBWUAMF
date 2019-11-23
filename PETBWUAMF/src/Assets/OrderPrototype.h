@@ -26,11 +26,11 @@ public:
 	~OrderPrototype() {};
 
 	// Inherited via Asset
-	virtual void loadAsset(const nlohmann::json & assetFile) override;
+	virtual void loadAsset(const nlohmann::json & assetFile) override; /* Loads data from asset file*/
 
-	void set_canBeUsed(const std::function<bool(Unit*)> &);
-	void set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int, const Move & m)> &);
-	void set_execute(const std::function<MoveRes(Unit *, const Move &)> &);
+	void set_canBeUsed(const std::function<bool(Unit*)> &); /* Sets flag, by using lambda, if order can be used now*/
+	void set_getProperTargets(const std::function<std::vector<Target>(const Unit *, int, const Move & m)> &); /* Gets all possible targets, using lambda */
+	void set_execute(const std::function<MoveRes(Unit *, const Move &)> &);/* Executes order, using lambda*/
 
 public:
 

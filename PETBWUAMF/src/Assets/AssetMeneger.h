@@ -25,23 +25,22 @@ public:
 	AssetMeneger();
 	~AssetMeneger();
 
-//Loading all assets
-	static bool loadAllAssets(const nlohmann::json &settings);
+	static bool loadAllAssets(const nlohmann::json &settings);  /*Load all assets from files specified by settings*/
 
 //Loading one type of assets
 
-	static bool loadAssetsFromFile(const std::string & filename);
+	static bool loadAssetsFromFile(const std::string & filename);	/*Load all assets from file specified by name*/
 
 
 	template<typename T>
-	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * createAsset(const std::string name)
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * createAsset(const std::string name) /*Create new asset in AssetManager*/
 	{
 		_assets[name] = std::make_unique<T>(name);
 		return static_cast<T *> (_assets[name].get());
 	}
 
 	template <typename T>
-	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * getAsset(const std::string name)
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, T>::type * getAsset(const std::string name) /* Returns asset specified by name, from AssetManager*/
 	{
 		if (_assets.find(name) == _assets.end())
 			return nullptr;
@@ -53,7 +52,7 @@ public:
 //Get All Assets of Type
 
 	template <typename T>
-	static typename std::enable_if<std::is_base_of<Asset, T>::value, std::vector<T *>>::type getAllAssets()
+	static typename std::enable_if<std::is_base_of<Asset, T>::value, std::vector<T *>>::type getAllAssets() /* Returns all assets of specified type */
 	{
 		std::vector<T*> res;
 		for (auto & asset_ptr : _assets)
