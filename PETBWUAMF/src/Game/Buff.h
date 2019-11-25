@@ -7,13 +7,16 @@ class Buff : public GameObject<BuffPrototype>
 public:
 
 	enum class BuffType{
-		 Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move,
+		 None, Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move,
 		 Bleeding
 	};
 
 	struct BuffAction {
 		BuffType type;
 		float value;
+		bool add;							// add or remove
+		bool onStart;
+		bool onEnd;
 	};
 
 	Buff(const std::string & name, size_t u);
@@ -22,9 +25,12 @@ public:
 	bool isGood()const;
 	bool isInstant()const;
 	bool endTurn();								// true = destroy me
-	bool onRemove();							
+	bool hasType(BuffType type)const;
 
+	std::vector<BuffAction> & getActions();
 	const std::vector<BuffAction> & getActions()const;
+	BuffAction & getActionOfType(BuffType t);
+	const BuffAction & getActionOfType(BuffType t)const;
 
 
 private:

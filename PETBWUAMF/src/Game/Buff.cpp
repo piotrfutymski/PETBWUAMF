@@ -1,12 +1,16 @@
 #include "Buff.h"
 
 Buff::Buff(const std::string & name, size_t u)
-	:GameObject<BuffPrototype>(name)
+	:GameObject<BuffPrototype>(name), _owner(u)
 {
-	_unit = u;
-	_restTime = this->getPrototype()->_time;
-	this->getPrototype()->_onBegin(u, this);
 
+	_time = this->getPrototype()->_time;
+	_isInstant = this->getPrototype()->_instant;
+
+	for (auto &a : this->getPrototype()->_actions)
+	{
+		_actions.push_back({ BuffType(a.type),a.value,a.add,a.onStart,a.onEnd });
+	}
 }
 
 

@@ -76,7 +76,8 @@ public:
 
 	Buff * addBuff(const std::string & name);
 	bool hasBuff(const std::string & name);
-	void removeBuff(const std::string & name);
+	std::vector<std::unique_ptr<Buff>>::iterator removeBuff(const std::string & name);
+	std::vector<std::unique_ptr<Buff>>::iterator removeBuff(std::vector<std::unique_ptr<Buff>>::iterator it);
 	void removeAllBuffs();
 	MoveRes endTurn();
 
@@ -146,12 +147,17 @@ private:
 	std::pair<int, int> normalChance(Unit *enemy);
 	int rangedChance(Unit *target);
 	int rangedRound(Unit *target);
-	const float& parameterFromEnum(const UParameter & p)const;
+	const int& parameterFromEnum(const UParameter & p)const;
 	int& parameterFromEnum(const UParameter & p);
 
-	void bleeding();
+	MoveRes playEffects();
+	void endbuffs();
+
+	MoveRes bleeding();
 	float attack(Unit * enemy, float attack, float defence);
-	UParameter buffTypeToParameter(BuffType t);
+	UParameter buffTypeToParameter(Buff::BuffType t);
+	UFlag buffTypeToFlag(Buff::BuffType t);
+	Buff::BuffType flagToBuffType(UFlag f);
 
 public:
 

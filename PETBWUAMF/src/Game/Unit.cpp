@@ -5,7 +5,7 @@ int Unit::FRONT_SIZE = 30;
 
 
 Unit::Unit(const std::string & name, int owner)
-	:GameObject<UnitPrototype>(name)
+	:GameObject<UnitPrototype>(name), _owner(owner)
 {
 	_attack = this->getPrototype()->_attack;
 	_defence = this->getPrototype()->_defence;
@@ -24,8 +24,6 @@ Unit::Unit(const std::string & name, int owner)
 	//
 	_formationSize = this->getPrototype()->_formationSize;
 
-
-	_owner = owner;
 	_flags = UFlag::None;
 	if (_rangedAttack > 0)
 		_flags = UFlag::Ranged;
@@ -100,7 +98,8 @@ void Unit::clearInFightWith()
 
 void Unit::upgradeParameter(const UParameter & p, float value)
 {
-	this->parameterFromEnum(p) += value;
+	if(p != UParameter::None)
+		this->parameterFromEnum(p) += value;
 }
 
 int Unit::getMorale() const
@@ -188,96 +187,95 @@ Buff * Unit::addBuff(const std::string & name)
 	auto buff = std::make_unique<Buff>(name, this->getID());
 	for (auto & act : buff->getActions())
 	{
+		if (!act.onStart)
+			continue;
 		this->upgradeParameter(this->buffTypeToParameter(act.type), act.value);
+		if (act.add)
+			this->addFlag(this->buffTypeToFlag(act.type));
+		else
+			this->removeFlag(this->buffTypeToFlag(act.type));
 	}
 
 	if(!buff->isInstant())
 		_buffs.push_back(std::move(buff));
 }
 
-
-//TO DO///////////////////////////////////////////////////////////
-
 bool Unit::hasBuff(const std::string & name)
 {
-	
+	for (auto& buff : _buffs)
+	{
+		if (buff->getPrototype()->getName() == name)
+			return true;
+	}
+	return false;
 }
 
-
-void Unit::getSimpleInfo() const
+std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(const std::string & name)
 {
-	Logger::log(this->getPrototype()->getName() + " on pos (" + std::to_string(this->getPosition().x) + "," + std::to_string(this->getPosition().y) + ")");
-	Logger::log("Attack: " + std::to_string(_attack) + " Defence: " + std::to_string(_defence) + " Health: " + std::to_string(_health));
-	Logger::log("---------------------------------------------------------");
-}
-
-
-
-
-void Unit::removeBuff(const std::string & name)
-{
-	_buffs.erase(std::find_if(_buffs.begin(), _buffs.end(), [ &name](const std::unique_ptr<Buff> & b) {
+	auto buffIT = std::find_if(_buffs.begin(), _buffs.end(), [&name](const std::unique_ptr<Buff> & b) {
 		b->getPrototype()->getName() == name;
-	}));
+	});
+
+	if (buffIT == _buffs.end())
+		return;
+
+	this->removeBuff( buffIT);
 }
+
+std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(std::vector<std::unique_ptr<Buff>>::iterator it)
+{
+	auto buff = it->get();
+
+	for (auto & act : buff->getActions())
+	{
+		if (!act.onEnd)
+			continue;
+		this->upgradeParameter(this->buffTypeToParameter(act.type), act.value);
+		if (act.add)
+			this->addFlag(this->buffTypeToFlag(act.type));
+		else
+			this->removeFlag(this->buffTypeToFlag(act.type));
+	}
+	return _buffs.erase(it);
+}
+
 
 void Unit::removeAllBuffs()
 {
-	_buffs.clear();
+	while (!_buffs.empty())
+	{
+		this->removeBuff(_buffs.end()-1);
+	}
 }
 
-void Unit::endTurn()
+MoveRes Unit::endTurn()
 {
-	if (this->hasFlag(Unit::UFlag::Bleeding))
-	{
-		this->bleeding();
-	}
+	auto res = this->playEffects();
+	this->endbuffs();
+	return res;
 }
 
 void Unit::normalAttack(Unit *enemy)
 {
-	//
-	Logger::log("-------------------Attack in progress--------------------");
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
 		if (!this->sideFight(enemy))
-		{
-			Logger::log("Attacking unit destroyed.");
 			break;
-		}
 		if (!enemy->sideFight(this))
-		{
-			Logger::log("Defending unit destroyed.");
 			break;
-		}
 	}
-	Logger::log("---------------------Attack finished---------------------");
-	Logger::log("----------------Press something to continue--------------");
-	std::getchar();
-	//Is fight prawdopodobnie bêdzie ustawiane gdy jednostka dotknie innej
-	/*this->_isInFight = true;
-	enemy->_isInFight = true;
-	return;*/
-
 }
+
 void Unit::rangedAttack(Unit *target)
 {
-	Logger::log("---------------Ranged Attack in progress-----------------");
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
-
 		target->casualties(this->rangedRound(target));
 		if (!target->_isAlive)
-		{
-			Logger::log("Defending unit destroyed.");
 			break;
-		}
 	}
-	Logger::log("----------------Ranged Attack finished-------------------");
-	Logger::log("----------------Press something to continue--------------");
-	std::getchar();
-	return;
 }
+
 float Unit::attack(Unit * enemy)
 {
 	if (this->hasFlag(UFlag::Ranged))
@@ -288,14 +286,17 @@ float Unit::attack(Unit * enemy)
 	else
 		this->attack(enemy, _attack, enemy->_defence);
 }
+
 float Unit::ocassionalAttack(Unit * enemy)
 {
 	this->attack(enemy, _attack / 2, enemy->_defence);
 }
+
 float Unit::chargeAttack(Unit * enemy)
 {
 	this->attack(enemy, _chargeAttack, enemy->_chargeDefence);
 }
+
 float Unit::chanceToHitRenged(Unit * enemy)
 {
 	auto d = enemy->_defence;
@@ -303,6 +304,15 @@ float Unit::chanceToHitRenged(Unit * enemy)
 	auto dist = this->getDistanceTo(enemy);
 	return (1 - (d / (2 * a + 2 * d)))*(2 * _range - dist) / (2 * _range);
 }
+
+void Unit::getSimpleInfo() const
+{
+	Logger::log(this->getPrototype()->getName() + " on pos (" + std::to_string(this->getPosition().x) + "," + std::to_string(this->getPosition().y) + ")");
+	Logger::log("Attack: " + std::to_string(_attack) + " Defence: " + std::to_string(_defence) + " Health: " + std::to_string(_health));
+	Logger::log("---------------------------------------------------------");
+}
+
+/// End of pulic functions ///
 
 bool Unit::sideFight(Unit *enemy)
 {
@@ -312,6 +322,17 @@ bool Unit::sideFight(Unit *enemy)
 		return 1;
 	else
 		return 0;
+}
+
+void Unit::casualties(int casualties)
+{
+	this->_health -= casualties;
+	Logger::log(this->getPrototype()->getName() + " has suffered " + std::to_string(casualties) + " casualties");
+	if (this->_health <= 0)
+	{
+		this->_health = 0;
+		this->_isAlive = false;
+	}
 }
 
 int Unit::normalRound(Unit *enemy)
@@ -347,18 +368,6 @@ int Unit::normalRound(Unit *enemy)
 	return killcount;
 }
 
-
-void Unit::casualties(int casualties)
-{
-	this->_health -= casualties;
-	Logger::log(this->getPrototype()->getName() + " has suffered " + std::to_string(casualties) + " casualties");
-	if (this->_health <= 0)
-	{
-		this->_health = 0;
-		this->_isAlive = false;
-	}
-}
-
 int Unit::refill()
 {
 	if (this->_health < FRONT_SIZE / this->_formationSize)
@@ -387,7 +396,6 @@ std::pair<int, int> Unit::normalChance(Unit *enemy)
 	return std::pair<int, int>(chance, chance2);
 
 }
-
 
 int Unit::rangedChance(Unit *target)
 {
@@ -426,15 +434,100 @@ int Unit::rangedRound(Unit *target)
 	return killcount;
 }
 
-void Unit::bleeding()
+const int & Unit::parameterFromEnum(const UParameter & p)const
 {
-	this->_health -= _bleeding;
-	_bleeding *= 0.75;
-	if (_bleeding < 0.5)
+	if (p == UParameter::Morale)
+		return _morale;
+	else if (p == UParameter::Armor)
+		return _armor;
+	else if (p == UParameter::Attack)
+		return _attack;
+	else if (p == UParameter::ChargeAttack)
+		return _chargeAttack;
+	else if (p == UParameter::ChargeDeffence)
+		return _chargeDefence;
+	else if (p == UParameter::Defence)
+		return _defence;
+	else if (p == UParameter::Health)
+		return _health;
+	else if (p == UParameter::Move)
+		return _move;
+	else if (p == UParameter::Range)
+		return _range;
+	else if (p == UParameter::RangedAttack)
+		return _rangedAttack;
+}
+
+int & Unit::parameterFromEnum(const UParameter & p)
+{
+	if (p == UParameter::Morale)
+		return _morale;
+	else if (p == UParameter::Armor)
+		return _armor;
+	else if (p == UParameter::Attack)
+		return _attack;
+	else if (p == UParameter::ChargeAttack)
+		return _chargeAttack;
+	else if (p == UParameter::ChargeDeffence)
+		return _chargeDefence;
+	else if (p == UParameter::Defence)
+		return _defence;
+	else if (p == UParameter::Health)
+		return _health;
+	else if (p == UParameter::Move)
+		return _move;
+	else if (p == UParameter::Range)
+		return _range;
+	else if (p == UParameter::RangedAttack)
+		return _rangedAttack;
+}
+
+MoveRes Unit::playEffects()
+{
+	if (this->hasFlag(Unit::UFlag::Bleeding))
 	{
-		_bleeding = 0;
-		_flags = _flags & ~(UFlag::Bleeding);
+		return this->bleeding();
 	}
+}
+
+void Unit::endbuffs()
+{
+	auto it = _buffs.begin();
+	while (it != _buffs.end())
+	{
+		if (it->get()->endTurn())
+		{
+			it = this->removeBuff(it);
+		}
+		else
+			++it;
+	}
+}
+
+
+MoveRes Unit::bleeding()
+{
+	MoveRes res{};
+
+	for (auto & buff : _buffs)
+	{
+		if (buff->hasType(this->flagToBuffType(UFlag::Bleeding)))
+		{
+			MoveRes::MoveEvent e;
+			auto act = buff->getActionOfType(this->flagToBuffType(UFlag::Bleeding));
+			this->_health -= act.value;
+			act.value *= 0.75;
+
+			e.dmg = act.value;
+			e.type = MoveRes::EventType::DMGTaken;
+			e.unit = this->getID();
+			e.time = 27;
+
+			res.events.push_back(std::move(e));
+		}
+	}
+
+	return res;
 }
 
 float Unit::attack(Unit * enemy, float attack, float defence)
@@ -465,60 +558,54 @@ float Unit::attack(Unit * enemy, float attack, float defence)
 	else
 		dmg /= 2;
 
+	dmg /= 3;
+
 	enemy->_health -= dmg;
 	return dmg;
 }
 
-
-
-const float & Unit::parameterFromEnum(const UParameter & p)const
+Unit::UParameter Unit::buffTypeToParameter(Buff::BuffType t)
 {
-	if (p == UParameter::Morale)
-		return _morale;
-	else if (p == UParameter::Armor)
-		return _armor;
-	else if (p == UParameter::Attack)
-		return _attack;
-	else if (p == UParameter::ChargeAttack)
-		return _chargeAttack;
-	else if (p == UParameter::ChargeDeffence)
-		return _chargeDefence;
-	else if (p == UParameter::Defence)
-		return _defence;
-	else if (p == UParameter::Health)
-		return _health;
-	else if (p == UParameter::Move)
-		return _move;
-	else if (p == UParameter::Range)
-		return _range;
-	else if (p == UParameter::RangedAttack)
-		return _rangedAttack;
+	if (t == Buff::BuffType::Morale)
+		return UParameter::Morale;
+	if (t == Buff::BuffType::Health)
+		return UParameter::Health;
+	if (t == Buff::BuffType::Attack)
+		return UParameter::Attack;
+	if (t == Buff::BuffType::Armor)
+		return UParameter::Armor;
+	if (t == Buff::BuffType::RangedAttack)
+		return UParameter::RangedAttack;
+	if (t == Buff::BuffType::ChargeDeffence)
+		return UParameter::ChargeDeffence;
+	if (t == Buff::BuffType::ChargeAttack)
+		return UParameter::ChargeAttack;
+	if (t == Buff::BuffType::Range)
+		return UParameter::Range;
+	if (t == Buff::BuffType::Move)
+		return UParameter::Move;
+	if (t == Buff::BuffType::Defence)
+		return UParameter::Defence;
 	else
-		return _bleedingModificator;
+		return UParameter::None;
 }
 
-float & Unit::parameterFromEnum(const UParameter & p)
+Unit::UFlag Unit::buffTypeToFlag(Buff::BuffType t)
 {
-	if (p == UParameter::Morale)
-		return _morale;
-	else if (p == UParameter::Armor)
-		return _armor;
-	else if (p == UParameter::Attack)
-		return _attack;
-	else if (p == UParameter::ChargeAttack)
-		return _chargeAttack;
-	else if (p == UParameter::ChargeDeffence)
-		return _chargeDefence;
-	else if (p == UParameter::Defence)
-		return _defence;
-	else if (p == UParameter::Health)
-		return _health;
-	else if (p == UParameter::Move)
-		return _move;
-	else if (p == UParameter::Range)
-		return _range;
-	else if (p == UParameter::RangedAttack)
-		return _rangedAttack;
+	if (t == Buff::BuffType::Bleeding)
+		return UFlag::Bleeding;
 	else
-		return _bleedingModificator;
+		return UFlag::None;
 }
+
+Buff::BuffType Unit::flagToBuffType(UFlag f)
+{
+	if (f == UFlag::Bleeding)
+		return Buff::BuffType::Bleeding;
+	return Buff::BuffType::None;
+}
+
+
+
+
+

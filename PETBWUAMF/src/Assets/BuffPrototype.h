@@ -1,8 +1,6 @@
 #pragma once
 #include "Asset.h"
 
-class Buff;
-
 class BuffPrototype :public Asset
 {
 public:
@@ -12,23 +10,20 @@ public:
 
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
 
+	struct Action {
+		int type;
+		int value;
+		bool add;
+		bool onStart;
+		bool onEnd;
+	};
+
 public:
 
 
-	bool _forAlways;
+	bool _instant;
+	int _time;
 
-	int _attack;
-	int _health;
-	int _armor;
-	int _defence;
-
-	int _rangedAttack;
-	int _range;
-	int _chargeAttack;
-	int _chargeDefence;
-
-	int _move;
-	int _morale;
-	float _formationSize{ 0 };
+	std::vector<Action> _actions;
 
 };
