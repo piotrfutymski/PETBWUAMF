@@ -1,6 +1,6 @@
 #pragma once
-#include "Asset.h"
 #include <utility>
+#include "Asset.h"
 
 class Buff;
 
@@ -24,7 +24,7 @@ public:
 	std::function<void(size_t, Buff *)> _onBegin;
 	std::function<void(size_t, Buff *)> _onTurnEnd;
 	std::function<void(size_t, Buff *)> _onEnd;
-
+	int toUParameter(const std::string & name);
 	int _time;				// -1 = always
 
 };

@@ -27,3 +27,33 @@ void BuffPrototype::loadAsset(const nlohmann::json & assetFile)
 	}
 
 }
+
+int BuffPrototype::toUParameter(const std::string & p)
+{
+
+	if (p == "Protection")
+		return 3;
+	else if (p == "Morale")
+		return 0;
+	else if (p == "Armor")
+		return 4;
+	else if (p == "Attack")
+		return 2;
+	else if (p == "ChargeAttack")
+		return 8;
+	else if (p == "ChargeDefence")
+		return 7;
+	else if (p == "Defence")
+		return 5;
+	else if (p == "Health")
+		return 1;
+	else if (p == "Move")
+		return 10;
+	else if (p == "Range")
+		return 9;
+	else if (p == "RangedAttack")
+		return 6;
+	else 
+		return -1 * std::stoi(p);
+
+}
