@@ -110,13 +110,10 @@ Move Application::getMoveFromConsole()
 				res.positions.push_back({ x,y });
 				Logger::log("---------------------------------------------------------");
 			}
-			else
+			else if(order->getPrototype()->_target == OrderPrototype::TargetType::AttackT)
 			{
 				Logger::log("------------------Choose Target ID (int)-----------------");
-				if (i == 0)
-					_consoleUI.AttackMap(_game, order);
-				else
-					_consoleUI.ChargeMap(_game, order, res);
+				_consoleUI.AttackMap(_game, order);
 				std::cin >> id;
 				if (id == -1)
 				{
@@ -127,6 +124,39 @@ Move Application::getMoveFromConsole()
 				res.units.push_back(id);
 				Logger::log("---------------------------------------------------------");
 			}
+			else if (order->getPrototype()->_target == OrderPrototype::TargetType::ChargeT)
+			{
+				_consoleUI.MoveMap(_game, order);
+				Logger::log("----------------------Choose Position (int) (int)--------");
+				std::cin >> x;
+				if (x == -1)
+				{
+					rest = 1;
+					break;
+				}
+				std::cin >> y;
+				if (y == -1)
+				{
+					rest = 1;
+					break;
+				}
+
+				res.positions.push_back({ x,y });
+				Logger::log("---------------------------------------------------------");
+				Logger::log("------------------Choose Target ID (int)-----------------");
+				_consoleUI.ChargeMap(_game, order, res);
+				std::cin >> id;
+				if (id == -1)
+				{
+					rest = 1;
+					break;
+				}
+
+				res.units.push_back(id);
+				Logger::log("---------------------------------------------------------");
+			}
+
+
 		}
 		if (rest)
 			continue;
