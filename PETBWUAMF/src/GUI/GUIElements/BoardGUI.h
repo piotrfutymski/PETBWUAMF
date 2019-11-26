@@ -33,7 +33,7 @@ public:
 
 
 
-	void setTargets(const std::vector<OrderPrototype::Target> & targets);
+	void setTargets(const std::vector<Target> & targets);
 
 	void reloadFromGame();
 

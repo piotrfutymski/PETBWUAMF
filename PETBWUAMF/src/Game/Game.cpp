@@ -33,8 +33,8 @@ size_t Game::swapOrder(size_t orderToSwap)
 		throw;
 	auto inHand = this->getOrdersInHand(_activePlayer);
 	auto inDeck = this->getOrdersInDeck(_activePlayer);
-	if (std::find_if(inHand.begin(), inHand.end(), [orderToSwap](size_t * num) {
-		return orderToSwap == *num; }) == inHand.end())throw;
+	if (std::find_if(inHand.begin(), inHand.end(), [orderToSwap](size_t num) {
+		return (orderToSwap == num); }) == inHand.end())throw;
 	
 	if (inDeck.empty())
 		throw;
@@ -157,12 +157,17 @@ std::vector<Target> Game::getPossibleTargets(size_t order) const
 
 int Game::getTargetCount(size_t o) const
 {
-	this->getObject<Order>(o)->getPrototype()->_targetCount;
+	return this->getObject<Order>(o)->getPrototype()->_targetCount;
 }
 
 const Map & Game::getMap()const
 {
 	return _map;
+}
+
+size_t Game::getUnitOnPosition(const sf::Vector2i & pos) const
+{
+	return _map[pos].unit->getID();
 }
 
 MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
@@ -226,7 +231,7 @@ MoveRes Game::fight(size_t aggresor, size_t victim, const AttackType & t)
 
 }
 
-MoveRes Game::buff(const std::string & buffName, size_t buffTarget, float value = 0)
+MoveRes Game::buff(const std::string & buffName, size_t buffTarget, float value)
 {
 	auto res = MoveRes{};
 	auto target = this->getObject<Unit>(buffTarget);
@@ -348,7 +353,7 @@ bool Game::canBeUsed(Order * o) const
 	if (_activePlayer == 1)
 		cP = _player1CommandPoints;
 
-	if (o->getCost() > cP || this->getPossibleTargets(o->getID).empty())
+	if (o->getCost() > cP || this->getPossibleTargets(o->getID()).empty())
 		return false;
 	return o->canBeUsed(_activeUnit->getPrototype()->getName(), _activeUnit->getPrototype()->_unitType);
 }
@@ -392,7 +397,7 @@ std::vector<Target> Game::getPossibleAttackTargets() const
 		for (auto & unit : _activeUnit->getEnemyInFightWhith())
 			res.push_back({ unit->getID(), {} });
 	}
-
+	return res;
 }
 
 std::vector<Target> Game::getPossibleChargeTargets() const

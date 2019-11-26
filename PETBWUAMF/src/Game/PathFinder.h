@@ -14,7 +14,7 @@ public:
 
 	bool isInArea(const sf::Vector2i & pos);				
 
-	std::vector<sf::Vector2i> getGoodPositions(const sf::Vector2i & start, int move);					//get positions in range of move of unit on start position
+	std::vector<sf::Vector2i> getGoodPositions(const sf::Vector2i & start, float move);					//get positions in range of move of unit on start position
 
 private:
 	int _xSize;

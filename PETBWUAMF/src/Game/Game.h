@@ -66,7 +66,10 @@ public:
 	std::vector<Target> getPossibleTargets(size_t order)const;
 	int getTargetCount(size_t)const;
 
+	//Map
+
 	const Map & getMap()const;
+	size_t getUnitOnPosition(const sf::Vector2i & pos)const;
 
 	//Order functions:
 
@@ -151,8 +154,21 @@ private:
 		holder.erase(_find<T>(obj->getID()));
 	}
 
+
+
+public:
+	//templates
+
 	template <typename T>
 	typename std::enable_if<Game::isGameType<T>::value, T>::type * getObject(size_t id)
+	{
+		if (auto it = _find<T>(id); it != getHolder<T>().end())
+			return it->get();
+		return nullptr;
+	}
+
+	template <typename T>
+	const typename std::enable_if<Game::isGameType<T>::value, T>::type * getObject(size_t id)const
 	{
 		if (auto it = _find<T>(id); it != getHolder<T>().end())
 			return it->get();
@@ -168,19 +184,6 @@ private:
 			return _units;
 	}
 
-public:
-	//templates
-
-	template <typename T>
-	const typename std::enable_if<Game::isGameType<T>::value, T>::type * getObject(size_t id)const
-	{
-		if (auto it = _find<T>(id); it != getHolder<T>().end())
-			return it->get();
-		return nullptr;
-	}
-
-	
-
 	template <typename T>
 	const std::vector<std::unique_ptr< typename std::enable_if<Game::isGameType<T>::value, T>::type>> & getHolder()const
 	{
@@ -189,6 +192,8 @@ public:
 		else if constexpr (std::is_same<T, Unit>::value)
 			return _units;
 	}
+
+
 
 
 };

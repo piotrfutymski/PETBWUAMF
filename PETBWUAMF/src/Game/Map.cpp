@@ -239,7 +239,7 @@ const std::vector<Map::Spot> Map::getPaths(Unit * u, float move) const
 	}
 
 	if (move == 0)
-		move = u->getMove();
+		move = (float)(u->getMove());
 
 	for (auto & x : pathFinder.getGoodPositions(u->getPosition(), move))
 	{

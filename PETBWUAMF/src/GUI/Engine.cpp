@@ -96,14 +96,14 @@ void Engine::input()
 void Engine::startTurn()
 {
 	_board->reloadFromGame();
-	auto orCH = _game->getPossibleOrders();
+	auto orCH = _game->getPossibleOrders(_game->getActivePlayer());
 
 	std::vector<size_t> choosable;
 	std::vector<size_t> showable;
 
 	for (auto & ord : orCH)
 	{
-		choosable.push_back(ord->getID());
+		choosable.push_back(ord);
 	}
 
 	for (auto & ord : _game->getHolder<Order>())

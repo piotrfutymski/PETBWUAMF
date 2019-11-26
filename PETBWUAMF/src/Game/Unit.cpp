@@ -186,7 +186,7 @@ Buff * Unit::addBuff(const std::string & name)
 	auto buff = std::make_unique<Buff>(name, this->getID());
 
 	if (!buff->isEffect())
-		this->upgradeParameter(buff->getParameterToBoost(), buff->getValue);
+		this->upgradeParameter(buff->getParameterToBoost(), buff->getValue());
 	else
 	{
 		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
@@ -195,6 +195,7 @@ Buff * Unit::addBuff(const std::string & name)
 			this->addFlag(UFlag::UnableToAttack);
 	}
 	_buffs.push_back(std::move(buff));	
+	return _buffs.back().get();
 }
 
 bool Unit::hasBuff(const std::string & name)
@@ -210,13 +211,13 @@ bool Unit::hasBuff(const std::string & name)
 std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(const std::string & name)
 {
 	auto buffIT = std::find_if(_buffs.begin(), _buffs.end(), [&name](const std::unique_ptr<Buff> & b) {
-		b->getPrototype()->getName() == name;
+		return (b->getPrototype()->getName() == name);
 	});
 
 	if (buffIT == _buffs.end())
-		return;
+		return buffIT;
 
-	this->removeBuff( buffIT);
+	return this->removeBuff( buffIT);
 }
 
 std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(std::vector<std::unique_ptr<Buff>>::iterator it)
@@ -224,7 +225,7 @@ std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(std::vector<std::u
 	auto buff = it->get();
 
 	if (!buff->isEffect())
-		this->upgradeParameter(buff->getParameterToBoost(), -buff->getValue);
+		this->upgradeParameter(buff->getParameterToBoost(), -buff->getValue());
 	else
 	{
 		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
@@ -277,20 +278,20 @@ float Unit::attack(Unit * enemy)
 	if (this->hasFlag(UFlag::Ranged))
 	{
 		if (rand() % 100 > this->chanceToHitRenged(enemy) * 100)
-			this->attack(enemy, _rangedAttack, enemy->_defence);
+			return this->attack(enemy, _rangedAttack, enemy->_defence);
 	}
 	else
-		this->attack(enemy, _attack, enemy->_defence);
+		return this->attack(enemy, _attack, enemy->_defence);
 }
 
 float Unit::ocassionalAttack(Unit * enemy)
 {
-	this->attack(enemy, _attack / 2, enemy->_defence);
+	return this->attack(enemy, _attack / 2, enemy->_defence);
 }
 
 float Unit::chargeAttack(Unit * enemy)
 {
-	this->attack(enemy, _chargeAttack, enemy->_chargeDefence);
+	return this->attack(enemy, _chargeAttack, enemy->_chargeDefence);
 }
 
 float Unit::chanceToHitRenged(Unit * enemy)

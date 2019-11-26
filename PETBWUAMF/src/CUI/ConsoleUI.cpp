@@ -38,7 +38,7 @@ void ConsoleUI::logState(const Game & game, Reporter & reporter)
 	this->WriteLine("---------------------------------------------------------");
 	this->WriteLine("---------------------------------------------------------");
 	this->WriteLine("---------------------------------------------------------");
-	this->WriteLine(game.getActiveUnit()->getPrototype()->getName() + "'s Turn.");
+	this->WriteLine(game.getObject<Unit>(game.getActiveUnitID())->getPrototype()->getName() + "'s Turn.");
 }
 
 void ConsoleUI::logStateUnits(const Game & game, int owner)
@@ -55,7 +55,7 @@ void ConsoleUI::logStateUnits(const Game & game, int owner)
 			//Write("ID:" + std::to_string(x->getID()) + " Name: ");
 			//x->getSimpleInfo();
 			WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
-			WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+			WriteLine("Attack: " + std::to_string(x->getAttack()) + " Defence: " + std::to_string(x->getDefence()) + " Health: " + std::to_string(x->getHealth()));
 			WriteLine("---------------------------------------------------------");
 		}
 	}
@@ -83,7 +83,7 @@ void ConsoleUI::logStateTurn(const Game & game, Reporter & reporter)
 {
 	auto info = reporter.getLastTurn();
 	WriteLine("---------------------------------------------------------");
-	for (auto moves : info._unitsMoved)
+	/*for (auto moves : info._unitsMoved)
 	{
 		WriteLine(game.getObject<Unit>(moves.first)->getPrototype()->getName() 
 			+ " moved to " + std::to_string(moves.second.x) + ":" + std::to_string(moves.second.y));
@@ -105,7 +105,7 @@ void ConsoleUI::logStateTurn(const Game & game, Reporter & reporter)
 	{
 		WriteLine(game.getObject<Unit>(std::get<0>(moves))->getPrototype()->getName()
 			+ "'s " + "something decreased by " + std::to_string(std::get<2>(moves)));
-	}
+	}*/
 	WriteLine("---------------------------------------------------------");
 }
 
@@ -116,13 +116,14 @@ void  ConsoleUI::makeMove(const Game & game)
 	WriteLine("---------------------------------------------------------");
 	WriteLine("----------------------Make a move------------------------");
 	WriteLine("---------------------------------------------------------");
-	const Unit * x = game.getActiveUnit();
+	const Unit * x = game.getObject<Unit>(game.getActiveUnitID());
 	Write("ID:" + std::to_string(x->getID()) + " Name: ");
 	WriteLine(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " on pos (" + std::to_string(x->getPosition().x) + "," + std::to_string(x->getPosition().y) + ")");
-	WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getProtection()) + " Health: " + std::to_string(x->getHealth()));
+	WriteLine("Attack: " + std::to_string(x->getAttack()) + " Protection: " + std::to_string(x->getDefence()) + " Health: " + std::to_string(x->getHealth()));
 	WriteLine("---------------------------------------------------------");
-	for (auto &x : game.getPossibleOrders())
+	for (auto &o : game.getPossibleOrders(game.getActivePlayer()))
 	{
+		auto x = game.getObject<Order>(o);
 		Write(std::to_string(x->getID()) + ": " + x->getPrototype()->getName() + " ");
 	}
 	WriteLine("");
@@ -283,39 +284,43 @@ void ConsoleUI::SimUnitsMap(const Game & game)
 }
 void ConsoleUI::NumUnitsMap(const Game & game, Order *order)
 {
-	for (auto x : order->getProperTargets(game.getActiveUnit(), 0, {}))
+	for (auto x : game.getPossibleTargets(order->getID()))
 	{
-		this->_colormap[x.pos.x][x.pos.y] = 'G';
+		this->_colormap[x.position.x][x.position.y] = 'G';
 		//this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
-		if (x.targetID <= 9)
-			this->_map[x.pos.x][x.pos.y] = x.targetID + '0';
+
+		int targetID = (int)game.getUnitOnPosition(x.position);
+		if (targetID <= 9)
+			this->_map[x.position.x][x.position.y] = targetID + '0';
 		else
-			this->_map[x.pos.x][x.pos.y] = x.targetID - 10 + 'a';
+			this->_map[x.position.x][x.position.y] = targetID - 10 + 'a';
 	}
 }
 void ConsoleUI::CharUnitsMap(const Game & game, Order *order,Move & res)
 {
-	for (auto x : order->getProperTargets(game.getActiveUnit(), 1, res))
+	for (auto x : game.getPossibleTargets(order->getID()))
 	{
-		this->_colormap[x.pos.x][x.pos.y] = 'G';
+		this->_colormap[x.position.x][x.position.y] = 'G';
 		//this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'R';
-		if (x.targetID <= 9)
-			this->_map[x.pos.x][x.pos.y] = x.targetID + '0';
+		int targetID = (int)game.getUnitOnPosition(x.position);
+		if (targetID <= 9)
+			this->_map[x.position.x][x.position.y] = targetID + '0';
 		else
-			this->_map[x.pos.x][x.pos.y] = x.targetID - 10 + 'a';
+			this->_map[x.position.x][x.position.y] = targetID - 10 + 'a';
 	}
 }
 void ConsoleUI::ConUnitMap(const Game & game)
 {
-	this->_colormap[game.getActiveUnit()->getPosition().x][game.getActiveUnit()->getPosition().y] = 'Y';
+	auto unit = game.getObject<Unit>(game.getActiveUnitID());
+	this->_colormap[unit->getPosition().x][unit->getPosition().y] = 'Y';
 }
 
 void ConsoleUI::SimMovMap(const Game & game, Order *order)
 {
-	for (auto x : order->getProperTargets(game.getActiveUnit(), 0, {}))
+	for (auto x : game.getPossibleTargets(order->getID()))
 	{
 		//this->_map[x.pos.x][x.pos.y] = 'M';
-		this->_colormap[x.pos.x][x.pos.y] = 'G';
+		this->_colormap[x.position.x][x.position.y] = 'G';
 	}
 }
 char ConsoleUI::TypeUnitMap(const Game & game, const std::string type)

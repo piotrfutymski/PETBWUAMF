@@ -95,7 +95,7 @@ Didax::BoardGUI::~BoardGUI()
 {
 }
 
-void Didax::BoardGUI::setTargets(const std::vector<OrderPrototype::Target>& targets)
+void Didax::BoardGUI::setTargets(const std::vector<Target>& targets)
 {
 }
 
@@ -105,21 +105,21 @@ void Didax::BoardGUI::reloadFromGame()
 	{
 		for (size_t j = 0; j < MAP_HEIGHT; j++)
 		{
-			if(_game->getMap().getDataFromPos({ (int)i,(int)j}) == -1)
+			auto mapspot = _game->getMap()[{ (int)i, (int)j}];
+			if(mapspot.content == Map::SpotContent::Empty)
 				this->setPositionInState(PositionState::Inactive, { (int)i,(int)j });
-			else
+			else if(mapspot.content == Map::SpotContent::Unit)
 			{
-				auto uid = _game->getMap().getDataFromPos({ (int)i,(int)j });
-				auto u = _game->getObject<Unit>(uid);
+				auto u = mapspot.unit;
 				auto owner = u->getOwner();
 				if(owner != _game->getActivePlayer())
-					this->setPositionInState(PositionState::Enemy, { (int)i,(int)j },uid,owner);
+					this->setPositionInState(PositionState::Enemy, { (int)i,(int)j },u->getID(),owner);
 				else
 				{
-					if(uid != _game->getActiveUnit()->getID())
-						this->setPositionInState(PositionState::Allay, { (int)i,(int)j }, uid, owner);
+					if(u->getID() != _game->getActiveUnitID())
+						this->setPositionInState(PositionState::Allay, { (int)i,(int)j }, u->getID(), owner);
 					else
-						this->setPositionInState(PositionState::ActiveUnit, { (int)i,(int)j }, uid, owner);
+						this->setPositionInState(PositionState::ActiveUnit, { (int)i,(int)j }, u->getID(), owner);
 				}
 			}
 		}

@@ -7,7 +7,6 @@
 #include <mutex>
 
 #include "Game/Game.h"
-#include "Game/PrototypeInitializer.h"
 #include "Assets/AssetMeneger.h"
 #include "Utility/Reporter.h"
 #include "CUI/ConsoleUI.h"

@@ -12,7 +12,7 @@ MoveRes Reporter::getLastTurn() const
 {
 	if (!this->_turnReport.empty())
 		return this->_turnReport.back();
-	return { {},{},{},{} };
+	return { };
 }
 MoveRes Reporter::getTurn(int number) const
 {

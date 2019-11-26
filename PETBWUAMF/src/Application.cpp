@@ -27,8 +27,7 @@ void Application::init(std::string settingFilePath)
 
 	Didax::AssetMeneger::loadAllAssets(_settings);
 	_game.init({});
-	PrototypeInitializer::initGame(&_game);
-	PrototypeInitializer::initPrototypes();
+	_game.initOrderFunctions();
 	_engine.init(_settings, &_game);
 
 }
@@ -57,7 +56,6 @@ Move Application::getMoveFromConsole()
 	while (reset)
 	{
 		Move res;
-		res.unitID = _game.getActiveUnit()->getID();
 		_consoleUI.clear();
 		_consoleUI.logState(_game, _reporter);
 		_consoleUI.makeMove(_game);
@@ -80,12 +78,6 @@ Move Application::getMoveFromConsole()
 				Logger::log("-------------------Order doesn't exist-------------------");
 				continue;
 			}
-			if (order->canBeUsed(_game.getActiveUnit()))
-			{
-				Logger::log("----------------------Choosed order: " + std::to_string(oID) + "-------------------");
-				break;
-			}
-			Logger::log("-------------------Order can't be used-------------------");
 		}
 		if (rest)
 			continue;
@@ -94,7 +86,7 @@ Move Application::getMoveFromConsole()
 		Logger::log("---------------------------------------------------------");
 		for (size_t i = 0; i < order->getTargetsCount(); i++)
 		{
-			if (order->getTargetType(i) == OrderPrototype::TargetType::Position_target)
+			if (order->getPrototype()->_target == OrderPrototype::TargetType::MoveT)
 			{
 				_consoleUI.MoveMap(_game, order);
 				Logger::log("----------------------Choose Position (int) (int)--------");

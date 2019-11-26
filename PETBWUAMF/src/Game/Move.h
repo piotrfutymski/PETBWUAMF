@@ -38,7 +38,7 @@ struct MoveRes
 
 	MoveEvent getEventOfType(EventType t)
 	{
-		if (auto e = std::find_if(events.begin(), events.end(), [t](const MoveEvent & ev) {ev.type == t; }); e != events.end())
+		if (auto e = std::find_if(events.begin(), events.end(), [t](const MoveEvent & ev) {return (ev.type == t); }); e != events.end())
 			return *e;
 		return {};
 	}

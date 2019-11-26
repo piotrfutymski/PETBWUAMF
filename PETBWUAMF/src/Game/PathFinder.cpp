@@ -47,7 +47,7 @@ bool PathFinder::isInArea(const sf::Vector2i & pos)
 }
 
 
-std::vector<sf::Vector2i> PathFinder::getGoodPositions(const sf::Vector2i & start, int move)
+std::vector<sf::Vector2i> PathFinder::getGoodPositions(const sf::Vector2i & start, float move)
 {
 	auto temp = std::vector<std::vector<float>>();
 	for (int i = 0; i < _xSize; i++)
