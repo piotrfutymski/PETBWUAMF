@@ -18,7 +18,7 @@ void Didax::OrderRepresentation::setOrder(size_t o)
 	
 }
 
-size_t Didax::OrderRepresentation::getOrderId()
+size_t Didax::OrderRepresentation::getOrderID()
 {
 	return _orderID;
 }
@@ -70,6 +70,24 @@ void Didax::OrderRepresentation::show()
 	_root->setVisible(true);
 }
 
+void Didax::OrderRepresentation::setHoverInTime()
+{
+	auto old = _root->getPosition();
+	_root->setPositionInTime(old.x, old.y - 20, 0.3);
+}
+
+void Didax::OrderRepresentation::setChoosen()
+{
+	auto old = _root->getPosition();
+	_root->setPosition(old.x, old.y - 20);
+	_root->setColor(sf::Color::White);
+}
+
+void Didax::OrderRepresentation::resetPosition()
+{
+	this->setPosition(this->getPosition());
+}
+
 void Didax::OrderRepresentation::_init()
 {
 	_widgets.push_back(std::make_unique<Button>());
@@ -89,35 +107,23 @@ void Didax::OrderRepresentation::_init()
 
 }
 
-void Didax::OrderRepresentation::_initLogic()
+void Didax::OrderRepresentation::_initLogic(Engine * e)
 {
 	_order->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
-		if (this->isChoosable())
-			onHoverInIfChoosabe(this);
-		onHoverIn(this);
+		onHoverIn(this, e);
 	});
 
 	_order->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
-		if (this->isChoosable())
-			onHoverOutIfChoosabe(this);
-		onHoverOut(this);
+		onHoverOut(this, e);
 	});
 
 	_order->setWidgetEvent(Widget::CallbackType::onRelease, [=](Widget *, float) {
-		if (this->isChoosable())
-			onReleaseIfChoosabe(this);
+		onRelease(this, e);
 	});
 
 }
 
 
-std::function<void(Didax::OrderRepresentation *)> Didax::OrderRepresentation::onHoverIn = nullptr;
-std::function<void(Didax::OrderRepresentation *)> Didax::OrderRepresentation::onHoverInIfChoosabe = [](Didax::OrderRepresentation * o) {
-	auto old = o->getRoot()->getPosition();
-	o->getRoot()->setPositionInTime(old.x, old.y - 20, 0.3);
-};
-std::function<void(Didax::OrderRepresentation *)> Didax::OrderRepresentation::onHoverOut = nullptr;
-std::function<void(Didax::OrderRepresentation *)> Didax::OrderRepresentation::onHoverOutIfChoosabe = [](Didax::OrderRepresentation * o) {
-	o->setPosition(o->getPosition());
-};
-std::function<void(Didax::OrderRepresentation *)> Didax::OrderRepresentation::onReleaseIfChoosabe = nullptr;
+std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onHoverIn = nullptr;
+std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onHoverOut = nullptr;
+std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onRelease = nullptr;

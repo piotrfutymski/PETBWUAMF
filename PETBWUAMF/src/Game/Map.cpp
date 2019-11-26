@@ -125,6 +125,10 @@ void Map::resetZoneForUnit(Unit * u)
 	{
 		for (int j = pos.y - 1; j <= pos.y + 1; j++)
 		{
+			if (i == pos.x && j == pos.y)
+			{
+				_mapData[i][j].content = SpotContent::Empty;
+			}
 			if (this->properPosition({ i,j }))
 			{
 				if (_mapData[i][j].content == SpotContent::DuoControlZone)

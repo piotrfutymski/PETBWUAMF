@@ -11,6 +11,7 @@
 
 namespace Didax
 {
+class Engine;
 
 class GUIElement
 {
@@ -24,7 +25,7 @@ public:
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(Canvas * parent);
+	void open(Canvas * parent, Engine * e);
 	void close();
 
 	void setPriority(int p);
@@ -56,7 +57,7 @@ protected:
 protected:
 
 	virtual void _init() = 0;
-	virtual void _initLogic() = 0;
+	virtual void _initLogic(Engine * e) = 0;
 
 };
 

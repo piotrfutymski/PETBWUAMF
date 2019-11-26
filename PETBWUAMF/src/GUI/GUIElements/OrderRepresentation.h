@@ -4,6 +4,8 @@
 
 namespace Didax
 {
+
+class Engine;
 class OrderRepresentation:public GUIElement
 {
 public:
@@ -12,7 +14,7 @@ public:
 	~OrderRepresentation();
 
 	void setOrder(size_t o);
-	size_t getOrderId();
+	size_t getOrderID();
 	void setPosition(int p);
 	int getPosition()const;
 	void resetOrder();
@@ -21,11 +23,13 @@ public:
 	void hide();
 	void show();
 
-	static std::function<void(OrderRepresentation *)> onHoverIn;
-	static std::function<void(OrderRepresentation *)> onHoverInIfChoosabe;
-	static std::function<void(OrderRepresentation *)> onHoverOut;
-	static std::function<void(OrderRepresentation *)> onHoverOutIfChoosabe;
-	static std::function<void(OrderRepresentation *)> onReleaseIfChoosabe;
+	void setHoverInTime();
+	void setChoosen();
+	void resetPosition();
+
+	static std::function<void(OrderRepresentation *, Engine *)> onHoverIn;
+	static std::function<void(OrderRepresentation *, Engine *)> onHoverOut;
+	static std::function<void(OrderRepresentation *, Engine *)> onRelease;
 
 
 private:
@@ -46,7 +50,7 @@ private:
 	// Inherited via GUIElement
 	virtual void _init() override;
 
-	virtual void _initLogic() override;
+	virtual void _initLogic(Engine * e) override;
 
 };
 

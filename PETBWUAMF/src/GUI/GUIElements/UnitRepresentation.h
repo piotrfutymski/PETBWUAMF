@@ -4,6 +4,8 @@
 namespace Didax
 {
 
+	class Engine;
+
 class UnitRepresentation:  public GUIElement
 {
 public:
@@ -14,11 +16,21 @@ public:
 	void setUnit(size_t u);
 	void resetUnit();
 
+	size_t getUnitID();
+	sf::Vector2i getPosition()const;
+
 	void reloadHealth();
 	void reloadPosition();
 
-	void set_onHoverIn(const std::function<void()> & f);
-	void set_onHoverOut(const std::function<void()> & f);
+	bool isChoosable()const;
+	void setChoosable(bool c);
+
+	void recalculate();
+	void hide();
+
+	static std::function<void(UnitRepresentation *, Engine *)> onHoverIn;
+	static std::function<void(UnitRepresentation *, Engine *)> onHoverOut;
+	static std::function<void(UnitRepresentation *, Engine *)> onRelease;
 
 
 private:
@@ -30,6 +42,9 @@ private:
 	int _padding;
 
 	size_t _unitID;
+	sf::Vector2i _pos;
+
+	bool _choosable{ false };
 
 
 private:
@@ -37,8 +52,7 @@ private:
 	virtual void _init() override;
 
 	// Inherited via GUIElement
-	virtual void _initLogic( ) override;
-
+	virtual void _initLogic(Engine * e ) override;
 
 };
 

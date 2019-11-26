@@ -22,7 +22,7 @@ public:
 
 	const Prototype * getPrototype()const
 	{
-		return _prototype;
+		return _prototype;	
 	};
 
 	//

@@ -31,8 +31,19 @@ void Didax::UnitRepresentation::_init()
 
 }
 
-void Didax::UnitRepresentation::_initLogic()
+void Didax::UnitRepresentation::_initLogic(Engine * e)
 {
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
+		onHoverIn(this, e);
+	});
+
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
+		onHoverOut(this, e);
+	});
+
+	_unit->setWidgetEvent(Widget::CallbackType::onRelease, [=](Widget *, float) {
+		onRelease(this, e);
+	});
 }
 
 
@@ -50,6 +61,7 @@ void Didax::UnitRepresentation::setUnit(size_t u)
 	auto unit = _game->getObject<Unit>(u);
 	auto text = AssetMeneger::getAsset<TextureAsset>(unit->getPrototype()->_texture);
 	_unit->setTexture(&text->_texture);
+	_pos = unit->getPosition();
 	
 	this->reloadHealth();
 	this->reloadPosition();
@@ -60,6 +72,16 @@ void Didax::UnitRepresentation::setUnit(size_t u)
 void Didax::UnitRepresentation::resetUnit()
 {
 
+}
+
+size_t Didax::UnitRepresentation::getUnitID()
+{
+	return _unitID;
+}
+
+sf::Vector2i Didax::UnitRepresentation::getPosition() const
+{
+	return _pos;
 }
 
 void Didax::UnitRepresentation::reloadHealth()
@@ -73,22 +95,34 @@ void Didax::UnitRepresentation::reloadPosition()
 {
 	auto unit = _game->getObject<Unit>(_unitID);
 	auto pos = unit->getPosition();
+	_pos = pos;
 
 	_root->setPosition({ (float)(pos.x * (_unitSize + _padding)),(float)( pos.y * (_unitSize + _padding) )});
 
 }
 
-void Didax::UnitRepresentation::set_onHoverIn(const std::function<void()>& f)
+bool Didax::UnitRepresentation::isChoosable() const
 {
-	_unit->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
-		f();
-	});
+	return _choosable;
 }
 
-void Didax::UnitRepresentation::set_onHoverOut(const std::function<void()>& f)
+void Didax::UnitRepresentation::setChoosable(bool c)
 {
-	_unit->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
-		f();
-	});
+	_choosable = c;
 }
 
+void Didax::UnitRepresentation::recalculate()
+{
+	this->reloadHealth();
+	this->reloadPosition();
+}
+
+void Didax::UnitRepresentation::hide()
+{
+	_root->setVisible(false);
+	_root->setActive(false);
+}
+
+std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onHoverIn = nullptr;
+std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onHoverOut = nullptr;
+std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onRelease = nullptr;

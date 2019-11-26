@@ -353,7 +353,7 @@
     "formationSize": 1,
     "faction": "Jorgvard",
     "description": "Hunters from North",
-    "texture": "data/graphix/testImages/units/testwarrior.bmp"
+    "texture": "data/graphix/testImages/units/lucznik.bmp"
   },
 
   "18": {

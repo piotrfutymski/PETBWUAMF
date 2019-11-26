@@ -299,7 +299,7 @@ float Unit::chanceToHitRenged(Unit * enemy)
 	auto d = enemy->_defence;
 	auto a = _attack;
 	auto dist = this->getDistanceTo(enemy);
-	return (1 - (d / (2 * a + 2 * d)))*(2 * _range - dist) / (2 * _range);
+	return (1 - ((float)(d) / (float)(3 * a + 3 * d)))*(3 * _range - dist) / (float)(3 * _range);
 }
 
 void Unit::getSimpleInfo() const

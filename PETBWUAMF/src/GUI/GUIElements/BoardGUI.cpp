@@ -30,6 +30,7 @@ void Didax::BoardGUI::_init()
 	{
 		for (size_t j = 0; j < MAP_HEIGHT; j++)
 		{
+			_positions[i][j].pos = { (int)i,(int)j };
 			_positions[i][j].button->setPosition(i*(padd + p_size), j*(padd + p_size));
 			_positions[i][j].button->setSize({ p_size, p_size });
 			_positions[i][j].button->setTexture(&text->_texture);
@@ -39,9 +40,25 @@ void Didax::BoardGUI::_init()
 
 }
 
-void Didax::BoardGUI::_initLogic()
+void Didax::BoardGUI::_initLogic(Engine * e)
 {
+	for (size_t i = 0; i < MAP_WIDTH; i++)
+	{
+		for (size_t j = 0; j < MAP_HEIGHT; j++)
+		{
+			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onHoverIn, [this, i, j, e](Widget *, float) {
+				onHoverIn(&(_positions[i][j]), e);
+			});
 
+			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onHoverOut, [this, i, j, e](Widget *, float) {
+				onHoverOut(&(_positions[i][j]), e);
+			});
+
+			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onRelease, [this, i, j, e](Widget *, float) {
+				onRelease(&(_positions[i][j]), e);
+			});
+		}
+	}
 }
 
 void Didax::BoardGUI::setPositionInState(PositionState st, const sf::Vector2i & p, int uID, int owner)
@@ -54,7 +71,7 @@ void Didax::BoardGUI::setPositionInState(PositionState st, const sf::Vector2i & 
 	_positions[p.x][p.y].s = st;
 	_positions[p.x][p.y].button->setColor(this->colorFromState(st));
 
-	if (st == PositionState::Enemy || st == PositionState::Allay || st == PositionState::ActiveUnit || st == PositionState::Choosed)
+	if (st == PositionState::Enemy || st == PositionState::Allay || st == PositionState::ActiveUnit || st == PositionState::Choosed || st == PositionState::ChoosableUnit)
 	{
 		if (_positions[p.x][p.y].unitID == -1)
 			_positions[p.x][p.y].unitID = uID;
@@ -68,6 +85,29 @@ void Didax::BoardGUI::setPositionInState(PositionState st, const sf::Vector2i & 
 	}
 
 }
+
+void Didax::BoardGUI::setPosTargets(const std::vector<Target>& targets)
+{
+	for (auto &t: targets)
+		this->setPositionInState(PositionState::Movable, { t.position });
+
+}
+
+void Didax::BoardGUI::setAttackTargets(const std::vector<Target>& targets)
+{
+	for (auto &t : targets)
+		this->setPositionInState(PositionState::ChoosableUnit, { _game->getObject<Unit>(t.unit)->getPosition() });
+}
+
+void Didax::BoardGUI::setChargeTargets(const std::vector<Target>& targets)
+{
+}
+
+void Didax::BoardGUI::setBuffTargets(const std::vector<Target>& targets)
+{
+}
+
+
 
 sf::Color Didax::BoardGUI::colorFromState(PositionState s)
 {
@@ -95,8 +135,17 @@ Didax::BoardGUI::~BoardGUI()
 {
 }
 
-void Didax::BoardGUI::setTargets(const std::vector<Target>& targets)
+void Didax::BoardGUI::setTargets(const std::vector<Target>& targets, OrderPrototype::TargetType t)
 {
+	if (t == OrderPrototype::TargetType::AttackT)
+		this->setAttackTargets(targets);
+	else if (t == OrderPrototype::TargetType::MoveT || t== OrderPrototype::TargetType::CreateT)
+		this->setPosTargets(targets);
+	else if (t == OrderPrototype::TargetType::ChargeT)
+		this->setChargeTargets(targets);
+	else if (t == OrderPrototype::TargetType::BuffAllayT || t == OrderPrototype::TargetType::BuffEnemyT)
+		this->setBuffTargets(targets);
+
 }
 
 void Didax::BoardGUI::reloadFromGame()
@@ -106,7 +155,7 @@ void Didax::BoardGUI::reloadFromGame()
 		for (size_t j = 0; j < MAP_HEIGHT; j++)
 		{
 			auto mapspot = _game->getMap()[{ (int)i, (int)j}];
-			if(mapspot.content == Map::SpotContent::Empty)
+			if(! (mapspot.content == Map::SpotContent::Unit))
 				this->setPositionInState(PositionState::Inactive, { (int)i,(int)j });
 			else if(mapspot.content == Map::SpotContent::Unit)
 			{
@@ -130,3 +179,18 @@ sf::Vector2i Didax::BoardGUI::getLastChoosed() const
 {
 	return _lastChoosed;
 }
+
+Didax::BoardGUI::PositionWidget Didax::BoardGUI::getOnPos(const sf::Vector2i & p) const
+{
+	return _positions[p.x][p.y];
+}
+
+void Didax::BoardGUI::destroyOnPos(const sf::Vector2i & p)
+{
+	_positions[p.x][p.y].unitID = (size_t)-1;
+}
+
+
+std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onHoverIn = nullptr;
+std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onHoverOut = nullptr;
+std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onRelease = nullptr;

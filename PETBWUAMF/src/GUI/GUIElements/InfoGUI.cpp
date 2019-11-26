@@ -62,6 +62,6 @@ void Didax::InfoGUI::_init()
 
 }
 
-void Didax::InfoGUI::_initLogic()
+void Didax::InfoGUI::_initLogic(Engine * e)
 {
 }

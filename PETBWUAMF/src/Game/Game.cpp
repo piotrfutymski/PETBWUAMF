@@ -175,7 +175,6 @@ MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
 {
 	auto res = MoveRes{};
 	auto unit = this->getObject<Unit>(unitId);
-	_map.moveUnit(unit, pos);
 	MoveRes::MoveEvent evnt;
 	evnt.position = pos;
 	evnt.time = 10;
@@ -194,6 +193,7 @@ MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
 			res = res + m;
 		}
 	}
+	_map.moveUnit(unit, pos);
 	return res;
 
 }

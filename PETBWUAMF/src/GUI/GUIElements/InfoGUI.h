@@ -5,6 +5,7 @@
 namespace Didax
 {
 
+class Engine;
 class InfoGUI : public GUIElement
 {
 public:
@@ -26,7 +27,7 @@ private:
 	std::string _description{};
 	std::string _health{"Unit health:\t"};
 	std::string _attack{"Unit attack:\t" };
-	std::string _defence{ "Unit attack:\t" };
+	std::string _defence{ "Unit defence:\t" };
 	std::string _armor { "Unit armor:\t" };
 
 
@@ -35,7 +36,7 @@ private:
 	// Inherited via GUIElement
 	virtual void _init() override;
 
-	virtual void _initLogic() override;
+	virtual void _initLogic(Engine * e) override;
 
 };
 

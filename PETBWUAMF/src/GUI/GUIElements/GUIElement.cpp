@@ -20,12 +20,12 @@ Didax::Canvas * Didax::GUIElement::getRoot()
 	return _root;
 }
 
-void Didax::GUIElement::open(Canvas * parent)
+void Didax::GUIElement::open(Canvas * parent, Engine * e)
 {
 	_widgets.push_back(std::make_unique<Canvas>());
 	_root = static_cast<Canvas *>(_widgets.begin()->get());
 	this->_init();
-	this->_initLogic();
+	this->_initLogic(e);
 	parent->addChild(_root);
 	_parent = parent;
 }

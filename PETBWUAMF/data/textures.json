@@ -63,6 +63,10 @@
   "12": {
     "type": "texture",
     "name": "data/graphix/testImages/background.bmp"
+  },
+  "13": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/lucznik.bmp"
   }
 
 
