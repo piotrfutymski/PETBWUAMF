@@ -24,16 +24,14 @@ public:
 
 	void changeLocation();
 
-	MoveRes execute(Unit *u, const Move & m);
+	MoveRes execute(Game * game, const Move & m);
 	bool canBeUsed(const std::string &  unitName, const std::string & unitType);
 
 private:
 
 	Location _location{ Location::InHand };
 
-	int _owner{ 0 };
-
-	int _cost;
+	int _owner;
 	int _useNum;
 
 

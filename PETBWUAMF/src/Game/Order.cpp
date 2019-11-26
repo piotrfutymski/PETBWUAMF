@@ -1,27 +1,9 @@
 #include "Order.h"
 
 Order::Order(const std::string & name, int owner)
-	:GameObject<OrderPrototype>(name)
+	:GameObject<OrderPrototype>(name), _owner(owner)
 {
-	_owner = owner;
-
-	cost = this->getPrototype().
-}
-
-int Order::getTargetsCount() const
-{
-	return this->getPrototype()->_targets.size();
-}
-
-std::vector<OrderPrototype::Target> Order::getProperTargets(const Unit *u, int n, const Move & m) const
-{
-	return std::move(this->getPrototype()->_getProperTargets(u, n, m));
-}
-
-void Order::setOwner(int player)
-{
-	if (player == 0 || player == 1)
-		_owner = player;
+	_useNum = this->getPrototype()->_useNum;
 }
 
 int Order::getOwner() const
@@ -29,18 +11,56 @@ int Order::getOwner() const
 	return _owner;
 }
 
-bool Order::canBeUsed(Unit * u)const
+int Order::getCost() const
 {
-	return this->getPrototype()->_canBeUsed(u);
+	return this->getPrototype()->_cost;
 }
 
-OrderPrototype::TargetType Order::getTargetType(int n)const
+int Order::getRestUses() const
 {
-	return this->getPrototype()->_targets[n];
+	return _useNum;
 }
 
-MoveRes Order::execute(Unit *u, const Move & m)
+int Order::getTargetsCount() const
 {
-	return this->getPrototype()->_execute(u, m);
+	return this->getPrototype()->_targetCount;
 }
+
+Order::Location Order::getLocation() const
+{
+	return _location;
+}
+
+void Order::changeLocation()
+{
+	if (_location == Order::Location::InDeck)
+		_location = Order::Location::InHand;
+	else
+		_location = Order::Location::InDeck;
+}
+
+MoveRes Order::execute(Game * game, const Move & m)
+{
+	if(_useNum > 0)
+		_useNum--;
+	return this->getPrototype()->_execute(game, m);
+}
+
+bool Order::canBeUsed(const std::string & unitName, const std::string & unitType)
+{
+	if (_useNum == 0)
+		return false;
+
+	if (this->getPrototype()->_canBeUsedOnAllUnit)
+		return true;
+
+	auto possibleUnits = this->getPrototype()->_allowedUnits;
+	auto possibleTypes = this->getPrototype()->_allowedTypes;
+	bool a = std::find(possibleUnits.begin(), possibleUnits.end(), unitName) != possibleUnits.end();
+	bool b = std::find(possibleTypes.begin(), possibleTypes.end(), unitType) != possibleTypes.end();
+	if (a || b)
+		return true;
+	return false;
+}
+
 

@@ -5,12 +5,7 @@ Buff::Buff(const std::string & name, size_t u)
 {
 
 	_time = this->getPrototype()->_time;
-	_isInstant = this->getPrototype()->_instant;
-
-	for (auto &a : this->getPrototype()->_actions)
-	{
-		_actions.push_back({ BuffType(a.type),a.value,a.add,a.onStart,a.onEnd });
-	}
+	_value = this->getPrototype()->_value;
 }
 
 
@@ -18,35 +13,57 @@ Buff::~Buff()
 {
 }
 
-
-size_t Buff::getOwner() const
+bool Buff::isGood() const
 {
-	return _unit;
+	return this->getPrototype()->_isGood;
 }
 
-int Buff::getRestTime() const
+bool Buff::isInstant() const
 {
-	return _restTime;
+	return _time < 0;
 }
 
-bool Buff::onTurnEnd()
+bool Buff::isEffect() const
 {
-	this->getPrototype()->_onTurnEnd(_unit, this);
-	if (_restTime <= 0)
-	{
-		this->getPrototype()->_onEnd(_unit, this);
+	if (this->getPrototype()->_type == BuffPrototype::BuffType::ParameterBoost)
+		return false;
+	return true;
+}
+
+float Buff::getValue() const
+{
+	return _value;
+}
+
+void Buff::setValue(float v)
+{
+	_value = v;
+}
+
+int Buff::getTime() const
+{
+	return _time;
+}
+
+UParameter Buff::getParameterToBoost() const
+{
+	return this->getPrototype()->_parameterToBoost;
+}
+
+BuffPrototype::BuffType Buff::getType() const
+{
+	return this->getPrototype()->_type;
+}
+
+bool Buff::endTurn()
+{
+	if(this->getPrototype()->onTurnEnd(_value))
 		return true;
-	}
-	_restTime--;
+	if (_time == 0)
+		return true;
+	if (_time > 0)
+		_time--;
 	return false;
-}
-void Buff::setBoostValue(float v)
-{
-	_boostValue = v;
-}
 
-float Buff::getBoostValue() const
-{
-	return _boostValue;
 }
 

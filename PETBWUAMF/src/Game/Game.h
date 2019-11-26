@@ -32,6 +32,10 @@ public:
 	using OrderHolder_t = std::vector<std::unique_ptr<Order>>;
 	using UnitHolder_t = std::vector<std::unique_ptr<Unit>>;
 
+	//
+
+	static void initOrderFunctions();
+
 	//constructing
 
 	Game();
@@ -68,7 +72,7 @@ public:
 
 	MoveRes moveUnit(size_t unitId, const sf::Vector2i & pos);
 	MoveRes fight(size_t aggresor, size_t victim, const AttackType & t);
-	MoveRes buff(const std::string & buffName, size_t buffTarget);
+	MoveRes buff(const std::string & buffName, size_t buffTarget, float value = 0);
 	MoveRes createUnit(const std::string & unitName, const sf::Vector2i  &pos);
 
 

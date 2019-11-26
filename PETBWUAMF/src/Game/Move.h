@@ -36,6 +36,12 @@ struct MoveRes
 
 	std::vector < MoveEvent> events;
 
+	MoveEvent getEventOfType(EventType t)
+	{
+		if (auto e = std::find_if(events.begin(), events.end(), [t](const MoveEvent & ev) {ev.type == t; }); e != events.end())
+			return *e;
+		return {};
+	}
 
 	MoveRes operator+ (const MoveRes & r)
 	{
@@ -44,4 +50,21 @@ struct MoveRes
 		res.events.insert(res.events.end(), r.events.begin(), r.events.end());
 		return res;
 	}
+};
+
+
+enum class UParameter
+{
+	Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move
+};
+
+enum class UFlag : unsigned long long
+{
+	None = 0,
+	Ranged = 1,
+	UnableToAttack = 2,
+	UnableToMove = 4,
+	Bleeding = 8,
+	Fleeing = 16,
+	Overheald = 32
 };

@@ -2,7 +2,7 @@
 #include <functional>
 #include "Asset.h"
 
-class Unit;
+class Game;
 struct Move;
 struct MoveRes;
 
@@ -22,11 +22,9 @@ public:
 	// Inherited via Asset
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
 
-	void set_execute(const std::function<MoveRes(Unit *, const Move &)> &);
-
 public:
 
-	std::function<MoveRes(Unit *, const Move &)> _execute;
+	std::function<MoveRes(Game *, const Move &)> _execute;
 
 	bool _canBeUsedOnAllUnit;
 	std::vector <std::string> _allowedTypes;
@@ -39,6 +37,5 @@ public:
 
 	std::string _description;
 	std::string _texture;
-	std::string _icon;
 
 };

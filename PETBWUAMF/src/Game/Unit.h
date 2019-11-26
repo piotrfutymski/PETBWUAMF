@@ -8,23 +8,6 @@ class Unit : public GameObject<UnitPrototype>
 {
 public:
 
-	enum class UParameter
-	{
-		None, Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move
-	};
-
-	enum class UFlag : unsigned long long
-	{
-		None = 0,
-		Ranged = 1,
-		UnableToAttack = 2,
-		UnableToMove = 4,
-		Bleeding = 8,
-		Fleeing = 16,
-		Overheald = 32
-	};
-
-
 	Unit(const std::string & name, int owner);
 	~Unit() {};
 
@@ -155,26 +138,23 @@ private:
 
 	MoveRes bleeding();
 	float attack(Unit * enemy, float attack, float defence);
-	UParameter buffTypeToParameter(Buff::BuffType t);
-	UFlag buffTypeToFlag(Buff::BuffType t);
-	Buff::BuffType flagToBuffType(UFlag f);
 
 public:
 
 	
 };
 
-inline Unit::UFlag operator| (Unit::UFlag a, Unit::UFlag b)
+inline UFlag operator| (UFlag a, UFlag b)
 {
-	return static_cast<Unit::UFlag>(static_cast<int>(a) | static_cast<int>(b));
+	return static_cast<UFlag>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-inline Unit::UFlag operator& (Unit::UFlag a, Unit::UFlag b)
+inline UFlag operator& (UFlag a, UFlag b)
 {
-	return static_cast<Unit::UFlag>(static_cast<int>(a) & static_cast<int>(b));
+	return static_cast<UFlag>(static_cast<int>(a) & static_cast<int>(b));
 }
 
-inline Unit::UFlag operator~ (Unit::UFlag a)
+inline UFlag operator~ (UFlag a)
 {
-	return static_cast<Unit::UFlag>(static_cast<int>(~a));
+	return static_cast<UFlag>(static_cast<int>(~a));
 }

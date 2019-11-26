@@ -1,29 +1,28 @@
 #pragma once
 #include "Asset.h"
+#include "../Game/Move.h"
 
 class BuffPrototype :public Asset
 {
 public:
+
+	enum class BuffType {
+		ParameterBoost, UnableToAttack, Bleeding
+	};
+
 	BuffPrototype(const std::string & name) :Asset(name) {};
 	~BuffPrototype() {};
 	// Inherited via Asset
 
 	virtual void loadAsset(const nlohmann::json & assetFile) override;
-
-	struct Action {
-		int type;
-		int value;
-		bool add;
-		bool onStart;
-		bool onEnd;
-	};
+	bool onTurnEnd(float & v)const;
 
 public:
 
-
-	bool _instant;
+	BuffType _type;
+	UParameter _parameterToBoost;
 	int _time;
-
-	std::vector<Action> _actions;
+	float _value;
+	bool _isGood;
 
 };

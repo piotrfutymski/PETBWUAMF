@@ -98,8 +98,7 @@ void Unit::clearInFightWith()
 
 void Unit::upgradeParameter(const UParameter & p, float value)
 {
-	if(p != UParameter::None)
-		this->parameterFromEnum(p) += value;
+	this->parameterFromEnum(p) += value;
 }
 
 int Unit::getMorale() const
@@ -185,19 +184,17 @@ float Unit::getDistanceTo(const Unit *enemy)const
 Buff * Unit::addBuff(const std::string & name)
 {
 	auto buff = std::make_unique<Buff>(name, this->getID());
-	for (auto & act : buff->getActions())
-	{
-		if (!act.onStart)
-			continue;
-		this->upgradeParameter(this->buffTypeToParameter(act.type), act.value);
-		if (act.add)
-			this->addFlag(this->buffTypeToFlag(act.type));
-		else
-			this->removeFlag(this->buffTypeToFlag(act.type));
-	}
 
-	if(!buff->isInstant())
-		_buffs.push_back(std::move(buff));
+	if (!buff->isEffect())
+		this->upgradeParameter(buff->getParameterToBoost(), buff->getValue);
+	else
+	{
+		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
+			this->addFlag(UFlag::Bleeding);
+		else if (buff->getType() == BuffPrototype::BuffType::UnableToAttack)
+			this->addFlag(UFlag::UnableToAttack);
+	}
+	_buffs.push_back(std::move(buff));	
 }
 
 bool Unit::hasBuff(const std::string & name)
@@ -226,15 +223,14 @@ std::vector<std::unique_ptr<Buff>>::iterator Unit::removeBuff(std::vector<std::u
 {
 	auto buff = it->get();
 
-	for (auto & act : buff->getActions())
+	if (!buff->isEffect())
+		this->upgradeParameter(buff->getParameterToBoost(), -buff->getValue);
+	else
 	{
-		if (!act.onEnd)
-			continue;
-		this->upgradeParameter(this->buffTypeToParameter(act.type), act.value);
-		if (act.add)
-			this->addFlag(this->buffTypeToFlag(act.type));
-		else
-			this->removeFlag(this->buffTypeToFlag(act.type));
+		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
+			this->removeFlag(UFlag::Bleeding);
+		else if (buff->getType() == BuffPrototype::BuffType::UnableToAttack)
+			this->removeFlag(UFlag::UnableToAttack);
 	}
 	return _buffs.erase(it);
 }
@@ -484,7 +480,7 @@ int & Unit::parameterFromEnum(const UParameter & p)
 
 MoveRes Unit::playEffects()
 {
-	if (this->hasFlag(Unit::UFlag::Bleeding))
+	if (this->hasFlag(UFlag::Bleeding))
 	{
 		return this->bleeding();
 	}
@@ -511,18 +507,15 @@ MoveRes Unit::bleeding()
 
 	for (auto & buff : _buffs)
 	{
-		if (buff->hasType(this->flagToBuffType(UFlag::Bleeding)))
+		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
 		{
 			MoveRes::MoveEvent e;
-			auto act = buff->getActionOfType(this->flagToBuffType(UFlag::Bleeding));
-			this->_health -= act.value;
-			act.value *= 0.75;
+			this->_health -= buff->getValue();
 
-			e.dmg = act.value;
+			e.dmg = buff->getValue();
 			e.type = MoveRes::EventType::DMGTaken;
 			e.unit = this->getID();
 			e.time = 27;
-
 			res.events.push_back(std::move(e));
 		}
 	}
@@ -562,47 +555,6 @@ float Unit::attack(Unit * enemy, float attack, float defence)
 
 	enemy->_health -= dmg;
 	return dmg;
-}
-
-Unit::UParameter Unit::buffTypeToParameter(Buff::BuffType t)
-{
-	if (t == Buff::BuffType::Morale)
-		return UParameter::Morale;
-	if (t == Buff::BuffType::Health)
-		return UParameter::Health;
-	if (t == Buff::BuffType::Attack)
-		return UParameter::Attack;
-	if (t == Buff::BuffType::Armor)
-		return UParameter::Armor;
-	if (t == Buff::BuffType::RangedAttack)
-		return UParameter::RangedAttack;
-	if (t == Buff::BuffType::ChargeDeffence)
-		return UParameter::ChargeDeffence;
-	if (t == Buff::BuffType::ChargeAttack)
-		return UParameter::ChargeAttack;
-	if (t == Buff::BuffType::Range)
-		return UParameter::Range;
-	if (t == Buff::BuffType::Move)
-		return UParameter::Move;
-	if (t == Buff::BuffType::Defence)
-		return UParameter::Defence;
-	else
-		return UParameter::None;
-}
-
-Unit::UFlag Unit::buffTypeToFlag(Buff::BuffType t)
-{
-	if (t == Buff::BuffType::Bleeding)
-		return UFlag::Bleeding;
-	else
-		return UFlag::None;
-}
-
-Buff::BuffType Unit::flagToBuffType(UFlag f)
-{
-	if (f == UFlag::Bleeding)
-		return Buff::BuffType::Bleeding;
-	return Buff::BuffType::None;
 }
 
 

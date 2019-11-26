@@ -11,13 +11,12 @@
     "rangedAttack": 0,
     "chargeAttack": 2,
     "chargeDefence": 2,
-
     "move": 4,
     "morale": 6,
     "formationSize": 1,
+
     "faction": "Southern Cities",
     "description": "Light militia infantry.",
-
     "texture": "data/graphix/testImages/units/testowywojownik.bmp"
   },
 
@@ -334,5 +333,51 @@
     "faction": "Southern Cities",
     "description": "Poor guys",
     "texture": "data/graphix/testImages/units/testwarrior.bmp"
+  },
+
+  // Piraci i korsarze - Jorgvard
+
+
+  "17": {
+    "type": "unit",
+    "name": "JorgvardScout",
+    "unitType": "Ranger",
+    "cost": 300,
+    "attack": 40,
+    "defence": 70,
+    "armor": 50,
+    "health": 80,
+    "rangedAttack": 120,
+    "rangedRange": 8,
+    "chargeAttack": 50,
+    "chargeDefence": 40,
+    "move": 4,
+    "morale": 3,
+    "formationSize": 1,
+    "faction": "Jorgvard",
+    "description": "Hunters from North",
+    "texture": "data/graphix/testImages/units/testwarrior.bmp"
+  },
+
+  "18": {
+    "type": "unit",
+    "name": "Treasure Hunter",
+    "unitType": "Corsair",
+    "cost": 300,
+    "attack": 120,
+    "defence": 80,
+    "armor": 50,
+    "health": 120,
+    "rangedAttack": 0,
+    "chargeAttack": 180,
+    "chargeDefence": 70,
+    "move": 4,
+    "morale": 4,
+    "formationSize": 1,
+    "faction": "Jorgvard",
+    "description": "Some nice stuff for me",
+    "texture": "data/graphix/testImages/units/testwarrior.bmp"
   }
+
+
 }

@@ -179,7 +179,7 @@ MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
 
 	for (auto & enemy : _map.getEnymeNeightbours(unit))
 	{
-		if (!enemy->hasFlag(Unit::UFlag::Ranged))
+		if (!enemy->hasFlag(UFlag::Ranged))
 		{
 			auto m = this->fight(enemy->getID(), unit->getID(), AttackType::Ocassional);
 			m.events[0].time = 2;
@@ -226,12 +226,14 @@ MoveRes Game::fight(size_t aggresor, size_t victim, const AttackType & t)
 
 }
 
-MoveRes Game::buff(const std::string & buffName, size_t buffTarget)
+MoveRes Game::buff(const std::string & buffName, size_t buffTarget, float value = 0)
 {
 	auto res = MoveRes{};
 	auto target = this->getObject<Unit>(buffTarget);
 
 	auto buff = target->addBuff(buffName);
+	if (value != 0)
+		buff->setValue(value);
 
 	MoveRes::MoveEvent evnt;
 	evnt.time = 25;
@@ -307,7 +309,7 @@ void Game::newTurn()
 MoveRes Game::executeOrder(const Move & m)
 {
 	auto o = this->getObject<Order>(m.orderID);
-	return o->execute(_activeUnit, m);
+	return o->execute(this, m);
 	this->substractCommandPoints(_activePlayer, o->getCost());
 }
 
@@ -377,7 +379,7 @@ std::vector<Target> Game::getPossibleMoveTargets() const
 std::vector<Target> Game::getPossibleAttackTargets() const
 {
 	auto res = std::vector<Target>();
-	if (_activeUnit->hasFlag(Unit::UFlag::Ranged) && _activeUnit->isInFight() == false)
+	if (_activeUnit->hasFlag(UFlag::Ranged) && _activeUnit->isInFight() == false)
 	{
 		for (auto & unit : _units)
 		{

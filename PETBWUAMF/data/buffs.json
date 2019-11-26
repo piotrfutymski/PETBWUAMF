@@ -1,17 +1,18 @@
 {
   "0": {
     "type": "buff",
-    "name": "prepareBoost",
-    "time": 2,
-    "firstValue": 0,
-    "secondValue": 0
+    "name": "prepare",
+    "buffType": 0,
+    "parameter": 4,
+    "time": 1,
+    "value": 20,
+    "isGood": true
   },
 
   "1": {
     "type": "buff",
-    "name": "chargeBoost",
-    "time": 0,
-    "firstValue": 0,
-    "secondValue": 0
+    "name": "bleeding",
+    "buffType":  2,
+    "isGood": false
   }
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Unit.h"
+#include "Map.h"
 #include "SFML/Graphics.hpp"
 
 class Game;
