@@ -71,12 +71,16 @@ Move Application::getMoveFromConsole()
 				rest = 1;
 				break;
 			}
-
 			order = _game.getObject<Order>(oID);
 			if (order == nullptr)
 			{
 				Logger::log("-------------------Order doesn't exist-------------------");
-				continue;
+			}
+			else
+			{
+				auto poss = _game.getPossibleOrders(_game.getActivePlayer());
+				if (std::find(poss.begin(), poss.end(), order->getID()) != poss.end())
+					break;
 			}
 		}
 		if (rest)

@@ -30,7 +30,7 @@ void Game::initOrderFunctions()
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
 	p->_execute = [](Game * game, const Move & m) {
-		return game->buff("prepare", game->getActiveUnitID());
+		return game->buff("prepareBuff", game->getActiveUnitID());
 	};
 
 	// BLEEDING ATTACK
@@ -38,7 +38,7 @@ void Game::initOrderFunctions()
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("bleedingAttack");
 	p->_execute = [](Game * game, const Move & m) {
 		auto a = game->fight(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
-		auto b = game->buff("bleeding", m.units[0], a.getEventOfType(MoveRes::EventType::DMGTaken).dmg);
+		auto b = game->buff("bleedingBuff", m.units[0], a.getEventOfType(MoveRes::EventType::DMGTaken).dmg);
 		return a + b;
 	};
 

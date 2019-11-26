@@ -45,6 +45,12 @@ struct MoveRes
 
 	MoveRes operator+ (const MoveRes & r)
 	{
+		if (this->events.size() == 0)
+			return r;
+		if (r.events.size() == 0)
+			return *this;
+
+
 		MoveRes res;
 		res.events = this->events;
 		res.events.insert(res.events.end(), r.events.begin(), r.events.end());

@@ -1,7 +1,7 @@
 {
   "0": {
     "type": "buff",
-    "name": "prepare",
+    "name": "prepareBuff",
     "buffType": 0,
     "parameter": 4,
     "time": 1,
@@ -11,7 +11,7 @@
 
   "1": {
     "type": "buff",
-    "name": "bleeding",
+    "name": "bleedingBuff",
     "buffType":  2,
     "isGood": false
   }

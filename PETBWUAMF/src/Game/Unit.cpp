@@ -249,7 +249,7 @@ MoveRes Unit::endTurn()
 {
 	auto res = this->playEffects();
 	this->endbuffs();
-	return res;
+	return std::move(res);
 }
 
 void Unit::normalAttack(Unit *enemy)
@@ -485,6 +485,7 @@ MoveRes Unit::playEffects()
 	{
 		return this->bleeding();
 	}
+	return{};
 }
 
 void Unit::endbuffs()
@@ -545,7 +546,7 @@ float Unit::attack(Unit * enemy, float attack, float defence)
 
 	auto nonconst = (rand() % 100 * (maxi - mini)) / 100;
 
-	auto dmg = base + nonconst;
+	auto dmg = (base + nonconst) * _attack;
 
 	if (dmg > enemy->_armor)
 		dmg -= enemy->_armor / 2;

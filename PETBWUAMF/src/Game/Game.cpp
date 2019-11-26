@@ -16,7 +16,8 @@ void Game::init(const GameInitiator & i)
 MoveRes Game::playTurn(const Move & m)
 {
 	auto res = this->executeOrder(m);
-	res = res + this->endTurn();
+	auto el = this->endTurn();
+	res = res + el;
 	if (_unitsInMoraleOrder.size() == 0)
 	{
 		this->newRound();
@@ -106,7 +107,7 @@ std::vector<size_t> Game::getPossibleOrders(int player) const
 	for (auto & o : _orders)
 	{
 		auto prot = o->getPrototype();
-		if (o->getOwner() == player && o->getLocation() != Order::Location::InHand && this->canBeUsed(o.get()))
+		if (o->getOwner() == player && o->getLocation() == Order::Location::InHand && this->canBeUsed(o.get()))
 			res.push_back(o->getID());
 	}
 	return res;
@@ -118,7 +119,7 @@ std::vector<size_t> Game::getSwapableOrders(int player) const
 	for (auto & o : _orders)
 	{
 		auto prot = o->getPrototype();
-		if (o->getOwner() == player && o->getLocation() != Order::Location::InHand && this->canBeSwaped(o.get()))
+		if (o->getOwner() == player && o->getLocation() == Order::Location::InHand && this->canBeSwaped(o.get()))
 			res.push_back(o->getID());
 	}
 	return res;
@@ -275,7 +276,7 @@ void Game::createObjects(const GameInitiator & i)
 		if (u.second.x < 8)
 			unit = this->createObject<Unit>(u.first, 0);
 		else
-			unit = this->createObject<Unit>(u.first, 0);
+			unit = this->createObject<Unit>(u.first, 1);
 
 		_map.setNewUnit(unit, u.second);
 	}
@@ -314,8 +315,9 @@ void Game::newTurn()
 MoveRes Game::executeOrder(const Move & m)
 {
 	auto o = this->getObject<Order>(m.orderID);
-	return o->execute(this, m);
 	this->substractCommandPoints(_activePlayer, o->getCost());
+	return o->execute(this, m);
+
 }
 
 MoveRes Game::endTurn()
@@ -353,7 +355,7 @@ bool Game::canBeUsed(Order * o) const
 	if (_activePlayer == 1)
 		cP = _player1CommandPoints;
 
-	if (o->getCost() > cP || this->getPossibleTargets(o->getID()).empty())
+	if (o->getCost() > cP || (this->getPossibleTargets(o->getID()).empty() && o->getPrototype()->_target != OrderPrototype::TargetType::BuffT))
 		return false;
 	return o->canBeUsed(_activeUnit->getPrototype()->getName(), _activeUnit->getPrototype()->_unitType);
 }
