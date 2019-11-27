@@ -164,5 +164,5 @@ inline UFlag operator& (UFlag a, UFlag b)
 
 inline UFlag operator~ (UFlag a)
 {
-	return static_cast<UFlag>(static_cast<int>(~a));
+	return static_cast<UFlag>(~static_cast<int>(a));
 }

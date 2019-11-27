@@ -189,7 +189,8 @@ MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
 			auto m = this->fight(enemy->getID(), unit->getID(), AttackType::Ocassional);
 			m.events[0].time = 2;
 			m.events[1].time = 2;
-			m.events[2].time = 4;
+			if(m.events.size()>2)
+				m.events[2].time = 4;
 			res = res + m;
 		}
 	}

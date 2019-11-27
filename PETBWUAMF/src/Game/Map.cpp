@@ -32,22 +32,8 @@ void Map::setNewUnit(Unit * u, const sf::Vector2i & pos)
 void Map::destroyUnit(Unit * u)
 {
 	auto pos = u->getPosition();
-	auto owner = u->getOwner();
-	auto neights = this->getNeightbours(pos);
-	SpotContent zoneType = SpotContent::Player0ControlZone;
-	SpotContent enZoneType = SpotContent::Player1ControlZone;
-	if (owner == 1)
-		std::swap(zoneType, enZoneType);
-
-	for (auto x : neights)
-	{
-		if (x->getOwner() != owner)
-		{
-			_mapData[pos.x][pos.y].content = enZoneType;
-			break;
-		}
-	}
-
+	_mapData[pos.x][pos.y].unit = nullptr;
+	_mapData[pos.x][pos.y].content = SpotContent::Empty;
 	this->resetZoneForUnit(u);
 	u->clearInFightWith();
 }
@@ -113,41 +99,33 @@ void Map::setZoneForUnit(Unit * u)
 void Map::resetZoneForUnit(Unit * u)
 {
 	auto pos = u->getPosition();
-	auto owner = u->getOwner();
-	SpotContent zoneType = SpotContent::Player0ControlZone;
-	SpotContent enZoneType = SpotContent::Player1ControlZone;
-	if (owner == 1)
-		std::swap(zoneType, enZoneType);
-
-	SpotContent newType = SpotContent::Empty;
 
 	for (int i = pos.x - 1; i <= pos.x + 1; i++)
 	{
 		for (int j = pos.y - 1; j <= pos.y + 1; j++)
 		{
-			if (i == pos.x && j == pos.y)
-			{
-				_mapData[i][j].content = SpotContent::Empty;
-			}
 			if (this->properPosition({ i,j }))
 			{
-				if (_mapData[i][j].content == SpotContent::DuoControlZone)
-				{
-					newType = enZoneType;
-				}
+				bool f = false;
+				bool s = false;
 				auto neights = this->getNeightbours({ i,j });
 				for (auto x : neights)
 				{
-					if (x->getOwner() == owner)
-					{
-						_mapData[i][j].content = newType;
-						break;
-					}
+					if(x->getOwner() != u->getOwner())
+						x->removeInFightWith(u);
+					if (x->getOwner() == 0)
+						f = true;
+					if (x->getOwner() == 1)
+						s = true;
 				}
-				for (auto x : neights)
-				{
-					x->removeInFightWith(u);
-				}
+				if (f && s)
+					_mapData[i][j].content = SpotContent::DuoControlZone;
+				else if (f)
+					_mapData[i][j].content = SpotContent::Player0ControlZone;
+				else if (s)
+					_mapData[i][j].content = SpotContent::Player1ControlZone;
+				else
+					_mapData[i][j].content = SpotContent::Empty;
 			}
 		}
 	}
@@ -207,7 +185,7 @@ const std::vector<Unit *> Map::getNeightbours(const sf::Vector2i & pos) const
 	{
 		for (int j = pos.y - 1; j < pos.y + 1; j++)
 		{
-			if (this->inArea({ i,j }))
+			if (this->inArea({ i,j })&& !(i==pos.x && j== pos.y))
 				if (_mapData[i][j].unit != nullptr)
 					res.push_back(_mapData[i][j].unit);
 		}

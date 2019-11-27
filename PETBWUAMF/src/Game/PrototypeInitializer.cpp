@@ -46,8 +46,13 @@ void Game::initOrderFunctions()
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("bleedingAttack");
 	p->_execute = [](Game * game, const Move & m) {
 		auto a = game->fight(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
-		auto b = game->buff("bleedingBuff", m.units[0], a.getEventOfType(MoveRes::EventType::DMGTaken).dmg);
-		return a + b;
+		auto d = a.getEventOfType(MoveRes::EventType::DMGTaken);
+		if (!(d.type == MoveRes::EventType::None))
+		{
+			auto b = game->buff("bleedingBuff", m.units[0], d.dmg);
+			return a + b;
+		}
+		return a;
 	};
 
 	p->_chances = [](Game * game, const Move & m) {

@@ -21,7 +21,7 @@ struct MoveRes
 {
 
 	enum class EventType {
-		Moved, Hitting, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated, UnitDestroyed, CriticalHit, Miss
+		Moved, Hitting, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated, UnitDestroyed, CriticalHit, Miss, None
 	};
 
 	struct MoveEvent
@@ -40,7 +40,7 @@ struct MoveRes
 	{
 		if (auto e = std::find_if(events.begin(), events.end(), [t](const MoveEvent & ev) {return (ev.type == t); }); e != events.end())
 			return *e;
-		return {};
+		return {EventType::None};
 	}
 
 	MoveRes operator+ (const MoveRes & r)
@@ -56,6 +56,8 @@ struct MoveRes
 		res.events.insert(res.events.end(), r.events.begin(), r.events.end());
 		return res;
 	}
+
+	
 };
 
 
