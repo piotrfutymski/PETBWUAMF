@@ -10,6 +10,10 @@ void Game::initOrderFunctions()
 		return game->fight(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
 	};
 
+	p->_chances = [](Game * game, const Move & m) {
+		return game->chances(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
+	};
+
 	// MOVE
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("move");
@@ -26,6 +30,10 @@ void Game::initOrderFunctions()
 		return a + b;
 	};
 
+	p->_chances = [](Game * game, const Move & m) {
+		return game->chances(game->getActiveUnitID(), m.units[0], Game::AttackType::Charge);
+	};
+
 	// PREPARE
 
 	p = Didax::AssetMeneger::getAsset<OrderPrototype>("prepare");
@@ -40,6 +48,10 @@ void Game::initOrderFunctions()
 		auto a = game->fight(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
 		auto b = game->buff("bleedingBuff", m.units[0], a.getEventOfType(MoveRes::EventType::DMGTaken).dmg);
 		return a + b;
+	};
+
+	p->_chances = [](Game * game, const Move & m) {
+		return game->chances(game->getActiveUnitID(), m.units[0], Game::AttackType::Normal);
 	};
 
 }

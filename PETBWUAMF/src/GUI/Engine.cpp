@@ -290,6 +290,8 @@ void Engine::orderOnRelease(OrderRepresentation * o, Engine * e)
 void Engine::unitOnHoverIn(UnitRepresentation * o, Engine * e)
 {
 	e->_info->setUnitInfo(o->getUnitID());
+	if (e->_state == EngineState::ChoosingTarget && o->isChoosable())
+		e->_info->setChancesInfo(e->_game->getActiveUnitID(), { e->_choosedOrder,{o->getUnitID()},{} });
 }
 
 void Engine::unitOnHoverOut(UnitRepresentation * o, Engine * e)

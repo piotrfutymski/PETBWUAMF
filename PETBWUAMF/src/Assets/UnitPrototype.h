@@ -14,6 +14,7 @@ public:
 public:
 
 	int _attack;
+	int _power;
 	int _health;
 	int _armor;
 	int _defence;

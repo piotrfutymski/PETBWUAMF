@@ -200,36 +200,62 @@ MoveRes Game::moveUnit(size_t unitId, const sf::Vector2i & pos)
 
 MoveRes Game::fight(size_t aggresor, size_t victim, const AttackType & t)
 {
+	auto aggresUnit = this->getObject<Unit>(aggresor);
+	auto victUnit = this->getObject<Unit>(victim);
+
+	if (t == AttackType::Normal)
+		return this->fight(aggresor, victim, aggresUnit->getAttack(), aggresUnit->getPower(), victUnit->getDefence(), victUnit->getArmor());
+	else if(t == AttackType::Charge)
+		return this->fight(aggresor, victim, aggresUnit->getAttack(), aggresUnit->getChargeAttack(), victUnit->getChargeDefence(), victUnit->getArmor());
+	else
+		return this->fight(aggresor, victim, aggresUnit->getAttack(), aggresUnit->getPower()/3, victUnit->getDefence(), victUnit->getArmor());
+
+}
+
+MoveRes Game::fight(size_t aggresor, size_t victim, int at, int pow, int d, int arm)
+{
 	auto res = MoveRes{};
 	auto aggresUnit = this->getObject<Unit>(aggresor);
 	auto victUnit = this->getObject<Unit>(victim);
 
+
 	MoveRes::MoveEvent evnt;
-	evnt.time = 15;
-	evnt.type = MoveRes::EventType::Attacking;
-	evnt.unit = aggresor;
-	res.events.push_back(std::move(evnt));
 	evnt.time = 15;
 	evnt.type = MoveRes::EventType::BeingAttacked;
 	evnt.unit = victim;
 	res.events.push_back(std::move(evnt));
 
-	int dmg;
+	auto dmg = aggresUnit->attack(victUnit);
 
-	if (t == AttackType::Charge)
-		dmg = aggresUnit->chargeAttack(victUnit);
-	else if (t == AttackType::Normal)
-		dmg = aggresUnit->attack(victUnit);
-	else if (t == AttackType::Ocassional)
-		dmg = aggresUnit->ocassionalAttack(victUnit);
+	if (dmg.type == Unit::AttackResType::Miss)
+	{
+		evnt.time = 15;
+		evnt.unit = aggresor;
+		evnt.type = MoveRes::EventType::Miss;
+		res.events.push_back(std::move(evnt));
+		return res;
+	}
 
 	evnt.time = 20;
 	evnt.type = MoveRes::EventType::DMGTaken;
 	evnt.unit = victim;
-	evnt.dmg = dmg;
+	evnt.dmg = dmg.value;
+	res.events.push_back(std::move(evnt));
+
+	if (dmg.type == Unit::AttackResType::Hit)
+	{
+		evnt.time = 15;
+		evnt.unit = aggresor;
+		evnt.type = MoveRes::EventType::Hitting;
+		res.events.push_back(std::move(evnt));
+		return res;
+	}
+
+	evnt.time = 15;
+	evnt.unit = aggresor;
+	evnt.type = MoveRes::EventType::CriticalHit;
 	res.events.push_back(std::move(evnt));
 	return res;
-
 }
 
 MoveRes Game::buff(const std::string & buffName, size_t buffTarget, float value)
@@ -265,6 +291,29 @@ MoveRes Game::createUnit(const std::string & unitName, const sf::Vector2i & pos)
 	evnt.position = pos;
 	res.events.push_back(std::move(evnt));
 	return res;
+}
+
+float Game::chances(size_t aggresor, size_t victim, const AttackType & t) const
+{
+	auto aggresUnit = this->getObject<Unit>(aggresor);
+	auto victUnit = this->getObject<Unit>(victim);
+
+	if (t == AttackType::Normal)
+		return this->chances(aggresor, victim, aggresUnit->getAttack(),  victUnit->getDefence());
+	else if (t == AttackType::Charge)
+		return this->chances(aggresor, victim, aggresUnit->getAttack(), victUnit->getChargeDefence());
+	else
+		return this->chances(aggresor, victim, aggresUnit->getAttack(), victUnit->getDefence());
+
+
+}
+
+float Game::chances(size_t aggresor, size_t victim, int at, int d) const
+{
+	auto aggresUnit = this->getObject<Unit>(aggresor);
+	auto victUnit = this->getObject<Unit>(victim);
+
+	return aggresUnit->chanceToHit(victUnit, at, d);
 }
 
 void Game::createObjects(const GameInitiator & i)

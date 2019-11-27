@@ -4,6 +4,7 @@
 void UnitPrototype::loadAsset(const nlohmann::json & assetFile)
 {
 	_attack =  assetFile["attack"];
+	_power = assetFile["power"];
 	_defence =  assetFile["defence"];
 	_armor = assetFile["armor"];
 	_health =  assetFile["health"];

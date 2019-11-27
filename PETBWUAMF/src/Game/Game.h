@@ -75,9 +75,12 @@ public:
 
 	MoveRes moveUnit(size_t unitId, const sf::Vector2i & pos);
 	MoveRes fight(size_t aggresor, size_t victim, const AttackType & t);
+	MoveRes fight(size_t aggresor, size_t victim, int at, int pow, int d, int arm);
 	MoveRes buff(const std::string & buffName, size_t buffTarget, float value = 0);
 	MoveRes createUnit(const std::string & unitName, const sf::Vector2i  &pos);
 
+	float chances(size_t aggresor, size_t victim, const AttackType & t)const;
+	float chances(size_t aggresor, size_t victim, int at, int d)const;
 
 private:
 

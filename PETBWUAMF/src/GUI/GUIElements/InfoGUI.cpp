@@ -35,6 +35,22 @@ void Didax::InfoGUI::setOrderInfo(size_t o)
 
 }
 
+void Didax::InfoGUI::setChancesInfo(size_t u, const Move & m)
+{
+	auto unit = _game->getObject<Unit>(u);
+	auto order = _game->getObject<Order>(m.orderID);
+
+	auto v = order->getChances(_game, m);
+	if (v > 0)
+	{
+		auto s = std::to_string(v * 100);
+		s.resize(2);
+		_info->setText("Chances:	" + s+"'%'\n");
+		_info->resizeToText();
+	}
+
+}
+
 void Didax::InfoGUI::clearInfo()
 {
 	_info->setText("");

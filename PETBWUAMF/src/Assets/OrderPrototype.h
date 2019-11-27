@@ -25,6 +25,7 @@ public:
 public:
 
 	std::function<MoveRes(Game *, const Move &)> _execute;
+	std::function<float(Game *, const Move &)> _chances{ nullptr };
 
 	bool _canBeUsedOnAllUnit;
 	std::vector <std::string> _allowedTypes;

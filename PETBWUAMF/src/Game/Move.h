@@ -21,7 +21,7 @@ struct MoveRes
 {
 
 	enum class EventType {
-		Moved, Attacking, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated, UnitDestroyed
+		Moved, Hitting, BeingAttacked, DMGTaken, Buff, Debuff, UnitCreated, UnitDestroyed, CriticalHit, Miss
 	};
 
 	struct MoveEvent
@@ -61,7 +61,7 @@ struct MoveRes
 
 enum class UParameter
 {
-	Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move
+	Morale, Health, Attack, Armor, Defence, RangedAttack, ChargeDeffence, ChargeAttack, Range, Move, Power
 };
 
 enum class UFlag : unsigned long long

@@ -63,4 +63,14 @@ bool Order::canBeUsed(const std::string & unitName, const std::string & unitType
 	return false;
 }
 
+float Order::getChances(Game * game, const Move & m)
+{
+	auto t = this->getPrototype()->_target;
+	if ((t == OrderPrototype::TargetType::AttackT || t == OrderPrototype::TargetType::ChargeT) && this->getPrototype()->_chances != nullptr)
+	{
+			return this->getPrototype()->_chances(game, m);
+	}
+	return -1;
+}
+
 

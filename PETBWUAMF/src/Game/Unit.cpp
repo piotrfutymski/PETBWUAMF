@@ -11,6 +11,7 @@ Unit::Unit(const std::string & name, int owner)
 	_defence = this->getPrototype()->_defence;
 	_armor = this->getPrototype()->_armor;
 	_health = this->getPrototype()->_health;
+	_power = this->getPrototype()->_power;
 
 
 	_rangedAttack = this->getPrototype()->_rangedAttack;
@@ -151,6 +152,11 @@ int Unit::getMove() const
 	return _move;
 }
 
+int Unit::getPower() const
+{
+	return _power;
+}
+
 
 bool Unit::hasFlag(UFlag f) const
 {
@@ -273,34 +279,58 @@ void Unit::rangedAttack(Unit *target)
 	}
 }
 
-float Unit::attack(Unit * enemy)
+Unit::AttackRes Unit::attack(Unit * enemy, int attack, int power, int defence, int armor)
 {
-	if (this->hasFlag(UFlag::Ranged))
+	if (attack = -1)
 	{
-		if (rand() % 100 > this->chanceToHitRenged(enemy) * 100)
-			return this->attack(enemy, _rangedAttack, enemy->_defence);
+		attack = _attack;
+		power = _power;
+		if (this->hasFlag(UFlag::Ranged) && !this->isInFight())
+			power = _rangedAttack;
+		defence = enemy->_defence;
+		armor = enemy->_armor;
 	}
+
+	Unit::AttackResType resT = Unit::AttackResType::Hit;
+	auto chances = this->chanceToHit(enemy, attack, defence);
+	float los = rand() % 1000;
+	if (los / 1000.0 > chances)
+		return { 0, Unit::AttackResType::Miss };
+	if (los / 100.0 < chances)
+	{
+		Unit::AttackResType::Critical;
+		power *= 2;
+	}
+	auto base = (8.f / 10.f);
+	auto nonconst = (rand() % 100 * (0.4f)) / 100;
+	auto dmg = (base + nonconst) * power;
+	if (dmg > armor)
+		dmg -= armor /3;
 	else
-		return this->attack(enemy, _attack, enemy->_defence);
+		dmg /= 3;
+	dmg /= 5;
+	enemy->_health -= dmg;
+	return { dmg, resT };
 }
 
-float Unit::ocassionalAttack(Unit * enemy)
+float Unit::chanceToHit(const Unit * enemy, int attack, int defence)const
 {
-	return this->attack(enemy, _attack / 2, enemy->_defence);
-}
+	if (attack = -1)
+	{
+		attack = _attack;
+		defence = enemy->_defence;
+	}
+	float value = attack / defence;
 
-float Unit::chargeAttack(Unit * enemy)
-{
-	return this->attack(enemy, _chargeAttack, enemy->_chargeDefence);
-}
-
-float Unit::chanceToHitRenged(Unit * enemy)
-{
-	auto d = enemy->_defence;
-	auto a = _attack;
 	auto dist = this->getDistanceTo(enemy);
-	return (1 - ((float)(d) / (float)(3 * a + 3 * d)))*(3 * _range - dist) / (float)(3 * _range);
+	auto chances = 2 * (1 / (1 + std::exp(-1.86*value))) - 1;
+	if (this->hasFlag(UFlag::Ranged))
+		chances *= (2 * _range - dist) / (float)(2 * _range);
+	if (this->hasFlag(UFlag::Ranged) && this->isInFight())
+		chances /= 1.7;
+	return chances;
 }
+
 
 void Unit::getSimpleInfo() const
 {
@@ -453,6 +483,8 @@ const int & Unit::parameterFromEnum(const UParameter & p)const
 		return _range;
 	else if (p == UParameter::RangedAttack)
 		return _rangedAttack;
+	else
+		return _power;
 }
 
 int & Unit::parameterFromEnum(const UParameter & p)
@@ -477,6 +509,8 @@ int & Unit::parameterFromEnum(const UParameter & p)
 		return _range;
 	else if (p == UParameter::RangedAttack)
 		return _rangedAttack;
+	else
+		return _power;
 }
 
 MoveRes Unit::playEffects()
@@ -524,41 +558,6 @@ MoveRes Unit::bleeding()
 
 	return res;
 }
-
-float Unit::attack(Unit * enemy, float attack, float defence)
-{
-	auto base = (4.f / 10.f);
-	auto add = (6.f / 10.f)*(attack - defence) / (attack + defence);
-
-	float mini, maxi;
-
-	if (add > 0)
-	{
-		base += add;
-		mini = base;
-		maxi = 1;
-	}
-	else
-	{
-		mini = base;
-		maxi = 1 + add;
-	}
-
-	auto nonconst = (rand() % 100 * (maxi - mini)) / 100;
-
-	auto dmg = (base + nonconst) * _attack;
-
-	if (dmg > enemy->_armor)
-		dmg -= enemy->_armor / 2;
-	else
-		dmg /= 2;
-
-	dmg /= 3;
-
-	enemy->_health -= dmg;
-	return dmg;
-}
-
 
 
 

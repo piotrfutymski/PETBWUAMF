@@ -26,6 +26,7 @@ public:
 
 	MoveRes execute(Game * game, const Move & m);
 	bool canBeUsed(const std::string &  unitName, const std::string & unitType);
+	float getChances(Game * game, const Move & m);
 
 private:
 

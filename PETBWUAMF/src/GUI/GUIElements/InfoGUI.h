@@ -15,6 +15,7 @@ public:
 
 	void setUnitInfo(size_t u);
 	void setOrderInfo(size_t o);
+	void setChancesInfo(size_t u, const Move & m);
 
 	void clearInfo();
 

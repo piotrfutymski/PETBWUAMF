@@ -11,6 +11,15 @@ public:
 	Unit(const std::string & name, int owner);
 	~Unit() {};
 
+	enum class AttackResType {
+		Hit, Miss, Critical
+	};
+
+	struct AttackRes {
+		float value;
+		AttackResType type;
+	};
+
 	//getters and setters
 
 	void setPosition(const sf::Vector2i & p);
@@ -45,6 +54,7 @@ public:
 	int getChargeAttack() const;
 	int getRange() const;
 	int getMove()const;
+	int getPower()const;
 
 	// flags
 	
@@ -71,10 +81,8 @@ public:
 
 	//
 
-	float attack(Unit * enemy);
-	float ocassionalAttack(Unit * enemy);
-	float chargeAttack(Unit *enemy);
-	float chanceToHitRenged(Unit *enemy);
+	AttackRes attack(Unit * enemy, int attack = -1, int power = -1, int defence = -1, int armor = -1);
+	float chanceToHit(const Unit * enemy, int attack = -1, int defence = -1)const;
 
 	// LOG
 
@@ -85,6 +93,7 @@ private:
 	// Unit statistic at this point
 
 	int _attack;
+	int _power;
 	int _health;
 	int _armor;
 	int _defence;
@@ -137,7 +146,6 @@ private:
 	void endbuffs();
 
 	MoveRes bleeding();
-	float attack(Unit * enemy, float attack, float defence);
 
 public:
 
