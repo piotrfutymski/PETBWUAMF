@@ -43,9 +43,9 @@ void Didax::InfoGUI::setChancesInfo(size_t u, const Move & m)
 	auto v = order->getChances(_game, m);
 	if (v > 0)
 	{
-		auto s = std::to_string(v * 100);
+		auto s = std::to_string(v);
 		s.resize(2);
-		_info->setText("Chances:	" + s+"'%'\n");
+		_info->setText("Average damage:	" + s+"\n");
 		_info->resizeToText();
 	}
 

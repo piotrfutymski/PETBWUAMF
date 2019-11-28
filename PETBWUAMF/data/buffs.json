@@ -5,7 +5,8 @@
     "buffType": 0,
     "parameter": 4,
     "time": 1,
-    "value": 20,
+    "value": 0,
+    "valueParameter": 6,
     "isGood": true
   },
 

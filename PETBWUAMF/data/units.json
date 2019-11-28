@@ -113,7 +113,7 @@
     "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy spearman, main battleline unit of Lorhien.",
-    "texture": "data/graphix/testImages/units/testwarrior.bmp"
+    "texture": "data/graphix/testImages/units/wlocznik.bmp"
   },
   "5": {
     "type": "unit",
@@ -158,7 +158,7 @@
     "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy swordman, best mainline unit of Lorhien.",
-    "texture": "data/graphix/testImages/units/testwarrior.bmp"
+    "texture": "data/graphix/testImages/units/wlocznik.bmp"
   },
   "7": {
     "type": "unit",
@@ -204,7 +204,7 @@
     "formationSize": 1,
     "faction": "Lorhien",
     "description": "Heavy spearman, armed also with a siege crossbow, primary maning walls of Loranth.",
-    "texture": "data/graphix/testImages/units/testwarrior.bmp"
+    "texture": "data/graphix/testImages/units/lucznik.bmp"
   },
   "9": {
     "type": "unit",

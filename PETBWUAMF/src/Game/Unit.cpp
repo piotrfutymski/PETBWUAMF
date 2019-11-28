@@ -1,7 +1,7 @@
 #include "Unit.h"
 
 int Unit::ROUND_SIZE = 1;
-int Unit::FRONT_SIZE = 30;
+int Unit::FRONT_SIZE = 50;
 
 
 Unit::Unit(const std::string & name, int owner)
@@ -192,7 +192,12 @@ Buff * Unit::addBuff(const std::string & name)
 	auto buff = std::make_unique<Buff>(name, this->getID());
 
 	if (!buff->isEffect())
+	{
+		if (buff->getValue() == 0 || buff->getPrototype()->_type == BuffPrototype::BuffType::ParameterBoost)
+			buff->setValue(this->parameterFromEnum(buff->getPrototype()->_valueParameter));
+
 		this->upgradeParameter(buff->getParameterToBoost(), buff->getValue());
+	}
 	else
 	{
 		if (buff->getType() == BuffPrototype::BuffType::Bleeding)
@@ -258,27 +263,96 @@ MoveRes Unit::endTurn()
 	return std::move(res);
 }
 
-void Unit::normalAttack(Unit *enemy)
+Unit::AttackRes Unit::normalAttack(Unit *enemy)
 {
-	for (int round = 1; round <= ROUND_SIZE; round++)
-	{
-		if (!this->sideFight(enemy))
-			break;
-		if (!enemy->sideFight(this))
-			break;
-	}
+	if (this->hasFlag(UFlag::Ranged) && !this->isInFight())
+		return this->rangedAttack(enemy);
+	else
+		return this->meleeAttack(enemy);
 }
 
-void Unit::rangedAttack(Unit *target)
+Unit::AttackRes Unit::meleeAttack(Unit *enemy)
 {
+	bool end = 0;
+	int casualty=0;
+	int casualtyEnemy=0;
 	for (int round = 1; round <= ROUND_SIZE; round++)
 	{
-		target->casualties(this->rangedRound(target));
+		casualty = enemy->normalRound(this, enemy->normalChance(this));
+		casualtyEnemy = this->normalRound(enemy, this->normalChance(enemy));
+		if (enemy->casualties(casualtyEnemy))
+		{
+			end = 1;
+		}
+		if (this->casualties(casualty))
+		{
+			end = 1;
+		}
+		if (end)
+			break;
+	}
+	if ( casualty > casualtyEnemy)
+		return { casualtyEnemy, casualty, Unit::AttackResType::Lose };
+	else if (casualty < casualtyEnemy)
+		return { casualtyEnemy, casualty, Unit::AttackResType::Win };
+	return { casualtyEnemy, casualty, Unit::AttackResType::Draw };
+}
+
+
+Unit::AttackRes Unit::chargeAttack(Unit *enemy)
+{
+	bool end = 0;
+	int casualtyEnemy=0;
+	int casualty=0;
+	for (int round = 1; round <= ROUND_SIZE; round++)
+	{
+		casualty = enemy->normalRound(this, enemy->normalChance(this), 2);
+		casualtyEnemy = this->normalRound(enemy, this->chargeChance(enemy), 2);
+		if (enemy->casualties(casualtyEnemy))
+		{
+			end = 1;
+		}
+		if (this->casualties(casualty))
+		{
+			end = 1;
+		}
+		if (end)
+			break;
+	}
+	if (casualty > casualtyEnemy)
+		return { casualtyEnemy, casualty, Unit::AttackResType::Lose };
+	else if (casualty < casualtyEnemy)
+		return { casualtyEnemy, casualty, Unit::AttackResType::Win };
+	return { casualtyEnemy, casualty, Unit::AttackResType::Draw };
+}
+
+Unit::AttackRes Unit::rangedAttack(Unit *target)
+{
+	int casualtyEnemy = 0;
+	for (int round = 1; round <= ROUND_SIZE; round++)
+	{
+		casualtyEnemy = this->rangedRound(target, rangedChance(target));
+		target->casualties(casualtyEnemy);
 		if (!target->_isAlive)
 			break;
 	}
+	return { casualtyEnemy, 0, Unit::AttackResType::Win };
 }
 
+Unit::AttackRes Unit::occasionAttack(Unit *enemy)
+{
+	int casualtyEnemy = 0;
+	for (int round = 1; round <= ROUND_SIZE; round++)
+	{
+		casualtyEnemy = this->normalRound(enemy, normalChance(enemy), 0.2);
+		enemy->casualties(casualtyEnemy);
+		if (!enemy->_isAlive)
+			break;
+	}
+	return { casualtyEnemy, 0, Unit::AttackResType::Win };
+}
+
+/*
 Unit::AttackRes Unit::attack(Unit * enemy, int attack, int power, int defence, int armor)
 {
 	if (attack = -1)
@@ -312,7 +386,7 @@ Unit::AttackRes Unit::attack(Unit * enemy, int attack, int power, int defence, i
 	enemy->_health -= dmg;
 	return { dmg, resT };
 }
-
+*/
 float Unit::chanceToHit(const Unit * enemy, int attack, int defence)const
 {
 	if (attack = -1)
@@ -341,37 +415,27 @@ void Unit::getSimpleInfo() const
 
 /// End of pulic functions ///
 
-bool Unit::sideFight(Unit *enemy)
-{
-	this->casualties(enemy->normalRound(this));
 
-	if (this->_isAlive)
-		return 1;
-	else
-		return 0;
-}
-
-void Unit::casualties(int casualties)
+bool Unit::casualties(int casualties)
 {
 	this->_health -= casualties;
-	Logger::log(this->getPrototype()->getName() + " has suffered " + std::to_string(casualties) + " casualties");
 	if (this->_health <= 0)
 	{
 		this->_health = 0;
 		this->_isAlive = false;
+		return true;
 	}
+	else
+		return false;
 }
 
-int Unit::normalRound(Unit *enemy)
+int Unit::normalRound(Unit *enemy, std::pair<int, int> chances, float ferocity)
 {
 	int front = this->refill();
 	int killcount = 0;
 	bool temp = false;
-	std::pair<int, int> chances = normalChance(enemy);
-	Logger::log(this->getPrototype()->getName() + " has chances: " +
-		std::to_string(chances.first / 10) + "% " + std::to_string(chances.second / 10) + "% " +
-		std::to_string(chances.first*chances.second / 10000) + "%");
-	for (int unit = 1; unit <= front; unit++)
+	//std::pair<int, int> chances = normalChance(enemy);
+	for (int unit = 1; unit <= front * ferocity; unit++)
 	{
 		if ((rand() % 1000 + 1) < chances.first)
 		{
@@ -403,16 +467,22 @@ int Unit::refill()
 		return FRONT_SIZE / this->_formationSize;
 }
 
-std::pair<int, int> Unit::normalChance(Unit *enemy)
+
+std::pair<int, int> Unit::normalChance(const Unit *enemy)const
+{
+	if (this->hasFlag(UFlag::Ranged) && !this->isInFight())
+		return this->rangedChance(enemy);
+	else
+		return this->meleeChance(enemy);
+
+}
+std::pair<int, int> Unit::meleeChance(const Unit *enemy)const
 {
 	int pairing = (enemy->_attack + enemy->_defence) / 2;
-	if (!enemy->_isInFight) pairing += enemy->_chargeDefence;
 
 	int fullDefence = enemy->_defence + enemy->_armor;
-	if (!enemy->_isInFight) fullDefence += enemy->_chargeDefence;
 
 	float sumAttack = this->_attack;
-	if (!this->_isInFight) sumAttack += this->_chargeAttack;
 
 	int sumPairing = sumAttack + pairing;
 	int sumDefence = sumAttack + fullDefence;
@@ -424,10 +494,27 @@ std::pair<int, int> Unit::normalChance(Unit *enemy)
 
 }
 
-int Unit::rangedChance(Unit *target)
+std::pair<int, int> Unit::chargeChance(const Unit *enemy)const
+{
+	int pairing = (enemy->_attack + enemy->_defence) / 2;
+
+	int fullDefence = enemy->_defence + enemy->_armor;
+
+	float sumAttack = this->_attack + this->_chargeAttack;
+
+	int sumPairing = sumAttack + pairing;
+	int sumDefence = sumAttack + fullDefence;
+
+	int chance = ((sumAttack + _chargeAttack) / sumPairing) * 1000;
+	int chance2 = (sumAttack / sumDefence) * 1000;
+
+	return std::pair<int, int>(chance, chance2);
+
+}
+
+std::pair<int, int> Unit::rangedChance(const Unit *target)const
 {
 	int fullDefence = target->_armor * 2;
-	if (!target->_isInFight) fullDefence += target->_chargeDefence / 2;
 
 	float sumAttack = this->_rangedAttack;
 
@@ -435,28 +522,25 @@ int Unit::rangedChance(Unit *target)
 
 	int chance = (sumAttack / sumDefence) * 1000;
 
-	return chance;
+	return std::pair<int, int>(chance, 1000);
 }
 
-int Unit::rangedRound(Unit *target)
+int Unit::rangedRound(Unit *target, std::pair<int, int> chance, float ferocity)
 {
 	int killcount = 0;
 	bool temp = false;
-	int chance = rangedChance(target);
-	Logger::log(this->getPrototype()->getName() + " has chance: " +
-		std::to_string(chance / 10) + "%");
 	for (int unit = 1; unit <= this->_health / 2; unit++)
 	{
 
-		if ((rand() % 1000 + 1) < chance)
+		if ((rand() % 1000 + 1) < chance.first)
 		{
 			if (temp)	Logger::log("Atack has not been defended, chance was " +
-				std::to_string(chance / 10) + "%");
+				std::to_string(chance.first / 10) + "%");
 			killcount++;
 		}
 		else
 			if (temp)	Logger::log("Atack has been defended, chance was " +
-				std::to_string(chance / 10) + "%");
+				std::to_string(chance.first / 10) + "%");
 	}
 	return killcount;
 }

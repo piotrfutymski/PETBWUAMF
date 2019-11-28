@@ -12,11 +12,12 @@ public:
 	~Unit() {};
 
 	enum class AttackResType {
-		Hit, Miss, Critical
+		Draw, Lose, Win
 	};
 
 	struct AttackRes {
-		float value;
+		int value;
+		int valueSecond;
 		AttackResType type;
 	};
 
@@ -75,18 +76,34 @@ public:
 	MoveRes endTurn();
 
 	//attacking
+	AttackRes normalAttack(Unit *enemy);
 
-	void normalAttack(Unit *enemy);
-	void rangedAttack(Unit *enemy);
+	AttackRes meleeAttack(Unit *enemy);
+	AttackRes rangedAttack(Unit *enemy);
+
+
+	AttackRes chargeAttack(Unit *enemy);
+	AttackRes occasionAttack(Unit *enemy);
+
 
 	//
 
 	AttackRes attack(Unit * enemy, int attack = -1, int power = -1, int defence = -1, int armor = -1);
 	float chanceToHit(const Unit * enemy, int attack = -1, int defence = -1)const;
+	std::pair<int, int> normalChance(const Unit *enemy)const;
+
+	std::pair<int, int> meleeChance(const Unit *enemy)const;
+	std::pair<int, int> rangedChance(const Unit *target)const;
+
+
+	std::pair<int, int> chargeChance(const Unit *target)const;
 
 	// LOG
 
 	void getSimpleInfo() const;
+
+	static int FRONT_SIZE;
+	static int ROUND_SIZE;
 
 private:
 
@@ -127,20 +144,14 @@ private:
 
 	//statics
 
-	static int FRONT_SIZE;
-	static int ROUND_SIZE;
 
 private:
 
-	bool sideFight(Unit *enemy);
-	void casualties(int casualties);
-	int normalRound(Unit *enemy);
+	bool casualties(int casualties);
 	int refill();
-	std::pair<int, int> normalChance(Unit *enemy);
-	int rangedChance(Unit *target);
-	int rangedRound(Unit *target);
-	const int& parameterFromEnum(const UParameter & p)const;
-	int& parameterFromEnum(const UParameter & p);
+	int normalRound(Unit *enemy, std::pair<int, int> chances, float ferocity=1);
+	int rangedRound(Unit *target, std::pair<int, int> chance, float ferocity=1);
+
 
 	MoveRes playEffects();
 	void endbuffs();
@@ -148,7 +159,8 @@ private:
 	MoveRes bleeding();
 
 public:
-
+	const int& parameterFromEnum(const UParameter & p)const;
+	int& parameterFromEnum(const UParameter & p);
 	
 };
 

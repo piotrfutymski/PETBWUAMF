@@ -67,8 +67,11 @@
   "13": {
     "type": "texture",
     "name": "data/graphix/testImages/units/lucznik.bmp"
+  },
+  "14": {
+    "type": "texture",
+    "name": "data/graphix/testImages/units/wlocznik.bmp"
   }
-
 
 
 }

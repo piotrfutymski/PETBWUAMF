@@ -10,6 +10,8 @@ void BuffPrototype::loadAsset(const nlohmann::json & assetFile)
 		_parameterToBoost = UParameter(assetFile["parameter"]);
 		_time = assetFile["time"];
 		_value = assetFile["value"];
+		if (_value == 0)
+			_valueParameter = UParameter(assetFile["valueParameter"]);
 	}
 	_isGood = assetFile["isGood"];
 

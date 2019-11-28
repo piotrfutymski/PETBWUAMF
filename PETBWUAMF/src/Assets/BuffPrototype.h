@@ -24,5 +24,6 @@ public:
 	int _time;
 	float _value;
 	bool _isGood;
+	UParameter _valueParameter;
 
 };

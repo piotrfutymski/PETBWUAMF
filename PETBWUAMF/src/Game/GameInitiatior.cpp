@@ -6,15 +6,28 @@ GameInitiator::GameInitiator()
 
 	// przyk³adowe stworzenie initiatora (normalnie ma byæ na zewn¹trz klasy oczywiœcie)
 
-	this->addUnitToFirstPlayer("Treasure Hunter", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
-	this->addUnitToFirstPlayer("Treasure Hunter", 1, 6);
-	//this->addUnitToFirstPlayer("Lorhien Guard", 5, 5);
-	this->addUnitToFirstPlayer("JorgvardScout", 0, 5);
+	this->addUnitToFirstPlayer("Heavy Spearman", 2, 4);
+	this->addUnitToFirstPlayer("Heavy Spearman", 2, 5);
+	this->addUnitToFirstPlayer("Heavy Spearman", 2, 3);
+	this->addUnitToFirstPlayer("Heavy Swordman", 1, 6);
+	this->addUnitToFirstPlayer("Heavy Swordman", 1, 2);
+	this->addUnitToFirstPlayer("Lorhien Guard", 0, 5);
+	this->addUnitToFirstPlayer("Heavy Crossbow Warden", 0, 4);
+	this->addUnitToFirstPlayer("Heavy Crossbow Warden", 0, 3);
 
-	this->addUnitToSecondPlayer("Treasure Hunter", 1, 4);			// Wojownik w pierwszej lini na 4(pi¹tym polu)
-	this->addUnitToSecondPlayer("Treasure Hunter", 1, 6);
-	//this->addUnitToSecondPlayer("Palace Guard", 1, 5);
-	this->addUnitToSecondPlayer("JorgvardScout", 0, 5);
+	this->addUnitToSecondPlayer("Light Militia", 2, 3);
+	this->addUnitToSecondPlayer("Light Militia", 2, 4);
+	this->addUnitToSecondPlayer("Light Militia", 2, 5);
+	this->addUnitToSecondPlayer("Light Militia", 2, 6);
+	this->addUnitToSecondPlayer("Southern Axeman", 2, 2);
+	this->addUnitToSecondPlayer("Southern Axeman", 2, 7);
+
+	this->addUnitToSecondPlayer("Southern Axeman", 0, 2);
+	this->addUnitToSecondPlayer("Southern Axeman", 0, 7);
+	this->addUnitToSecondPlayer("Gladiator", 0, 6);
+	this->addUnitToSecondPlayer("Palace Guard", 0, 5);
+	this->addUnitToSecondPlayer("Palace Guard", 0, 4);
+	this->addUnitToSecondPlayer("Gladiator", 0, 3);
 
 	// I rozkazy
 
