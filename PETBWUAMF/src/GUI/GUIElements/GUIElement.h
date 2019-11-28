@@ -11,7 +11,6 @@
 
 namespace Didax
 {
-class Engine;
 
 class GUIElement
 {
@@ -19,27 +18,20 @@ public:
 
 	using WidgetHolder_t = std::vector<std::unique_ptr<Widget>>;
 
-	GUIElement(GUIElementPrototype * prototype, Game * game);
+	GUIElement(GUIElementPrototype * prototype);
 	~GUIElement(); 
 
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(Canvas * parent, Engine * e);
+	void open(Canvas * parent);
 	void close();
 
-	void setPriority(int p);
-	int getPriority()const;
-
-
-	static sf::Vector2f UNITPOSITIONTAB[16];
-	static sf::Vector2f ORDERPOSITIONTAB[10];
+	virtual void process(const Game * game) = 0;
 
 protected:
 
 	GUIElementPrototype * _prototype;
-
-	Game * _game;
 
 	// widgets
 
@@ -51,13 +43,13 @@ protected:
 
 	//
 
-	int _priority{ 0 };
+	bool _callback{false};
 
 
 protected:
 
 	virtual void _init() = 0;
-	virtual void _initLogic(Engine * e) = 0;
+	virtual void _initLogic() = 0;
 
 };
 
