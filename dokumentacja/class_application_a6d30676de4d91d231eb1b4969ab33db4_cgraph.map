@@ -1,0 +1,35 @@
+<map id="Application::init" name="Application::init">
+<area shape="rect" id="node1" title=" " alt="" coords="5,387,116,413"/>
+<area shape="rect" id="node2" href="$class_didax_1_1_engine.html#aeebb6d408b20865ed27aeb4358e1861f" title=" " alt="" coords="185,132,313,159"/>
+<area shape="rect" id="node14" href="$class_game.html#a57b4fdab7019c3169f43039014b36010" title=" " alt="" coords="208,336,291,363"/>
+<area shape="rect" id="node15" href="$class_game.html#ac8fa35b49db7473ce4169e95d291563c" title=" " alt="" coords="164,387,335,413"/>
+<area shape="rect" id="node31" href="$class_logger.html#aaf9db9fc6026a09920e43ef3c3a29afd" title=" " alt="" coords="1141,513,1228,540"/>
+<area shape="rect" id="node33" href="$class_didax_1_1_asset_meneger.html#acc59b06ac9a7b19696b09838f2dcc2e0" title=" " alt="" coords="176,590,323,631"/>
+<area shape="rect" id="node3" href="$class_didax_1_1_window.html#a23cac2fb3d95bf5e76c5d26afbb2295d" title=" " alt="" coords="383,132,564,159"/>
+<area shape="rect" id="node4" href="$class_didax_1_1_window.html#a52ec7e1805a015a6eaa7ea80a2ddcc1e" title=" " alt="" coords="406,183,541,209"/>
+<area shape="rect" id="node7" href="$class_didax_1_1_g_u_i_element.html#acce73a694b08dc5be4758380fe7afc9c" title=" " alt="" coords="389,31,558,57"/>
+<area shape="rect" id="node13" href="$class_didax_1_1_input.html#a6ff92f2616fda7d7a036b0715050804d" title=" " alt="" coords="392,81,555,108"/>
+<area shape="rect" id="node5" href="$class_didax_1_1_window.html#a451fe613bd1c7016eb117e74f257cebd" title=" " alt="" coords="621,181,785,208"/>
+<area shape="rect" id="node6" href="$class_didax_1_1_window.html#a6c0d41451bb4b20c7f9f0b12347bb18b" title=" " alt="" coords="843,173,1037,214"/>
+<area shape="rect" id="node8" href="$class_didax_1_1_widget.html#aa0b825e58519767bf97808ec920a5a7b" title=" " alt="" coords="622,31,785,57"/>
+<area shape="rect" id="node9" href="$class_didax_1_1_widget.html#ae5c5bb70cc6b6b3534cb072fb203ede0" title=" " alt="" coords="856,5,1024,32"/>
+<area shape="rect" id="node10" href="$class_didax_1_1_widget.html#a0f64985c809eb1fc7cf9f26f5ad8adcc" title=" " alt="" coords="856,56,1024,83"/>
+<area shape="rect" id="node11" href="$class_didax_1_1_widget.html#aa09e31e1aa61db87a38da9926c712f5a" title=" " alt="" coords="1085,31,1284,57"/>
+<area shape="rect" id="node12" href="$class_didax_1_1_widget.html#a8d26b6dff81468dee603e453459b6229" title=" " alt="" coords="1096,81,1273,108"/>
+<area shape="rect" id="node16" href="$class_game.html#af7c6803947ad486f5acbd21ae7c236b1" title=" " alt="" coords="431,437,516,464"/>
+<area shape="rect" id="node17" href="$class_game.html#ae545fff7ffa425c377e7a411678558d6" title=" " alt="" coords="416,488,531,515"/>
+<area shape="rect" id="node18" href="$class_game.html#af73e06981e4e34f557c9a387640ff361" title=" " alt="" coords="659,235,748,261"/>
+<area shape="rect" id="node19" href="$class_game.html#a9b686f7464b667f551ff80e12b745b22" title=" " alt="" coords="397,336,550,363"/>
+<area shape="rect" id="node21" href="$struct_move_res.html#a7337a406673cf73e2e2a8d5582255796" title=" " alt="" coords="386,387,561,413"/>
+<area shape="rect" id="node22" href="$class_game.html#a86e7b52dcba707dbe666082a6f6f8e74" title=" " alt="" coords="414,285,533,312"/>
+<area shape="rect" id="node20" href="$class_game_object.html#a37c7de437537bcae1fde59a89f699290" title=" " alt="" coords="637,387,770,413"/>
+<area shape="rect" id="node23" href="$class_map.html#a53d6141cece81da9f1387109e3c73785" title=" " alt="" coords="612,285,795,312"/>
+<area shape="rect" id="node27" href="$class_map.html#a9a04ce8b2e7946773ade49aecd859896" title=" " alt="" coords="649,336,757,363"/>
+<area shape="rect" id="node24" href="$class_map.html#a83328a7e6976b013b2b10094545edde6" title=" " alt="" coords="869,239,1011,265"/>
+<area shape="rect" id="node26" href="$class_unit.html#a7c3eefffdd750caf6c2ae81a58c87781" title=" " alt="" coords="886,289,994,316"/>
+<area shape="rect" id="node25" href="$class_unit.html#a39d54f8dfd87e93cb847939e629643fc" title=" " alt="" coords="1125,264,1244,291"/>
+<area shape="rect" id="node28" href="$class_map.html#a62fac1f6d6b95b8b9b047a4b688285b9" title=" " alt="" coords="879,340,1001,367"/>
+<area shape="rect" id="node30" href="$class_map.html#a9bf01085fb864ba91507b015cc1bcf50" title=" " alt="" coords="879,415,1001,441"/>
+<area shape="rect" id="node29" href="$class_unit.html#a651369be39a66d2c278d76b5197734c7" title=" " alt="" coords="1111,340,1258,367"/>
+<area shape="rect" id="node32" href="$class_unit.html#af15826455c8b360f3df13b04918f8d04" title=" " alt="" coords="1125,415,1244,441"/>
+</map>

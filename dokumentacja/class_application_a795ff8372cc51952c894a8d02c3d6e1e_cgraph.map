@@ -1,0 +1,31 @@
+<map id="Application::playGame" name="Application::playGame">
+<area shape="rect" id="node1" title=" " alt="" coords="5,545,159,572"/>
+<area shape="rect" id="node2" href="$class_application.html#ab9acde43c8e2b17fa33cbc635938fbd2" title=" " alt="" coords="207,479,379,521"/>
+<area shape="rect" id="node28" href="$class_game.html#a0432539505991778321f6756b51fc7a6" title=" " alt="" coords="219,545,366,572"/>
+<area shape="rect" id="node29" href="$class_game.html#a981ee3b2fc849995ba5bf3b2ce6bb570" title=" " alt="" coords="235,596,350,623"/>
+<area shape="rect" id="node3" href="$class_console_u_i.html#a6b2316e591f0baa365aa3562783e372f" title=" " alt="" coords="429,5,581,32"/>
+<area shape="rect" id="node4" href="$class_console_u_i.html#a96716dbf4a82a9a76505982c3baa1425" title=" " alt="" coords="428,56,583,83"/>
+<area shape="rect" id="node5" href="$class_console_u_i.html#af251e5319caf7988087b763c4d7268a2" title=" " alt="" coords="447,107,564,133"/>
+<area shape="rect" id="node6" href="$class_game.html#ad0fc57378d2e4f47ca3a0b5613fa7f3c" title=" " alt="" coords="857,335,1012,361"/>
+<area shape="rect" id="node7" href="$class_game_object.html#a37c7de437537bcae1fde59a89f699290" title=" " alt="" coords="868,841,1001,868"/>
+<area shape="rect" id="node8" href="$class_game.html#ad81a061b38f7efa1ad387abc17ca9acb" title=" " alt="" coords="660,385,781,412"/>
+<area shape="rect" id="node9" href="$class_game.html#ade030c6e19234fad38b09f381a3c0782" title=" " alt="" coords="635,487,807,513"/>
+<area shape="rect" id="node10" href="$class_game_object.html#a0c67e309578f2c0963184e86279191f7" title=" " alt="" coords="632,943,809,969"/>
+<area shape="rect" id="node11" href="$class_order.html#a02e003e952f4ac40b00be3180926d63f" title=" " alt="" coords="427,892,584,919"/>
+<area shape="rect" id="node12" href="$class_logger.html#aaf9db9fc6026a09920e43ef3c3a29afd" title=" " alt="" coords="462,993,549,1020"/>
+<area shape="rect" id="node13" href="$class_console_u_i.html#af6ce3dbcbff71ea809fbdb04362ebe9e" title=" " alt="" coords="437,309,574,336"/>
+<area shape="rect" id="node21" href="$class_console_u_i.html#ae1975373ea5bd6299c809603c18e9e35" title=" " alt="" coords="430,613,581,640"/>
+<area shape="rect" id="node27" href="$class_console_u_i.html#af4c4276639ddca07c7dd32a460dd5e99" title=" " alt="" coords="433,1044,577,1071"/>
+<area shape="rect" id="node14" href="$class_game.html#a9b686f7464b667f551ff80e12b745b22" title=" " alt="" coords="644,436,797,463"/>
+<area shape="rect" id="node15" href="$class_console_u_i.html#a791ff2f1d55598eb590f7074f0833446" title=" " alt="" coords="633,284,809,311"/>
+<area shape="rect" id="node17" href="$class_console_u_i.html#ab730c6750b09140ea7ef0b136ee0911f" title=" " alt="" coords="639,183,802,209"/>
+<area shape="rect" id="node19" href="$class_console_u_i.html#a04796a361c40d7b7f3e99c3cf98792ea" title=" " alt="" coords="637,233,804,260"/>
+<area shape="rect" id="node20" href="$class_console_u_i.html#a6d995c686a69a4b47f200c0f57340130" title=" " alt="" coords="643,132,798,159"/>
+<area shape="rect" id="node16" href="$class_game.html#a128e00a5bc3a8c91efe6b2c857209ee1" title=" " alt="" coords="875,259,995,285"/>
+<area shape="rect" id="node18" href="$class_reporter.html#a0ec1375c05de7fce55e6baa13852d2ad" title=" " alt="" coords="861,183,1008,209"/>
+<area shape="rect" id="node22" href="$class_unit.html#a1f0a0fcced071e885a0c87c3cd69dde8" title=" " alt="" coords="666,791,775,817"/>
+<area shape="rect" id="node23" href="$class_unit.html#a982e2891720d57277351b2207575612f" title=" " alt="" coords="661,537,780,564"/>
+<area shape="rect" id="node24" href="$class_unit.html#ab0196a14bd3a7403d87a5db4b1e69bc7" title=" " alt="" coords="667,588,775,615"/>
+<area shape="rect" id="node25" href="$class_asset.html#a17d4be841320d0b448617a915a8ba4db" title=" " alt="" coords="663,689,779,716"/>
+<area shape="rect" id="node26" href="$class_unit.html#a39d54f8dfd87e93cb847939e629643fc" title=" " alt="" coords="661,740,780,767"/>
+</map>

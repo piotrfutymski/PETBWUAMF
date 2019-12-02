@@ -1,0 +1,28 @@
+var annotated_dup =
+[
+    [ "Didax", "namespace_didax.html", "namespace_didax" ],
+    [ "Application", "class_application.html", "class_application" ],
+    [ "Asset", "class_asset.html", "class_asset" ],
+    [ "Buff", "class_buff.html", "class_buff" ],
+    [ "BuffPrototype", "class_buff_prototype.html", "class_buff_prototype" ],
+    [ "color", "structcolor.html", "structcolor" ],
+    [ "ConsoleUI", "class_console_u_i.html", "class_console_u_i" ],
+    [ "FontAsset", "class_font_asset.html", "class_font_asset" ],
+    [ "Game", "class_game.html", "class_game" ],
+    [ "GameInitiator", "class_game_initiator.html", "class_game_initiator" ],
+    [ "GameObject", "class_game_object.html", "class_game_object" ],
+    [ "GUIElementPrototype", "class_g_u_i_element_prototype.html", "class_g_u_i_element_prototype" ],
+    [ "Logger", "class_logger.html", "class_logger" ],
+    [ "Map", "class_map.html", "class_map" ],
+    [ "Move", "struct_move.html", "struct_move" ],
+    [ "MoveRes", "struct_move_res.html", "struct_move_res" ],
+    [ "Order", "class_order.html", "class_order" ],
+    [ "OrderPrototype", "class_order_prototype.html", "class_order_prototype" ],
+    [ "PathFinder", "class_path_finder.html", "class_path_finder" ],
+    [ "Reporter", "class_reporter.html", "class_reporter" ],
+    [ "StringConversion", "class_string_conversion.html", null ],
+    [ "Target", "struct_target.html", "struct_target" ],
+    [ "TextureAsset", "class_texture_asset.html", "class_texture_asset" ],
+    [ "Unit", "class_unit.html", "class_unit" ],
+    [ "UnitPrototype", "class_unit_prototype.html", "class_unit_prototype" ]
+];
