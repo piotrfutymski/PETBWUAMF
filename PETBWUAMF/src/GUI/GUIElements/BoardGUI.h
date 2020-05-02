@@ -65,7 +65,6 @@ private:
 	void setBuffTargets(const std::vector<Target> & targets);
 
 
-
 };
 
 }

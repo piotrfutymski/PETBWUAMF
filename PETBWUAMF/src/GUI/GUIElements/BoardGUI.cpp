@@ -98,7 +98,6 @@ void Didax::BoardGUI::setBuffTargets(const std::vector<Target>& targets)
 }
 
 
-
 sf::Color Didax::BoardGUI::colorFromState(PositionState s)
 {
 	if (s == PositionState::Inactive)
