@@ -10,13 +10,15 @@ class OrderRepresentation:public GUIElement
 {
 public:
 
-	OrderRepresentation(GUIElementPrototype * prototype, Game * game);
+	OrderRepresentation(GUIElementPrototype * prototype, Game * game, Engine * e);
 	~OrderRepresentation();
 
 	void setOrder(size_t o);
 	size_t getOrderID();
+
 	void setPosition(int p);
 	int getPosition()const;
+
 	void resetOrder();
 	void setChoosable(bool c);
 	bool isChoosable()const;
@@ -27,14 +29,10 @@ public:
 	void setChoosen();
 	void resetPosition();
 
-	static std::function<void(OrderRepresentation *, Engine *)> onHoverIn;
-	static std::function<void(OrderRepresentation *, Engine *)> onHoverOut;
-	static std::function<void(OrderRepresentation *, Engine *)> onRelease;
-
 
 private:
 
-	Button * _order;
+	Button* _order{ nullptr };
 
 	sf::Vector2f _orderSize{132, 170};
 	sf::Vector2f _offset{ 20, 910 };
@@ -49,8 +47,6 @@ private:
 
 	// Inherited via GUIElement
 	virtual void _init() override;
-
-	virtual void _initLogic(Engine * e) override;
 
 };
 

@@ -1,7 +1,8 @@
 #include "OrderRepresentation.h"
+#include "../Engine.h"
 
-Didax::OrderRepresentation::OrderRepresentation(GUIElementPrototype * prototype, Game * game)
-	: GUIElement(prototype, game)
+Didax::OrderRepresentation::OrderRepresentation(GUIElementPrototype * prototype, Game * game, Engine * e)
+	: GUIElement(prototype, game, e)
 {
 }
 
@@ -105,25 +106,14 @@ void Didax::OrderRepresentation::_init()
 	_order->setPosition({0, 0 });
 	_order->setSize({ _orderSize.x, _orderSize.y });
 
+	_order->setWidgetEvent(Widget::CallbackType::onHoverIn, [this](Widget*, float) {
+		_engine->orderOnHoverIn(this);
+	});
+	_order->setWidgetEvent(Widget::CallbackType::onHoverOut, [this](Widget*, float) {
+		_engine->orderOnHoverOut(this);
+	});
+
+	_order->setWidgetEvent(Widget::CallbackType::onRelease, [this](Widget*, float) {
+		_engine->orderOnRelease(this);
+	});
 }
-
-void Didax::OrderRepresentation::_initLogic(Engine * e)
-{
-	_order->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
-		onHoverIn(this, e);
-	});
-
-	_order->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
-		onHoverOut(this, e);
-	});
-
-	_order->setWidgetEvent(Widget::CallbackType::onRelease, [=](Widget *, float) {
-		onRelease(this, e);
-	});
-
-}
-
-
-std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onHoverIn = nullptr;
-std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onHoverOut = nullptr;
-std::function<void(Didax:: OrderRepresentation *, Didax::Engine *) > Didax::OrderRepresentation::onRelease = nullptr;

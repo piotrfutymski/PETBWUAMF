@@ -10,7 +10,7 @@ class InfoGUI : public GUIElement
 {
 public:
 
-	InfoGUI(GUIElementPrototype * prototype, Game * game);
+	InfoGUI(GUIElementPrototype * prototype, Game * game, Engine * e);
 	~InfoGUI();
 
 	void setUnitInfo(size_t u);
@@ -36,8 +36,6 @@ private:
 
 	// Inherited via GUIElement
 	virtual void _init() override;
-
-	virtual void _initLogic(Engine * e) override;
 
 };
 

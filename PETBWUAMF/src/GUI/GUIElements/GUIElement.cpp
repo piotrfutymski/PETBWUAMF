@@ -1,9 +1,10 @@
 #include "GUIElement.h"
 
-Didax::GUIElement::GUIElement(GUIElementPrototype * prototype, Game * game)
+Didax::GUIElement::GUIElement(GUIElementPrototype * prototype, Game * game, Engine* e)
 {
 	_prototype = prototype;
 	_game = game;
+	_engine = e;
 }
 
 Didax::GUIElement::~GUIElement()
@@ -20,12 +21,11 @@ Didax::Canvas * Didax::GUIElement::getRoot()
 	return _root;
 }
 
-void Didax::GUIElement::open(Canvas * parent, Engine * e)
+void Didax::GUIElement::open(Canvas * parent)
 {
 	_widgets.push_back(std::make_unique<Canvas>());
 	_root = static_cast<Canvas *>(_widgets.begin()->get());
 	this->_init();
-	this->_initLogic(e);
 	parent->addChild(_root);
 	_parent = parent;
 }

@@ -31,7 +31,7 @@
     "defence": 4,
     "armor": 4,
     "health": 60,
-    "rangedAttack": 4,
+    "rangedAttack": 40,
     "rangedRange": 6,
     "chargeAttack": 1,
     "chargeDefence": 1,
@@ -399,7 +399,7 @@
     "power": 40,
 
     "health": 80,
-    "rangedRange": 8,
+    "rangedRange": 20,
 
     "move": 4,
     "morale": 3,

@@ -10,7 +10,7 @@ class UnitRepresentation:  public GUIElement
 {
 public:
 
-	UnitRepresentation(GUIElementPrototype * prototype, Game * game);
+	UnitRepresentation(GUIElementPrototype * prototype, Game * game, Engine* e);
 	~UnitRepresentation();
 
 	void setUnit(size_t u);
@@ -27,10 +27,6 @@ public:
 
 	void recalculate();
 	void hide();
-
-	static std::function<void(UnitRepresentation *, Engine *)> onHoverIn;
-	static std::function<void(UnitRepresentation *, Engine *)> onHoverOut;
-	static std::function<void(UnitRepresentation *, Engine *)> onRelease;
 
 
 private:
@@ -51,8 +47,6 @@ private:
 	// Inherited via GUIElement
 	virtual void _init() override;
 
-	// Inherited via GUIElement
-	virtual void _initLogic(Engine * e ) override;
 
 };
 

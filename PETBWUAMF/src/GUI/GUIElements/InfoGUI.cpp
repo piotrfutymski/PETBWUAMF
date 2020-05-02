@@ -1,7 +1,7 @@
 #include "InfoGUI.h"
 
-Didax::InfoGUI::InfoGUI(GUIElementPrototype * prototype, Game * game)
-	:GUIElement(prototype ,game)
+Didax::InfoGUI::InfoGUI(GUIElementPrototype * prototype, Game * game, Engine *e )
+	:GUIElement(prototype ,game, e)
 {
 }
 
@@ -76,8 +76,4 @@ void Didax::InfoGUI::_init()
 	_info->setFont(&AssetMeneger::getAsset<FontAsset>("data/fonts/DKNorthumbria.otf")->_font);
 	_info->setCharacterSize(15);
 
-}
-
-void Didax::InfoGUI::_initLogic(Engine * e)
-{
 }

@@ -20,13 +20,13 @@ bool Engine::init(const nlohmann::json & settings, Game * g)
 	_window.getWindow().setActive(false);
 	_game = g;
 
-	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI"), g));
+	_elements.push_back(std::make_unique<BoardGUI>(AssetMeneger::getAsset<GUIElementPrototype>("BoardGUI"), g, this));
 	_board = static_cast<BoardGUI *>(_elements.begin()->get());
-	_board->open(&_updater, this);
+	_board->open(&_updater);
 
-	_elements.push_back(std::make_unique<InfoGUI>(AssetMeneger::getAsset<GUIElementPrototype>("InfoGUI"), g));
+	_elements.push_back(std::make_unique<InfoGUI>(AssetMeneger::getAsset<GUIElementPrototype>("InfoGUI"), g, this));
 	_info = static_cast<InfoGUI *>((_elements.begin()+1)->get());
-	_info->open(&_updater, this);
+	_info->open(&_updater);
 
 	this->initGame();
 	this->startTurn();
@@ -43,6 +43,11 @@ void Engine::run()
 		render();
 		input();
 	}
+}
+
+InfoGUI* Engine::getInfoGUI()
+{
+	return _info;
 }
 	
 void Engine::update()
@@ -183,7 +188,6 @@ void Engine::prepareBoardOnChoosed()
 	for (auto t : targets)
 		if (orderT == OrderPrototype::TargetType::AttackT) //TODO
 			findRepresentationWithUnit(t.unit)->setChoosable(true);
-
 }
 
 void Engine::targetChoosed(const sf::Vector2i & pos)
@@ -231,23 +235,12 @@ UnitRepresentation * Engine::findRepresentationWithUnit(size_t u)
 
 void Engine::initGame()
 {
-	OrderRepresentation::onHoverIn = orderOnHoverIn;
-	OrderRepresentation::onHoverOut = orderOnHoverOut;
-	OrderRepresentation::onRelease = orderOnRelease;
-
-	UnitRepresentation::onHoverIn = unitOnHoverIn;
-	UnitRepresentation::onHoverOut = unitOnHoverOut;
-	UnitRepresentation::onRelease = unitOnRelease;
-
-	BoardGUI::onHoverIn = positionOnHoverIn;
-	BoardGUI::onHoverOut = positionOnHoverOut;
-	BoardGUI::onRelease = positionOnRelease;
 
 	for (auto & x : _game->getHolder<Unit>())
 	{
-		_units.push_back(std::make_unique<UnitRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("UnitRepresentation"), _game));
+		_units.push_back(std::make_unique<UnitRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("UnitRepresentation"), _game, this));
 		auto ptr = (_units.end() - 1)->get();
-		ptr->open(_board->getRoot(), this);
+		ptr->open(_board->getRoot());
 		ptr->setUnit(x->getID());
 	}
 
@@ -255,10 +248,10 @@ void Engine::initGame()
 	int j = 0;
 	for (auto & x : _game->getHolder<Order>())
 	{
-		_elements.push_back(std::make_unique<OrderRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("OrderRepresentation"), _game));
+		_elements.push_back(std::make_unique<OrderRepresentation>(AssetMeneger::getAsset<GUIElementPrototype>("OrderRepresentation"), _game, this));
 		auto ptr = static_cast<OrderRepresentation *>((_elements.end() - 1)->get());
 		_orders.push_back(ptr);
-		ptr->open(&_updater, this);
+		ptr->open(&_updater);
 		ptr->setOrder(x->getID());
 		if(x->getOwner() == 0)
 			ptr->setPosition(i++);
@@ -267,56 +260,48 @@ void Engine::initGame()
 	}
 }
 
-void Engine::orderOnHoverIn(OrderRepresentation * o, Engine * e)
+void Engine::orderOnHoverIn(OrderRepresentation* o)
 {
-	e->_info->setOrderInfo(o->getOrderID());
-	if (e->_state == EngineState::ChoosingOrder&& o->isChoosable())
+	this->_info->setOrderInfo(o->getOrderID());
+	if (this->_state == EngineState::ChoosingOrder&& o->isChoosable())
 		o->setHoverInTime();
 }
 
-void Engine::orderOnHoverOut(OrderRepresentation * o, Engine * e)
+void Engine::orderOnHoverOut(OrderRepresentation * o)
 {
-	e->_info->clearInfo();
-	if (e->_state == EngineState::ChoosingOrder && o->isChoosable())
+	this->_info->clearInfo();
+	if (this->_state == EngineState::ChoosingOrder && o->isChoosable())
 		o->resetPosition();
 }
 
-void Engine::orderOnRelease(OrderRepresentation * o, Engine * e)
+void Engine::orderOnRelease(OrderRepresentation * o)
 {
-	if (e->_state == EngineState::ChoosingOrder&& o->isChoosable())
-		e->orderChoosed(o->getOrderID());
+	if (this->_state == EngineState::ChoosingOrder&& o->isChoosable())
+		this->orderChoosed(o->getOrderID());
 }
 
-void Engine::unitOnHoverIn(UnitRepresentation * o, Engine * e)
+void Engine::unitOnHoverIn(UnitRepresentation * o)
 {
-	e->_info->setUnitInfo(o->getUnitID());
-	if (e->_state == EngineState::ChoosingTarget && o->isChoosable())
-		e->_info->setChancesInfo(e->_game->getActiveUnitID(), { e->_choosedOrder,{o->getUnitID()},{} });
+	this->_info->setUnitInfo(o->getUnitID());
+	if (this->_state == EngineState::ChoosingTarget && o->isChoosable())
+		this->_info->setChancesInfo(this->_game->getActiveUnitID(), { this->_choosedOrder,{o->getUnitID()},{} });
 }
 
-void Engine::unitOnHoverOut(UnitRepresentation * o, Engine * e)
+void Engine::unitOnHoverOut(UnitRepresentation * o)
 {
-	e->_info->clearInfo();
+	this->_info->clearInfo();
 }
 
-void Engine::unitOnRelease(UnitRepresentation * o, Engine * e)
+void Engine::unitOnRelease(UnitRepresentation * o)
 {
-	if (e->_state == EngineState::ChoosingTarget&& o->isChoosable())
-		e->targetChoosed(o->getPosition());
+	if (this->_state == EngineState::ChoosingTarget&& o->isChoosable())
+		this->targetChoosed(o->getPosition());
 }
 
-void Engine::positionOnHoverIn(BoardGUI::PositionWidget * o, Engine * e)
+void Engine::positionOnRelease(BoardGUI::PositionWidget && o)
 {
-}
-
-void Engine::positionOnHoverOut(BoardGUI::PositionWidget * o, Engine * e)
-{
-}
-
-void Engine::positionOnRelease(BoardGUI::PositionWidget * o, Engine * e)
-{
-	if (e->_state == EngineState::ChoosingTarget&& o->s == BoardGUI::PositionState::Movable)
-		e->targetChoosed(o->pos);
+	if (this->_state == EngineState::ChoosingTarget&& o.s == BoardGUI::PositionState::Movable)
+		this->targetChoosed(o.pos);
 }
 
 

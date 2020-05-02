@@ -19,13 +19,13 @@ public:
 
 	using WidgetHolder_t = std::vector<std::unique_ptr<Widget>>;
 
-	GUIElement(GUIElementPrototype * prototype, Game * game);
+	GUIElement(GUIElementPrototype * prototype, Game * game, Engine * e);
 	~GUIElement(); 
 
 	const Canvas * getRoot()const;
 	Canvas * getRoot();
 
-	void open(Canvas * parent, Engine * e);
+	void open(Canvas * parent);
 	void close();
 
 	void setPriority(int p);
@@ -40,6 +40,8 @@ protected:
 	GUIElementPrototype * _prototype;
 
 	Game * _game;
+
+	Engine * _engine;
 
 	// widgets
 
@@ -57,7 +59,6 @@ protected:
 protected:
 
 	virtual void _init() = 0;
-	virtual void _initLogic(Engine * e) = 0;
 
 };
 
