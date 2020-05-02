@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Game/Game.h"
-#include"GUIElements/GuiElements.h"
+#include "GUIElements/GuiElements.h"
 #include "Window/Window.h"
 #include "Inupt/Input.h"
 #include "nlohmann/json.hpp"
@@ -32,6 +32,10 @@ public:
 	bool init(const nlohmann::json & settings, Game * g);
 
 	void run();
+
+	// Widget Interface
+
+	InfoGUI* getInfoGUI();
 
 
 private:
@@ -89,17 +93,15 @@ public:
 
 	//Events:
 
-	static void orderOnHoverIn(OrderRepresentation * o, Engine * e);
-	static void orderOnHoverOut(OrderRepresentation * o, Engine * e);
-	static void orderOnRelease(OrderRepresentation * o, Engine * e);
+	void orderOnHoverIn(OrderRepresentation* o);
+	void orderOnHoverOut(OrderRepresentation* o);
+	void orderOnRelease(OrderRepresentation* o);
 
-	static void unitOnHoverIn(UnitRepresentation * o, Engine * e);
-	static void unitOnHoverOut(UnitRepresentation * o, Engine * e);
-	static void unitOnRelease(UnitRepresentation * o, Engine * e);
+	void unitOnHoverIn(UnitRepresentation* u);
+	void unitOnHoverOut(UnitRepresentation* u);
+	void unitOnRelease(UnitRepresentation* u);
 
-	static void positionOnHoverIn(BoardGUI::PositionWidget * o, Engine * e);
-	static void positionOnHoverOut(BoardGUI::PositionWidget * o, Engine * e);
-	static void positionOnRelease(BoardGUI::PositionWidget * o, Engine * e);
+	void positionOnRelease(BoardGUI::PositionWidget&& o);
 
 };
 

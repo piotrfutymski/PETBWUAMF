@@ -29,7 +29,7 @@ public:
 
 	using Buttons_t = std::array<std::array<PositionWidget, MAP_HEIGHT>, MAP_WIDTH>;
 
-	BoardGUI(GUIElementPrototype * prototype, Game * game);
+	BoardGUI(GUIElementPrototype * prototype, Game * game, Engine * e);
 	~BoardGUI();
 
 
@@ -43,10 +43,6 @@ public:
 	PositionWidget getOnPos(const sf::Vector2i & p)const;
 
 	void destroyOnPos(const sf::Vector2i & p);
-
-	static std::function<void(PositionWidget *, Engine *)> onHoverIn;
-	static std::function<void(PositionWidget *, Engine *)> onHoverOut;
-	static std::function<void(PositionWidget *, Engine *)> onRelease;
 		
 
 private:
@@ -61,15 +57,12 @@ private:
 	// Inherited via GUIElement
 	virtual void _init() override;
 
-	virtual void _initLogic(Engine * e) override;
-
 	void setPositionInState(PositionState st, const sf::Vector2i & p, int uID = 0, int owner = 0);
 
 	void setPosTargets(const std::vector<Target> & targets);
 	void setAttackTargets(const std::vector<Target> & targets);
 	void setChargeTargets(const std::vector<Target> & targets);
 	void setBuffTargets(const std::vector<Target> & targets);
-
 
 
 };

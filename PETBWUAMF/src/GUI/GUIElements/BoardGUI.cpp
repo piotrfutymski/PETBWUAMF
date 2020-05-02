@@ -1,4 +1,5 @@
 #include "BoardGUI.h"
+#include "../Engine.h"
 
 void Didax::BoardGUI::_init()
 {
@@ -38,27 +39,16 @@ void Didax::BoardGUI::_init()
 		}
 	}
 
-}
-
-void Didax::BoardGUI::_initLogic(Engine * e)
-{
-	for (size_t i = 0; i < MAP_WIDTH; i++)
+	for (int i = 0; i < MAP_WIDTH; i++)
 	{
-		for (size_t j = 0; j < MAP_HEIGHT; j++)
+		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
-			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onHoverIn, [this, i, j, e](Widget *, float) {
-				onHoverIn(&(_positions[i][j]), e);
-			});
-
-			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onHoverOut, [this, i, j, e](Widget *, float) {
-				onHoverOut(&(_positions[i][j]), e);
-			});
-
-			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onRelease, [this, i, j, e](Widget *, float) {
-				onRelease(&(_positions[i][j]), e);
+			_positions[i][j].button->setWidgetEvent(Widget::CallbackType::onRelease, [this, i, j](Widget*, float) {
+				_engine->positionOnRelease(this->getOnPos({ i,j }));
 			});
 		}
 	}
+
 }
 
 void Didax::BoardGUI::setPositionInState(PositionState st, const sf::Vector2i & p, int uID, int owner)
@@ -108,7 +98,6 @@ void Didax::BoardGUI::setBuffTargets(const std::vector<Target>& targets)
 }
 
 
-
 sf::Color Didax::BoardGUI::colorFromState(PositionState s)
 {
 	if (s == PositionState::Inactive)
@@ -127,7 +116,7 @@ sf::Color Didax::BoardGUI::colorFromState(PositionState s)
 		return sf::Color{ 255,102,102 ,120};
 }
 
-Didax::BoardGUI::BoardGUI(GUIElementPrototype * prototype, Game * game):GUIElement(prototype, game)
+Didax::BoardGUI::BoardGUI(GUIElementPrototype * prototype, Game * game, Engine * e):GUIElement(prototype, game, e)
 {
 }
 
@@ -189,8 +178,3 @@ void Didax::BoardGUI::destroyOnPos(const sf::Vector2i & p)
 {
 	_positions[p.x][p.y].unitID = (size_t)-1;
 }
-
-
-std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onHoverIn = nullptr;
-std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onHoverOut = nullptr;
-std::function<void(Didax::BoardGUI::PositionWidget *, Didax::Engine *) > Didax::BoardGUI::onRelease = nullptr;

@@ -1,4 +1,5 @@
 #include "UnitRepresentation.h"
+#include "../Engine.h"
 
 void Didax::UnitRepresentation::_init()
 {
@@ -29,25 +30,20 @@ void Didax::UnitRepresentation::_init()
 	_bar->setPosition({ _prototype->_values["hpBarx"], _prototype->_values["hpBary"] });
 	_bar->setSize({ _prototype->_values["hpBarW"], _prototype->_values["hpBarH"] });
 
-}
-
-void Didax::UnitRepresentation::_initLogic(Engine * e)
-{
-	_unit->setWidgetEvent(Widget::CallbackType::onHoverIn, [=](Widget *, float) {
-		onHoverIn(this, e);
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverIn, [this](Widget*, float) {
+		_engine->unitOnHoverIn(this);
+	});
+	_unit->setWidgetEvent(Widget::CallbackType::onHoverOut, [this](Widget*, float) {
+		_engine->unitOnHoverOut(this);
 	});
 
-	_unit->setWidgetEvent(Widget::CallbackType::onHoverOut, [=](Widget *, float) {
-		onHoverOut(this, e);
-	});
-
-	_unit->setWidgetEvent(Widget::CallbackType::onRelease, [=](Widget *, float) {
-		onRelease(this, e);
+	_unit->setWidgetEvent(Widget::CallbackType::onRelease, [this](Widget*, float) {
+		_engine->unitOnRelease(this);
 	});
 }
 
 
-Didax::UnitRepresentation::UnitRepresentation(GUIElementPrototype * prototype, Game * game) :GUIElement(prototype, game)
+Didax::UnitRepresentation::UnitRepresentation(GUIElementPrototype * prototype, Game * game, Engine * e) :GUIElement(prototype, game, e)
 {
 }
 
@@ -65,7 +61,6 @@ void Didax::UnitRepresentation::setUnit(size_t u)
 	
 	this->reloadHealth();
 	this->reloadPosition();
-
 
 }
 
@@ -122,7 +117,3 @@ void Didax::UnitRepresentation::hide()
 	_root->setVisible(false);
 	_root->setActive(false);
 }
-
-std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onHoverIn = nullptr;
-std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onHoverOut = nullptr;
-std::function<void(Didax::UnitRepresentation *, Didax::Engine *) > Didax::UnitRepresentation::onRelease = nullptr;
